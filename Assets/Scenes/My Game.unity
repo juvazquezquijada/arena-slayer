@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 597836}
   - component: {fileID: 597835}
   m_Layer: 0
-  m_Name: Weapon Powerup (Gray)
+  m_Name: Ammo (Gray Rectangle)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 119696199}
   - component: {fileID: 119696198}
   m_Layer: 0
-  m_Name: Enemy (Red Capsule) (1)
+  m_Name: Demon 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,13 +310,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 119696197}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.34, y: 1, z: -2.67}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.34, y: 0, z: -7.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 1365325467}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &176772657
 GameObject:
@@ -408,13 +408,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176772657}
-  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 29.57, y: 2.65, z: -0.19}
-  m_LocalScale: {x: 1, y: 1, z: 5.0302815}
+  m_LocalRotation: {x: -0.5, y: -0.5, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: -20.180834, y: 19.502008, z: -5.861084}
+  m_LocalScale: {x: 0.33165944, y: 0.33165947, z: 5.030281}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_Father: {fileID: 1222240108}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!1 &590234347
 GameObject:
@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 590234349}
   - component: {fileID: 590234348}
   m_Layer: 0
-  m_Name: Enemy (Green Cylinder)
+  m_Name: Zombie 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -510,9 +510,11 @@ Transform:
   m_LocalPosition: {x: -5, y: 1, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1675016322}
+  - {fileID: 2017164863}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &616727066
 GameObject:
@@ -604,13 +606,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616727066}
-  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -29.57, y: 2.65, z: -0.19}
-  m_LocalScale: {x: 1, y: 1, z: 5.0302815}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: 0.5, w: -0.5}
+  m_LocalPosition: {x: -20.180826, y: 19.502008, z: 5.895715}
+  m_LocalScale: {x: 0.33165944, y: 0.33165947, z: 5.030281}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_Father: {fileID: 1222240108}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
 --- !u!1 &617284417
 GameObject:
@@ -625,7 +627,7 @@ GameObject:
   - component: {fileID: 617284419}
   - component: {fileID: 617284418}
   m_Layer: 0
-  m_Name: Enemy (Red Capsule) (2)
+  m_Name: 'Demon 3 '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -702,13 +704,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 617284417}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.33, y: 1, z: -6.27}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.32999992, y: 0, z: -11.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 1365325467}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -1080,9 +1082,12 @@ Transform:
   m_LocalPosition: {x: 0.0871, y: 3.13, z: 27.87}
   m_LocalScale: {x: 1, y: 1, z: 5.0302815}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 176772661}
+  - {fileID: 1909278577}
+  - {fileID: 616727070}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 45}
 --- !u!1 &1365325463
 GameObject:
@@ -1097,7 +1102,7 @@ GameObject:
   - component: {fileID: 1365325465}
   - component: {fileID: 1365325464}
   m_Layer: 0
-  m_Name: Enemy (Red Capsule)
+  m_Name: Demon 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1178,7 +1183,9 @@ Transform:
   m_LocalPosition: {x: 5, y: 1, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 119696201}
+  - {fileID: 617284421}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1195,7 +1202,7 @@ GameObject:
   - component: {fileID: 1675016320}
   - component: {fileID: 1675016319}
   m_Layer: 0
-  m_Name: Enemy (Green Cylinder) (1)
+  m_Name: Zombie 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1272,13 +1279,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675016318}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.39, y: 1, z: -1.98}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.39, y: 0, z: -6.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_Father: {fileID: 590234351}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1757999507
 GameObject:
@@ -1292,6 +1299,8 @@ GameObject:
   - component: {fileID: 1757999510}
   - component: {fileID: 1757999509}
   - component: {fileID: 1757999508}
+  - component: {fileID: 1757999513}
+  - component: {fileID: 1757999512}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1377,6 +1386,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1757999512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757999507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d7db4815bd5d84ba8a93d5a37c621d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+--- !u!54 &1757999513
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757999507}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1909278573
 GameObject:
   m_ObjectHideFlags: 0
@@ -1467,13 +1505,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1909278573}
-  m_LocalRotation: {x: 0.27059805, y: 0.6532815, z: 0.27059805, w: 0.6532815}
-  m_LocalPosition: {x: 0, y: 3, z: -30}
-  m_LocalScale: {x: 1, y: 1, z: 5.0302815}
+  m_LocalRotation: {x: -0.7071068, y: -0.7071068, z: -0, w: 0.000000029802322}
+  m_LocalPosition: {x: -41.012196, y: 40.828346, z: 0.017316846}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_Father: {fileID: 1222240108}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 45}
 --- !u!1 &2017164859
 GameObject:
@@ -1488,7 +1526,7 @@ GameObject:
   - component: {fileID: 2017164861}
   - component: {fileID: 2017164860}
   m_Layer: 0
-  m_Name: Enemy (Green Cylinder) (2)
+  m_Name: 'Zombie 3 '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1565,13 +1603,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2017164859}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.77, y: 1, z: -7.12}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.77, y: 0, z: -12.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_Father: {fileID: 590234351}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2091173121
 GameObject:
