@@ -4,21 +4,43 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 10.0f;
-    private Rigidbody playerRb;
-    // Start is called before the first frame update
+    public float moveSpeed = 5.0f;
+    public float jumpForce = 5.0f;
+    public float gravity = 9.81f;
+
+    private CharacterController controller;
+    private Vector3 moveDirection = Vector3.zero;
+
     void Start()
     {
-        playerRb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        // Get the input axes
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        playerRb.AddForce(Vector3.forward * speed * verticalInput);
-        playerRb.AddForce(Vector3.right * speed * horizontalInput);
+        // Calculate the movement direction
+        Vector3 forward = transform.forward * vertical;
+        Vector3 right = transform.right * horizontal;
+        moveDirection = forward + right;
+
+        // Apply the movement direction and speed
+        moveDirection *= moveSpeed;
+
+        // Apply gravity
+        moveDirection.y -= gravity * Time.deltaTime;
+
+        // Check for jump input
+        if (controller.isGrounded && Input.GetButtonDown("Jump"))
+        {
+            moveDirection.y = jumpForce;
+        }
+
+        // Move the character controller
+        controller.Move(moveDirection * Time.deltaTime);
     }
 }
+
