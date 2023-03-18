@@ -8,11 +8,23 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5.0f;
     public float gravity = 9.81f;
 
+    // These variables are for when the player shoots with Ctrl
+    public Transform gunBarrel;  // The position where the bullets will be spawned
+    public GameObject bulletPrefab;  // The bullet prefab to be spawned
+    public float bulletSpeed = 50f;  // The speed of the bullet
+    public float fireRate = 0.1f;  // The delay between shots
+    public float bulletLifetime = 2f; // The amount of time the bullet will exist before being destroyed
+    private float fireTimer = 0f;  // Timer to track when the player can shoot again
+    public AudioClip shootSound; // The sound to play when shooting
+    private AudioSource audioSource; // Reference to the AudioSource component
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
 
     void Start()
     {
+        // Get the AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        // Get the CharacterController component
         controller = GetComponent<CharacterController>();
     }
 
@@ -41,6 +53,32 @@ public class PlayerController : MonoBehaviour
 
         // Move the character controller
         controller.Move(moveDirection * Time.deltaTime);
+            
+        // Check if the player is pressing the fire (Ctrl) button and if enough time has passed since the last shot
+        if (Input.GetButtonDown("Fire1") && fireTimer <= 0f)
+        {
+            // Play the shooting sound
+            audioSource.PlayOneShot(shootSound);
+
+            // Spawn a bullet at the gun barrel position
+            GameObject bullet = Instantiate(bulletPrefab, gunBarrel.position, gunBarrel.rotation);
+
+            // Add velocity to the bullet
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.velocity = transform.forward * bulletSpeed;
+
+             // Destroy the bullet after a certain amount of time
+            Destroy(bullet, bulletLifetime);
+
+            // Reset the fire timer
+            fireTimer = fireRate;
+        }
+
+        // Decrease the fire timer if the player can't shoot yet
+        if (fireTimer > 0f)
+        {
+            fireTimer -= Time.deltaTime;
+        }
     }
 }
 
