@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource audioSource; // Reference to the AudioSource component
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
+    public Animator shotgunAnimator; // Reference to the Animator component on the shotgun model
 
     void Start()
     {
@@ -72,6 +73,9 @@ public class PlayerController : MonoBehaviour
 
             // Reset the fire timer
             fireTimer = fireRate;
+
+            // Play the shotgun pump animation
+            shotgunAnimator.SetTrigger("Pump");
         }
 
         // Decrease the fire timer if the player can't shoot yet
