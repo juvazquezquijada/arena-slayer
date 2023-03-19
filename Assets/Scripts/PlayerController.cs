@@ -20,7 +20,9 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
     public Animator shotgunAnimator; // Reference to the Animator component on the shotgun model
-
+    private bool shotFired = false;
+   
+   
     void Start()
     {
         // Get the AudioSource component
@@ -58,6 +60,8 @@ public class PlayerController : MonoBehaviour
         // Check if the player is pressing the fire (Ctrl) button and if enough time has passed since the last shot
         if (Input.GetButtonDown("Fire1") && fireTimer <= 0f)
         {
+            PlayShootAnimations();
+
             // Play the shooting sound
             audioSource.PlayOneShot(shootSound);
 
@@ -68,14 +72,11 @@ public class PlayerController : MonoBehaviour
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.velocity = transform.forward * bulletSpeed;
 
-             // Destroy the bullet after a certain amount of time
+            // Destroy the bullet after a certain amount of time
             Destroy(bullet, bulletLifetime);
 
             // Reset the fire timer
             fireTimer = fireRate;
-
-            // Play the shotgun pump animation
-            shotgunAnimator.SetTrigger("Pump");
         }
 
         // Decrease the fire timer if the player can't shoot yet
@@ -84,5 +85,26 @@ public class PlayerController : MonoBehaviour
             fireTimer -= Time.deltaTime;
         }
     }
-}
 
+    public void SetShotFired(bool value)
+    {
+        shotFired = value;
+    }
+
+    public bool GetShotFired()
+    {
+        return shotFired;
+    }
+
+    public void ResetShotFired()
+    {
+        shotFired = false;
+    }
+
+    private void PlayShootAnimations()
+    {
+        Animator anim = GetComponent<Animator>();
+        anim.SetTrigger("Shoot");
+        shotgunAnimator.SetTrigger("Shoot");
+    }
+}
