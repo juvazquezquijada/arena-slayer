@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -926,7 +926,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &825454232
 Animator:
-  serializedVersion: 5
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -943,7 +943,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!82 &825454233
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1551,7 +1551,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608368664}
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 33.76, z: 0}
+  m_LocalPosition: {x: 0, y: 18.87, z: 0}
   m_LocalScale: {x: 5, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1664,7 +1664,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2070511157387677650, guid: 1288f49fc0d974b48a3c0d1327b1e580, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2070511157387677650, guid: 1288f49fc0d974b48a3c0d1327b1e580, type: 3}
+      propertyPath: attackRange
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2070511157387677650, guid: 1288f49fc0d974b48a3c0d1327b1e580, type: 3}
+      propertyPath: fireballCooldown
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2070511157387677669, guid: 1288f49fc0d974b48a3c0d1327b1e580, type: 3}
       propertyPath: m_Name
@@ -1716,15 +1724,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070511157387677677, guid: 1288f49fc0d974b48a3c0d1327b1e580, type: 3}
       propertyPath: m_Drag
-      value: 0.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2070511157387677677, guid: 1288f49fc0d974b48a3c0d1327b1e580, type: 3}
       propertyPath: m_Mass
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2070511157387677677, guid: 1288f49fc0d974b48a3c0d1327b1e580, type: 3}
       propertyPath: m_AngularDrag
-      value: 0
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2070511157387677679, guid: 1288f49fc0d974b48a3c0d1327b1e580, type: 3}
