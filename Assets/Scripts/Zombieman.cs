@@ -14,17 +14,19 @@ public class Zombieman: MonoBehaviour
     public GameObject bulletPrefab; // Prefab of the zombie's bullet
     public Transform firePoint; // Transform representing where the zombie's bullet is fired from
     public float bulletSpeed = 10.0f; // Speed of the zombie's bullet
+    public AudioClip gunshotSound; // Plays a sound when the zombie shoots
 
     private bool canAttack = true; // Whether the zombie can currently attack or not
     private bool canShoot = true; // Whether the zombie can currently shoot or not
     private bool isDead = false; // Whether the zombie is currently dead or not
-    private CapsuleCollider capsuleCollider; // CapsuleCollider component of the zombie
+  
+    private AudioSource audioSource; // Reference to the zombies audio source
 
     // Start is called before the first frame update
     void Start()
     {
-        capsuleCollider = GetComponent<CapsuleCollider>(); // Get the CapsuleCollider component of the zombie
-        capsuleCollider.isTrigger = true; // Set the capsule collider to be a trigger
+  
+        audioSource = GetComponent<AudioSource>(); // Reference to the zombies audio source
     }
 
     // Update is called once per frame
@@ -76,13 +78,16 @@ public class Zombieman: MonoBehaviour
         bullet.GetComponent<Rigidbody>().velocity = (target.position - firePoint.position).normalized * bulletSpeed; // Shoot the bullet towards the player
         yield return new WaitForSeconds(shotCooldown); // Wait for the shot cooldown
         canShoot = true; // Set canShoot back to true so the zombie can shoot again
+        // Play a gunshot sound when the zombie shoots
+        AudioSource.PlayClipAtPoint(gunshotSound, firePoint.position);
+
 }
     // Function for taking damage
     public void TakeDamage(int damageAmount)
     {
         health -= damageAmount; // Decrease the zombie's health by the damage amount
 
-    if (health <= 0) // If the zombie's health is 0 or less, kill the zombie
+    if (health <= 0 && !isDead) // If the zombie's health is 0 or less, kill the zombie
     {
         Die();
     }
@@ -92,8 +97,8 @@ public class Zombieman: MonoBehaviour
     void Die()
     {
         isDead = true; // Set isDead to true
-        capsuleCollider.isTrigger = false; // Set the capsule collider to not be a trigger
-        Destroy(gameObject, 2.0f); // Destroy the zombie after 2 seconds
+        
+        Destroy(gameObject, 3.0f); // Destroy the zombie after 2 seconds
     }
 }
 
