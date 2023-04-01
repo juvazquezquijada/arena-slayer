@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5.0f;
-    public float jumpForce = 5.0f;
     public float gravity = 9.81f;
 
     // These variables are for when the player shoots with Ctrl
@@ -21,7 +20,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     public Animator shotgunAnimator; // Reference to the Animator component on the shotgun model
     private bool shotFired = false;
-   
+
+    private bool isGameOver = false; // Flag to check if the game is over
    
     void Start()
     {
@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isGameOver) return; // Don't do anything if the game is over
+
         // Get the input axes
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -47,12 +49,6 @@ public class PlayerController : MonoBehaviour
 
         // Apply gravity
         moveDirection.y -= gravity * Time.deltaTime;
-
-        // Check for jump input
-        if (controller.isGrounded && Input.GetButtonDown("Jump"))
-        {
-            moveDirection.y = jumpForce;
-        }
 
         // Move the character controller
         controller.Move(moveDirection * Time.deltaTime);
@@ -85,7 +81,8 @@ public class PlayerController : MonoBehaviour
             fireTimer -= Time.deltaTime;
         }
     }
-
+    
+   
     public void SetShotFired(bool value)
     {
         shotFired = value;
@@ -107,4 +104,15 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Shoot");
         shotgunAnimator.SetTrigger("Shoot");
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Game over!");
+            isGameOver = true;
+        }
+    }
 }
+        
+   
+
