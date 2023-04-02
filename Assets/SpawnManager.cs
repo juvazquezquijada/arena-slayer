@@ -9,6 +9,7 @@ public class SpawnManager : MonoBehaviour
     public float maxSpawnInterval = 5.0f;
     public int maxEnemies = 10;
     public Transform[] spawnPositions;
+    private bool gameOver = false;
 
     void Start()
     {
@@ -17,7 +18,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        while (true)
+        while (!gameOver)
         {
             yield return new WaitForSeconds(Random.Range(minSpawnInterval, maxSpawnInterval));
 
