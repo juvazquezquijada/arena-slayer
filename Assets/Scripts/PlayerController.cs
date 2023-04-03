@@ -205,9 +205,18 @@ public class PlayerController : MonoBehaviour
         if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
     }
-    
-}
-}
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            if (enemy != null && enemy.isDead == false)
+            {
+                enemy.TakeDamage(50);
+                if (enemy.isDead == true)
+                {
+                    points += enemy.scoreValue;
+                    CanvasManager.Instance.UpdateScore(points);
+                }
+            }
 
         
     
