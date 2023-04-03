@@ -4,77 +4,93 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //Basic player movement
     public float moveSpeed = 5.0f;
     public float gravity = 9.81f;
-
-    // These variables are for when the player shoots with Ctrl
-    public Transform gunBarrel;  
-    public GameObject bulletPrefab;  
-    public float bulletSpeed = 50f;  
-    public float fireRate = 0.1f;  
-    public float bulletLifetime = 2f; 
-    private float fireTimer = 0f;  
-    public AudioClip shootSound; 
-    public AudioClip deathSound;
-    private AudioSource audioSource; 
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
-    public Animator shotgunAnimator; 
+
+    //Properties of the Pump Shotgun
+    public Transform gunBarrel;
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 50f;
+    public float fireRate = 0.1f;
+    public float bulletLifetime = 2f;
+    private float fireTimer = 0f;
+    public Animator shotgunAnimator;
     private bool shotFired = false;
-
+    //Audio clips the player makes
+    public AudioClip shootSound;
+    public AudioClip deathSound;
+    public AudioClip healthPickup;
+    public AudioClip ammoPickup;
+    private AudioSource audioSource;
+    //Status of the player
     public int health = 100;
+    public int maxAmmo = 25;
+    private int currentAmmo = 0;
+    public int score = 0;
+    private bool isGameOver = false;
 
-    private bool isGameOver = false; 
-   
     void Start()
     {
-        // Get the AudioSource component
+        //Get AudioSource component
         audioSource = GetComponent<AudioSource>();
-        // Get the CharacterController component
+        //Get CharacterController component
         controller = GetComponent<CharacterController>();
+        currentAmmo = maxAmmo;
+        CanvasManager.Instance.UpdateAmmo(currentAmmo);
+        CanvasManager.Instance.UpdateHealth(health);
+        CanvasManager.Instance.UpdateScore(score);
     }
 
     void Update()
     {
         if (isGameOver) return; // Don't do anything if the game is over
 
-        // Get the input axes
+        //Get input axis
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        // Calculate the movement direction
+        //Calculate the movement direction
         Vector3 forward = transform.forward * vertical;
         Vector3 right = transform.right * horizontal;
         moveDirection = forward + right;
 
-        // Apply the movement direction and speed
+        //Apply movement direction and speed
         moveDirection *= moveSpeed;
 
-        // Apply gravity
+        //Apply gravity
         moveDirection.y -= gravity * Time.deltaTime;
 
-        // Move the character controller
+        //Move the character controller
         controller.Move(moveDirection * Time.deltaTime);
-            
-        // Check if the player is pressing the fire (Ctrl) button or Left Mouse and if enough time has passed since the last shot
-        if (Input.GetButtonDown("Fire1") && fireTimer <= 0f)
+
+        //Shoot a bullet when the shoot button is pressed and ammo is more than 0 and the shooting cooldown is up 
+        if (Input.GetButtonDown("Fire1") && fireTimer <= 0f && currentAmmo > 0)
         {
             PlayShootAnimations();
 
-            // Play the shooting sound
+            //Play shooting sound
             audioSource.PlayOneShot(shootSound);
 
-            // Spawn a bullet at the gun barrel position
+            //Spawn bullet at gun barrel
             GameObject bullet = Instantiate(bulletPrefab, gunBarrel.position, gunBarrel.rotation);
 
-            // Add velocity to the bullet
+            //Add velocity to the bullet
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             rb.velocity = transform.forward * bulletSpeed;
 
-            // Destroy the bullet after a certain amount of time
+            //Destroy bullet after 2 seconds
             Destroy(bullet, bulletLifetime);
 
-            // Reset the fire timer
+            //Decrease the ammo stat
+            currentAmmo--;
+
+            //Update the ammo value
+            CanvasManager.Instance.UpdateAmmo(currentAmmo);
+            
+            //Reset the fire cooldown
             fireTimer = fireRate;
         }
 
@@ -84,8 +100,7 @@ public class PlayerController : MonoBehaviour
             fireTimer -= Time.deltaTime;
         }
     }
-    
-   
+
     public void SetShotFired(bool value)
     {
         shotFired = value;
@@ -100,6 +115,16 @@ public class PlayerController : MonoBehaviour
     {
         shotFired = false;
     }
+    
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            health = 0;
+        }
+    }
+        
 
     private void PlayShootAnimations()
     {
@@ -107,18 +132,65 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Shoot");
         shotgunAnimator.SetTrigger("Shoot");
     }
-    private void OnTriggerEnter(Collider other)
+    public void UpdateHealth (int health)
     {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            GetComponent<CapsuleCollider>().enabled = false;
-            Debug.Log("Game over!");
-            isGameOver = true;
-            audioSource.PlayOneShot(deathSound);
-            
-        }
+        CanvasManager.Instance.UpdateHealth(health);
+    }
+    public void UpdateScore(int points)
+    {
+    score += points;
+    CanvasManager.Instance.UpdateScore(score);
+    }
+
+    void UpdateAmmo()
+    {
+    CanvasManager.Instance.UpdateAmmo(currentAmmo);
+    }
+
+    private void OnTriggerEnter(Collider other)
+{
+    if (other.gameObject.CompareTag("Enemy"))
+    {
+        GetComponent<CapsuleCollider>();
+        Debug.Log("Game over!");
+        isGameOver = true;
+        audioSource.PlayOneShot(deathSound);
+    }
+    else if (other.gameObject.CompareTag("Bullet"))
+    {
+        currentAmmo = maxAmmo;
+        UpdateAmmo();
+        Destroy(other.gameObject);
+    }
+    else if (other.gameObject.CompareTag("Health"))
+    {
+        health += 20;
+        if (health > 100) health = 100;
+        CanvasManager.Instance.UpdateHealth(health);
+        Destroy(other.gameObject);
+        audioSource.PlayOneShot(healthPickup);
+    }
+    else if (other.gameObject.CompareTag("Ammo"))
+    {
+        currentAmmo += 5;
+        if (currentAmmo > 50) currentAmmo = 50;
+        CanvasManager.Instance.UpdateAmmo(currentAmmo);
+        Destroy(other.gameObject);
+        audioSource.PlayOneShot(ammoPickup);
+    }
+    else if (other.gameObject.CompareTag("EnemyProjectile"))
+    {
+        health -= 10;
+        if (health < 0) health = 0;
+        CanvasManager.Instance.UpdateHealth(health);
+        Destroy(other.gameObject);
     }
 }
+}
+
+        
+    
+
         
    
 
