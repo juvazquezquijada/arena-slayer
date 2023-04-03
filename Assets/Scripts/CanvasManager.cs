@@ -8,8 +8,6 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI ammo; 
     public TextMeshProUGUI score;
 
-    public Image healthIndicator;
-
     private static CanvasManager _instance;
     public static CanvasManager Instance
     {
@@ -64,22 +62,21 @@ public class CanvasManager : MonoBehaviour
 
     private void UpdateHealthIndicator(int healthValue)
     {
-        if (healthIndicator != null)
+        if (health != null)
         {
-            if (healthValue >= 75)
+            if (healthValue >= 70)
             {
-                healthIndicator.color = Color.blue;
+                health.color = Color.blue;
             }
             else if (healthValue >= 25 && healthValue < 75)
             {
-                healthIndicator.color = Color.yellow;
+                health.color = Color.yellow;
             }
             else
             {
-                healthIndicator.color = Color.red;
+                health.color = Color.red;
             }
 
-            healthIndicator.fillAmount = healthValue / 100f;
         }
     }
 }

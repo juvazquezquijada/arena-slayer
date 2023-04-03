@@ -29,8 +29,11 @@ public class PlayerController : MonoBehaviour
     public int health = 100;
     public int maxAmmo = 25;
     private int currentAmmo = 0;
-    public int score = 0;
-    private bool isGameOver = false;
+    public int score = 1;
+    private int points = 0;
+    public bool isDead = false;
+    
+
 
     void Start()
     {
@@ -46,8 +49,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (isGameOver) return; // Don't do anything if the game is over
-
+        if (health <= 0)
+        {
+            Die();
+            SpawnManager.Instance.GameOver();
+        }
+        
+        if (isDead == true) // check if the player is dead
+        {
+        moveDirection = Vector3.zero; // stop the movement
+        return; // exit the method
+        }
+        else if (isDead == false)
+        {
         //Get input axis
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -65,9 +79,9 @@ public class PlayerController : MonoBehaviour
 
         //Move the character controller
         controller.Move(moveDirection * Time.deltaTime);
-
+        }
         //Shoot a bullet when the shoot button is pressed and ammo is more than 0 and the shooting cooldown is up 
-        if (Input.GetButtonDown("Fire1") && fireTimer <= 0f && currentAmmo > 0)
+        if (Input.GetButtonDown("Fire1") && fireTimer <= 0f && currentAmmo > 0 && isDead == false)
         {
             PlayShootAnimations();
 
@@ -123,8 +137,7 @@ public class PlayerController : MonoBehaviour
         {
             health = 0;
         }
-    }
-        
+    } 
 
     private void PlayShootAnimations()
     {
@@ -147,16 +160,17 @@ public class PlayerController : MonoBehaviour
     CanvasManager.Instance.UpdateAmmo(currentAmmo);
     }
 
+    void Die()
+    {
+            isDead = true;
+            Debug.Log("Player is Dead!");
+    }
+
+
     private void OnTriggerEnter(Collider other)
 {
-    if (other.gameObject.CompareTag("Enemy"))
-    {
-        GetComponent<CapsuleCollider>();
-        Debug.Log("Game over!");
-        isGameOver = true;
-        audioSource.PlayOneShot(deathSound);
-    }
-    else if (other.gameObject.CompareTag("Bullet"))
+   
+    if (other.gameObject.CompareTag("Bullet"))
     {
         currentAmmo = maxAmmo;
         UpdateAmmo();
@@ -173,7 +187,7 @@ public class PlayerController : MonoBehaviour
     else if (other.gameObject.CompareTag("Ammo"))
     {
         currentAmmo += 5;
-        if (currentAmmo > 50) currentAmmo = 50;
+        if (currentAmmo > 20) currentAmmo = 20;
         CanvasManager.Instance.UpdateAmmo(currentAmmo);
         Destroy(other.gameObject);
         audioSource.PlayOneShot(ammoPickup);
@@ -185,6 +199,13 @@ public class PlayerController : MonoBehaviour
         CanvasManager.Instance.UpdateHealth(health);
         Destroy(other.gameObject);
     }
+    else if (other.gameObject.CompareTag("Enemy"))
+    {
+        health -= 10;
+        if (health < 0) health = 0;
+        CanvasManager.Instance.UpdateHealth(health);
+    }
+    
 }
 }
 

@@ -28,7 +28,12 @@ public class Demon : MonoBehaviour
     void Update()
     {
         if (isDead) return; // Don't do anything if the enemy is dead
-        if (playerDead) return;
+        if (playerDead) 
+        {
+            // Freeze the enemy's movement
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            return;
+        }
 
         // Move towards the player
         transform.LookAt(player);
@@ -57,33 +62,30 @@ public class Demon : MonoBehaviour
             // Die
             Die();
         }
-        else if (other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Game over!");
-            playerDead = true;
-        }
     }
 
     private void Die()
-{
-    isDead = true;
+    {
+        isDead = true;
 
-    // Play death sound
-    audioSource.PlayOneShot(deathSound);
+        // Play death sound
+        audioSource.PlayOneShot(deathSound);
 
-    // Disable the enemy's collider and renderer
-    GetComponent<CapsuleCollider>().enabled = false;
-    
-    // Apply a force to launch the enemy in the air
-    Rigidbody rb = GetComponent<Rigidbody>();
-    rb.isKinematic = false;
-    Vector3 knockbackDirection = transform.up + -transform.forward * 0.5f; // adjust knockback direction
-    rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+        // Disable the enemy's collider and renderer
+        GetComponent<CapsuleCollider>().enabled = false;
 
-    // Destroy the enemy after a delay
-    Destroy(gameObject, destroyTime);
+        // Apply a force to launch the enemy in the air
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        Vector3 knockbackDirection = transform.up + -transform.forward * 0.5f; // adjust knockback direction
+        rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+
+        // Destroy the enemy after a delay
+        Destroy(gameObject, destroyTime);
+    }
+
+    public void PlayerDied()
+    {
+        playerDead = true;
+    }
 }
-
-}
-
-

@@ -4,40 +4,40 @@ using UnityEngine;
 
 public class ItemSpawn : MonoBehaviour
 {
-    public GameObject healthPrefab;
-    public GameObject ammoPrefab;
-    public int spawnRange = 20;
-    public float spawnInterval = 5f;
-    public int maxItems = 3;
+    public GameObject healthPickupPrefab;
+    public GameObject ammoPickupPrefab;
+    public float spawnRange = 20f;
+    public float spawnInterval = 10f;
+    public int maxItemsOnScreen = 3;
+    private int currentItemsOnScreen = 0;
+    private bool canSpawn = true;
 
-    private void Start()
+    private void Update()
     {
-        StartCoroutine(SpawnItems());
+        if (canSpawn && currentItemsOnScreen < maxItemsOnScreen)
+        {
+            StartCoroutine(SpawnItem());
+        }
     }
 
-    private IEnumerator SpawnItems()
+    private IEnumerator SpawnItem()
     {
-        
-        while (true)
-        {
-            // Determine random positions for spawn
-            float randomX = Random.Range(-spawnRange, spawnRange);
-            float randomZ = Random.Range(-spawnRange, spawnRange);
-            Vector3 spawnPosition = new Vector3(randomX, 0.5f, randomZ);
+        canSpawn = false;
+        yield return new WaitForSeconds(spawnInterval);
 
-            // Instantiate a random item prefab
-            int randomItem = Random.Range(0, 2); // 0 for health, 1 for ammo
-            if (randomItem == 0)
-            {
-                Instantiate(healthPrefab, spawnPosition, Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(ammoPrefab, spawnPosition, Quaternion.identity);
-            }
+        GameObject itemPrefab = Random.value < 0.5f ? healthPickupPrefab : ammoPickupPrefab;
 
-            // Wait for specified interval before spawning another item
-            yield return new WaitForSeconds(spawnInterval);
-        }
+        Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRange;
+        spawnPosition.y = 0;
+
+        Instantiate(itemPrefab, spawnPosition, Quaternion.identity);
+        currentItemsOnScreen++;
+
+        canSpawn = true;
+    }
+
+    public void RemoveItemFromScreen()
+    {
+        currentItemsOnScreen--;
     }
 }
