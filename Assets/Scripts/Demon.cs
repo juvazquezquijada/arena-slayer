@@ -15,6 +15,7 @@ public class Demon : MonoBehaviour
     public float destroyTime = 20f;
     public AudioClip deathSound; // The death sound to play
     private AudioSource audioSource; // Reference to the AudioSource component
+    private bool playerDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class Demon : MonoBehaviour
     void Update()
     {
         if (isDead) return; // Don't do anything if the enemy is dead
+        if (playerDead) return;
 
         // Move towards the player
         transform.LookAt(player);
@@ -44,6 +46,7 @@ public class Demon : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (isDead) return; // Don't do anything if the enemy is dead
+        if (playerDead) return; //Don't do anything if the player is dead     
 
         if (other.gameObject.CompareTag("Bullet"))
         {
@@ -57,6 +60,7 @@ public class Demon : MonoBehaviour
         else if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Game over!");
+            playerDead = true;
         }
     }
 

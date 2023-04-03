@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 2713133776284613377}
   - component: {fileID: 2713133776284613390}
   - component: {fileID: 2713133776284613391}
+  - component: {fileID: 5582945293868377477}
   - component: {fileID: 51673781007305174}
   - component: {fileID: 191711869711473308}
   m_Layer: 0
@@ -355,11 +356,25 @@ MonoBehaviour:
   gravity: 750
   gunBarrel: {fileID: 2263412250613404930}
   bulletPrefab: {fileID: 8740144738147162610, guid: 11052789fe8e7a1468de429160a11827, type: 3}
-  bulletSpeed: 50
+  bulletSpeed: 500
   fireRate: 1
   bulletLifetime: 1
   shootSound: {fileID: 8300000, guid: 695f3a4630451704eb86cb4530b139a1, type: 3}
+  deathSound: {fileID: 0}
   shotgunAnimator: {fileID: 51673781007305174}
+--- !u!114 &5582945293868377477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2713133776284613383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e0a514437b1d14ca440d8ed36e00ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!95 &51673781007305174
 Animator:
   serializedVersion: 4

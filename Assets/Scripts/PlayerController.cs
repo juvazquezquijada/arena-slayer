@@ -8,20 +8,23 @@ public class PlayerController : MonoBehaviour
     public float gravity = 9.81f;
 
     // These variables are for when the player shoots with Ctrl
-    public Transform gunBarrel;  // The position where the bullets will be spawned
-    public GameObject bulletPrefab;  // The bullet prefab to be spawned
-    public float bulletSpeed = 50f;  // The speed of the bullet
-    public float fireRate = 0.1f;  // The delay between shots
-    public float bulletLifetime = 2f; // The amount of time the bullet will exist before being destroyed
-    private float fireTimer = 0f;  // Timer to track when the player can shoot again
-    public AudioClip shootSound; // The sound to play when shooting
-    private AudioSource audioSource; // Reference to the AudioSource component
+    public Transform gunBarrel;  
+    public GameObject bulletPrefab;  
+    public float bulletSpeed = 50f;  
+    public float fireRate = 0.1f;  
+    public float bulletLifetime = 2f; 
+    private float fireTimer = 0f;  
+    public AudioClip shootSound; 
+    public AudioClip deathSound;
+    private AudioSource audioSource; 
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
-    public Animator shotgunAnimator; // Reference to the Animator component on the shotgun model
+    public Animator shotgunAnimator; 
     private bool shotFired = false;
 
-    private bool isGameOver = false; // Flag to check if the game is over
+    public int health = 100;
+
+    private bool isGameOver = false; 
    
     void Start()
     {
@@ -53,7 +56,7 @@ public class PlayerController : MonoBehaviour
         // Move the character controller
         controller.Move(moveDirection * Time.deltaTime);
             
-        // Check if the player is pressing the fire (Ctrl) button and if enough time has passed since the last shot
+        // Check if the player is pressing the fire (Ctrl) button or Left Mouse and if enough time has passed since the last shot
         if (Input.GetButtonDown("Fire1") && fireTimer <= 0f)
         {
             PlayShootAnimations();
@@ -108,8 +111,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
+            GetComponent<CapsuleCollider>().enabled = false;
             Debug.Log("Game over!");
             isGameOver = true;
+            audioSource.PlayOneShot(deathSound);
+            
         }
     }
 }

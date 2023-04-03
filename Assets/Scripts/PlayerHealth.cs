@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int startingHealth = 100; // Starting health of the player
-    public int currentHealth; // Current health of the player
+    public int maxHealth = 100;
+    private int health;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = startingHealth; // Set the player's current health to the starting health
+        health = maxHealth;
     }
 
-    // Function for taking damage
-    public void TakeDamage(int damageAmount)
+    // Update is called once per frame
+    void Update()
     {
-        currentHealth -= damageAmount; // Decrease the player's health by the damage amount
-
-        if (currentHealth <= 0) // If the player's health is 0 or less, kill the player
+        if(health <= 0)
         {
-            Die();
+            //player is dead
         }
+      if(Input.GetKeyDown(KeyCode.RightShift))
+      {
+        DamagePlayer(30);
+        Debug.Log("Taken Damage");
+      }
     }
 
-    // Function for killing the player
-    void Die()
+    public void DamagePlayer(int damage)
     {
-        // Implement the player's death behavior here, such as displaying a game over screen or resetting the level
+        health -= damage;  
     }
 }
-
-

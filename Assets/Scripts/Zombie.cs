@@ -11,6 +11,7 @@ public class Zombie : MonoBehaviour
     public float destroyTime = 20f;
     public AudioClip deathSound; 
     private AudioSource audioSource; 
+    private bool playerDead;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,7 @@ public class Zombie : MonoBehaviour
     void Update()
     {
         if (isDead) return; // Don't do anything if the enemy is dead
-
+        if (playerDead) return; //Don't do anything if the player is dead
         // Move towards the player
         transform.LookAt(player);
         transform.position += transform.forward * moveSpeed * Time.deltaTime;
@@ -32,6 +33,7 @@ public class Zombie : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (isDead) return; // Don't do anything if the enemy is dead
+        if (playerDead) return; //Don't do anything if the player is dead     
 
         if (other.gameObject.CompareTag("Bullet"))
         {
@@ -45,6 +47,7 @@ public class Zombie : MonoBehaviour
         else if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Game over!");
+            playerDead = true;
         }
     }
 
