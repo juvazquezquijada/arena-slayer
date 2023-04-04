@@ -164,6 +164,7 @@ public class PlayerController : MonoBehaviour
     {
             isDead = true;
             Debug.Log("Player is Dead!");
+            
     }
 
 
