@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: -7385316163539688165}
   m_Layer: 0
   m_Name: Demon
-  m_TagString: Enemy
+  m_TagString: Demon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,8 +221,12 @@ MonoBehaviour:
   fireballSpeed: 10
   fireballInterval: 3
   knockbackForce: 500
-  destroyTime: 60
+  isDead: 0
+  destroyTime: 3
   deathSound: {fileID: 8300000, guid: 01c7a8f05b9d3fc4980d85c9da826a41, type: 3}
+  hurtSound: {fileID: 8300000, guid: 2ce576ed98cc38f44a3d2ce94f14086e, type: 3}
+  scoreValue: 1
+  health: 2
 --- !u!136 &1068556162868519375
 CapsuleCollider:
   m_ObjectHideFlags: 0

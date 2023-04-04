@@ -11,11 +11,14 @@ public class Demon : MonoBehaviour
     public float knockbackForce = 10f;
     private Transform player;
     private float lastFireballTime = 0f;
-    private bool isDead = false;
+    public bool isDead = false;
     public float destroyTime = 20f;
     public AudioClip deathSound; // The death sound to play
     private AudioSource audioSource; // Reference to the AudioSource component
+    public AudioClip hurtSound;
     private bool playerDead = false;
+    public int scoreValue = 1;
+    public int health = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -55,17 +58,15 @@ public class Demon : MonoBehaviour
 
         if (other.gameObject.CompareTag("Bullet"))
         {
-            // Apply knockback force
-            Vector3 knockbackDirection = (transform.position - other.transform.position).normalized;
-            GetComponent<Rigidbody>().AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-
-            // Die
+            CanvasManager.Instance.UpdateScore(1);
             Die();
         }
     }
 
-    private void Die()
+    public void Die()
     {
+        
+
         isDead = true;
 
         // Play death sound

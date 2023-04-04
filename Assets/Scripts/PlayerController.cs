@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
             //Decrease the ammo stat
             currentAmmo--;
 
-            //Update the ammo value
+            //Update the ammo stat
             CanvasManager.Instance.UpdateAmmo(currentAmmo);
             
             //Reset the fire cooldown
@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
         Destroy(other.gameObject);
         audioSource.PlayOneShot(ammoPickup);
     }
-    else if (other.gameObject.CompareTag("EnemyProjectile"))
+    else if (other.gameObject.CompareTag("Fireball"))
     {
         health -= 10;
         if (health < 0) health = 0;
@@ -207,16 +207,18 @@ public class PlayerController : MonoBehaviour
     }
         else if (other.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            Demon enemy = other.gameObject.GetComponent<Demon>();
             if (enemy != null && enemy.isDead == false)
             {
-                enemy.TakeDamage(50);
                 if (enemy.isDead == true)
                 {
                     points += enemy.scoreValue;
                     CanvasManager.Instance.UpdateScore(points);
                 }
             }
+        }
+    }   
+}
 
         
     

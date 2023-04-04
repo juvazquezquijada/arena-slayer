@@ -7,11 +7,13 @@ public class Zombie : MonoBehaviour
     public float moveSpeed = 3f;
     public float knockbackForce = 10f;
     private Transform player;
-    private bool isDead = false;
     public float destroyTime = 20f;
     public AudioClip deathSound; 
     private AudioSource audioSource; 
-    private bool playerDead;
+    private bool playerDead = false;
+    public int scoreValue = 1;
+    public int health = 1;
+    public bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,12 +39,9 @@ public class Zombie : MonoBehaviour
 
         if (other.gameObject.CompareTag("Bullet"))
         {
-            // Apply knockback force
-            Vector3 knockbackDirection = (transform.position - other.transform.position).normalized;
-            GetComponent<Rigidbody>().AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-
             // Die
             Die();
+            CanvasManager.Instance.UpdateScore(1);
         }
         else if (other.gameObject.CompareTag("Player"))
         {
@@ -51,14 +50,15 @@ public class Zombie : MonoBehaviour
         }
     }
 
-       private void Die()
+       public void Die()
     {
          isDead = true;
+
          // Play death sound
          audioSource.PlayOneShot(deathSound);
 
          // Disable the enemy's collider and renderer
-         GetComponent<BoxCollider>().enabled = false;
+         GetComponent<CapsuleCollider>().enabled = false;
     
          // Apply a force to launch the enemy in the air
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -68,7 +68,14 @@ public class Zombie : MonoBehaviour
 
           // Destroy the enemy after a delay
           Destroy(gameObject, destroyTime);
-     }
+          
+    }
+    public void PlayerDied()
+    {
+        playerDead = true;
+    }
 }
+     
+
 
 

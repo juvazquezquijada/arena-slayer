@@ -7,7 +7,8 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI health;
     public TextMeshProUGUI ammo; 
     public TextMeshProUGUI score;
-
+    public AudioClip niceSound; 
+    public AudioSource audioSource; // add an audio source to the CanvasManager game object and assign it to this field
     private static CanvasManager _instance;
     public static CanvasManager Instance
     {
@@ -19,6 +20,7 @@ public class CanvasManager : MonoBehaviour
             }
 
             return _instance;
+            
         }
     }
 
@@ -32,6 +34,7 @@ public class CanvasManager : MonoBehaviour
         {
             _instance = this;
         }
+          audioSource = GetComponent<AudioSource>();
     }
 
     public void UpdateHealth(int healthValue)
@@ -52,13 +55,21 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    public void UpdateScore(int scoreValue)
+     public void UpdateScore(int scoreValue)
     {
         if (score != null)
         {
-            score.text = scoreValue.ToString();
+            int currentScore = int.Parse(score.text);
+            int newScore = currentScore + scoreValue;
+            score.text = newScore.ToString();
+
+            if (newScore == 69 && audioSource != null) // check if score is 69 and audio source is assigned
+            {
+                audioSource.PlayOneShot(niceSound);
+            }
         }
     }
+
 
     private void UpdateHealthIndicator(int healthValue)
     {

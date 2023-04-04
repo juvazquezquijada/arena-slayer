@@ -4,21 +4,47 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
+    public int damage = 1;
+
+    // Other code for bullet behavior
 
     private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Demon"))
         {
-            if(other.gameObject.CompareTag("Enemy"))
+            // Deal damage to enemy
+            Demon enemy = other.gameObject.GetComponent<Demon>();
+            enemy.health -= damage;
+
+            // Check if enemy is dead
+            if (enemy.health <= 0)
             {
-                PlayerController player = other.gameObject.GetComponent<PlayerController>();
-                if (player !=null)
-                {
-                    player.UpdateScore(1);
-                }
+                enemy.Die();
+                CanvasManager.Instance.UpdateScore(1);
             }
+
+            
+
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.CompareTag("Zombie"))
+        {
+            // Deal damage to enemy
+            Zombie enemy = other.gameObject.GetComponent<Zombie>();
+            enemy.health -= damage;
+
+            // Check if enemy is dead
+            if (enemy.health <= 0)
+            {
+                enemy.Die();
+                CanvasManager.Instance.UpdateScore(1);
+            }
+            // Destroy bullet
+            Destroy(gameObject);
         }
     }
+}
+
+    
