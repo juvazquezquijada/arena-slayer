@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Bullet : MonoBehaviour
 {
-    
     public int damage = 1;
-
-    // Other code for bullet behavior
 
     private void OnCollisionEnter(Collision other)
     {
@@ -24,8 +22,6 @@ public class Bullet : MonoBehaviour
                 CanvasManager.Instance.UpdateScore(1);
             }
 
-            
-
             // Destroy bullet
             Destroy(gameObject);
         }
@@ -41,10 +37,31 @@ public class Bullet : MonoBehaviour
                 enemy.Die();
                 CanvasManager.Instance.UpdateScore(1);
             }
+
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.CompareTag("Soldier"))
+        {
+            // Deal damage to enemy
+            Soldier enemy = other.gameObject.GetComponent<Soldier>();
+            enemy.health -= damage;
+
+            // Check if enemy is dead
+            if (enemy.health <= 0)
+            {
+                enemy.Die();
+                CanvasManager.Instance.UpdateScore(1);
+            }
+
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+        
+        else if (other.gameObject.CompareTag("Wall"))
+        {
             // Destroy bullet
             Destroy(gameObject);
         }
     }
 }
-
-    
