@@ -164,7 +164,8 @@ public class PlayerController : MonoBehaviour
     {
             isDead = true;
             Debug.Log("Player is Dead!");
-            
+            GetComponent<CapsuleCollider>().enabled = false;
+            GetComponent<CharacterController>().enabled = false;
     }
 
 
@@ -196,28 +197,35 @@ public class PlayerController : MonoBehaviour
     else if (other.gameObject.CompareTag("Fireball"))
     {
         health -= 10;
-        if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
         Destroy(other.gameObject);
+        audioSource.PlayOneShot(hurtSound);
     }
-    else if (other.gameObject.CompareTag("Enemy"))
+    else if (other.gameObject.CompareTag("Demon"))
     {
         health -= 10;
-        if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
+        audioSource.PlayOneShot(hurtSound);
     }
-        else if (other.gameObject.CompareTag("Enemy"))
-        {
-            Demon enemy = other.gameObject.GetComponent<Demon>();
-            if (enemy != null && enemy.isDead == false)
-            {
-                if (enemy.isDead == true)
-                {
-                    points += enemy.scoreValue;
-                    CanvasManager.Instance.UpdateScore(points);
-                }
-            }
-        }
+    else if (other.gameObject.CompareTag("Zombie"))
+    {
+        health -= 10;
+        CanvasManager.Instance.UpdateHealth(health);
+        audioSource.PlayOneShot(hurtSound);
+    }
+    else if (other.gameObject.CompareTag("Soldier"))
+    {
+        health -= 10;
+        CanvasManager.Instance.UpdateHealth(health);
+        audioSource.PlayOneShot(hurtSound);
+    }
+    else if (other.gameObject.CompareTag("EnemyProjectile"))
+    {
+        health -= 10;
+        CanvasManager.Instance.UpdateHealth(health);
+        audioSource.PlayOneShot(hurtSound);
+    }
+        
     }   
 }
 
