@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 7372988269764470043}
   - component: {fileID: 8010051202209525859}
   - component: {fileID: 7685729311790744677}
-  - component: {fileID: 4128750295216626534}
   m_Layer: 0
   m_Name: Bullet Spawn
   m_TagString: spawn
@@ -115,19 +114,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4128750295216626534
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3339487299561041736}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6593411393149291447
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 8131860061039139282, guid: ca32c401d1b9cfe4e98c8194cf4c710c, type: 3}
-  destroyTime: 5
+  destroyTime: 1
   knockbackForce: 500
   scoreValue: 1
   health: 1
@@ -353,7 +339,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7213041743238610966}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
   m_Height: 2
@@ -549,7 +535,6 @@ GameObject:
   - component: {fileID: 5619563495771636474}
   - component: {fileID: 2891524428017153944}
   - component: {fileID: 2278468674873704811}
-  - component: {fileID: 3723378557455009672}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -622,19 +607,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3723378557455009672
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8503674292503688229}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2272849399983290378
 PrefabInstance:
   m_ObjectHideFlags: 0
