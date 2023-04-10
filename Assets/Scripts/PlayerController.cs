@@ -25,15 +25,18 @@ public class PlayerController : MonoBehaviour
     public AudioClip healthPickup;
     public AudioClip ammoPickup;
     private AudioSource audioSource;
+    public AudioClip hurtSound;
     //Status of the player
     public int health = 100;
     public int maxAmmo = 25;
     private int currentAmmo = 0;
     public int score = 1;
-    private int points = 0;
+    public int points = 0;
     public bool isDead = false;
+    private CanvasManager canvasManager;
+    private Rigidbody rb;
+    private bool hasPlayedDeathSound = false;
     
-
 
     void Start()
     {
@@ -41,7 +44,9 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         //Get CharacterController component
         controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
         currentAmmo = maxAmmo;
+        canvasManager = CanvasManager.Instance;
         CanvasManager.Instance.UpdateAmmo(currentAmmo);
         CanvasManager.Instance.UpdateHealth(health);
         CanvasManager.Instance.UpdateScore(score);
@@ -53,6 +58,12 @@ public class PlayerController : MonoBehaviour
         {
             Die();
             SpawnManager.Instance.GameOver();
+            if (!hasPlayedDeathSound) 
+            {
+                audioSource.PlayOneShot(deathSound);
+                hasPlayedDeathSound = true;
+            }
+
         }
         
         if (isDead == true) // check if the player is dead
@@ -149,12 +160,7 @@ public class PlayerController : MonoBehaviour
     {
         CanvasManager.Instance.UpdateHealth(health);
     }
-    public void UpdateScore(int points)
-    {
-    score += points;
-    CanvasManager.Instance.UpdateScore(score);
-    }
-
+    
     void UpdateAmmo()
     {
     CanvasManager.Instance.UpdateAmmo(currentAmmo);
@@ -166,6 +172,9 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player is Dead!");
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<CharacterController>().enabled = false;
+            rb.velocity = Vector3.zero; // stop player movement
+            rb.angularVelocity = Vector3.zero;
+            
     }
 
 
@@ -180,7 +189,7 @@ public class PlayerController : MonoBehaviour
     }
     else if (other.gameObject.CompareTag("Health"))
     {
-        health += 20;
+        health += 25;
         if (health > 100) health = 100;
         CanvasManager.Instance.UpdateHealth(health);
         Destroy(other.gameObject);
@@ -189,39 +198,44 @@ public class PlayerController : MonoBehaviour
     else if (other.gameObject.CompareTag("Ammo"))
     {
         currentAmmo += 5;
-        if (currentAmmo > 20) currentAmmo = 20;
+        if (currentAmmo > 25) currentAmmo = 25;
         CanvasManager.Instance.UpdateAmmo(currentAmmo);
         Destroy(other.gameObject);
         audioSource.PlayOneShot(ammoPickup);
     }
     else if (other.gameObject.CompareTag("Fireball"))
     {
-        health -= 10;
+        health -= 5;
+        if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
         Destroy(other.gameObject);
         audioSource.PlayOneShot(hurtSound);
     }
     else if (other.gameObject.CompareTag("Demon"))
     {
-        health -= 10;
+        health -= 5;
+        if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
         audioSource.PlayOneShot(hurtSound);
     }
     else if (other.gameObject.CompareTag("Zombie"))
     {
-        health -= 10;
+        health -= 5;
+        if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
         audioSource.PlayOneShot(hurtSound);
     }
     else if (other.gameObject.CompareTag("Soldier"))
     {
         health -= 10;
+        if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
         audioSource.PlayOneShot(hurtSound);
     }
     else if (other.gameObject.CompareTag("EnemyProjectile"))
     {
-        health -= 10;
+        health -= 3;
+        if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
         audioSource.PlayOneShot(hurtSound);
     }

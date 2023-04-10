@@ -8,7 +8,6 @@ public class Soldier : MonoBehaviour
     public float destroyTime = 5;
     public float knockbackForce;
     public int scoreValue = 1;
-    public int health = 1;
     private AudioSource audioSource;
     public AudioClip deathSound;
     public float moveSpeed = 1;
@@ -20,18 +19,30 @@ public class Soldier : MonoBehaviour
     public float bulletSpeed = 30;
     public float lastBulletTime = 0;
     public AudioClip gunSound;
+    private PlayerController playerHealth; // Reference to the player's health script
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (isDead) return; // Don't do anything if the enemy is dead
-        if (playerDead) return; //Don't do anything if the player is dead
+        if (playerDead) 
+        {
+            // Freeze the enemy's movement
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            return;
+        }
+        if (playerHealth.isDead)
+        {
+            playerDead = true;
+            return;
+        }
         // Move towards the player
         transform.LookAt(player);
         transform.position += transform.forward * moveSpeed * Time.deltaTime;
@@ -53,7 +64,6 @@ public class Soldier : MonoBehaviour
     {
         // Die
         Die();
-        CanvasManager.Instance.UpdateScore(1);
     }
 }
 
@@ -75,6 +85,10 @@ public class Soldier : MonoBehaviour
 
           // Destroy the enemy after a delay
           Destroy(gameObject, destroyTime);
+    }
+    public void PlayerDied()
+    {
+        playerDead = true;
     }
 } 
     

@@ -17,14 +17,14 @@ public class Demon : MonoBehaviour
     private AudioSource audioSource; // Reference to the AudioSource component
     public AudioClip hurtSound;
     private bool playerDead = false;
-    public int scoreValue = 1;
-    public int health = 2;
+    private PlayerController playerHealth; // Reference to the player's health script
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -35,6 +35,11 @@ public class Demon : MonoBehaviour
         {
             // Freeze the enemy's movement
             GetComponent<Rigidbody>().velocity = Vector3.zero;
+            return;
+        }
+        if (playerHealth.isDead)
+        {
+            playerDead = true;
             return;
         }
 
@@ -50,6 +55,7 @@ public class Demon : MonoBehaviour
             fireball.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * fireballSpeed;
         }
     }
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -58,7 +64,6 @@ public class Demon : MonoBehaviour
 
         if (other.gameObject.CompareTag("Bullet"))
         {
-            CanvasManager.Instance.UpdateScore(1);
             Die();
         }
     }
@@ -66,7 +71,6 @@ public class Demon : MonoBehaviour
     public void Die()
     {
         
-
         isDead = true;
 
         // Play death sound

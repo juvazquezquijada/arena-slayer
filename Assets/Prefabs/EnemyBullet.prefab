@@ -110,7 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488a272326a6962429f4b40335e79c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
 --- !u!1 &8131860061039139282
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +124,7 @@ GameObject:
   - component: {fileID: 5349463535418570922}
   m_Layer: 0
   m_Name: EnemyBullet
-  m_TagString: Untagged
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -158,7 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 488a272326a6962429f4b40335e79c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
 --- !u!54 &-3389340784564922936
 Rigidbody:
   m_ObjectHideFlags: 0

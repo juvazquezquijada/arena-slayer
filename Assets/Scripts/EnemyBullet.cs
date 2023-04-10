@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    public int damage = 10;
+    
     
     private void OnCollisionEnter(Collision other)
     {
-         if (other.gameObject.CompareTag("Player"))
+         
+        if (other.gameObject.CompareTag("Wall"))
         {
-            // Deal damage to player
-            PlayerController player = other.gameObject.GetComponent<PlayerController>();
-            player.TakeDamage(damage);
-
-            // Destroy bullet
             Destroy(gameObject);
+            GetComponent<BoxCollider>().enabled = false;
         }
-        else if (other.gameObject.CompareTag("Wall"))
+        if (other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
+            GetComponent<BoxCollider>().enabled = false;
         }
     }
 }

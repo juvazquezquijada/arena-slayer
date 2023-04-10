@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int damage = 1;
+    
 
     private void OnCollisionEnter(Collision other)
     {
@@ -13,14 +13,11 @@ public class Bullet : MonoBehaviour
         {
             // Deal damage to enemy
             Demon enemy = other.gameObject.GetComponent<Demon>();
-            enemy.health -= damage;
-
-            // Check if enemy is dead
-            if (enemy.health <= 0)
-            {
-                enemy.Die();
-                CanvasManager.Instance.UpdateScore(1);
-            }
+            GetComponent<BoxCollider>().enabled = false;
+            
+               enemy.Die();
+               CanvasManager.Instance.UpdateScore(1);
+            
 
             // Destroy bullet
             Destroy(gameObject);
@@ -29,14 +26,10 @@ public class Bullet : MonoBehaviour
         {
             // Deal damage to enemy
             Zombie enemy = other.gameObject.GetComponent<Zombie>();
-            enemy.health -= damage;
-
-            // Check if enemy is dead
-            if (enemy.health <= 0)
-            {
+            
                 enemy.Die();
                 CanvasManager.Instance.UpdateScore(1);
-            }
+            GetComponent<BoxCollider>().enabled = false;
 
             // Destroy bullet
             Destroy(gameObject);
@@ -45,14 +38,9 @@ public class Bullet : MonoBehaviour
         {
             // Deal damage to enemy
             Soldier enemy = other.gameObject.GetComponent<Soldier>();
-            enemy.health -= damage;
-
-            // Check if enemy is dead
-            if (enemy.health <= 0)
-            {
-                enemy.Die();
-                CanvasManager.Instance.UpdateScore(1);
-            }
+            enemy.Die();
+            CanvasManager.Instance.UpdateScore(1);
+            GetComponent<BoxCollider>().enabled = false;
 
             // Destroy bullet
             Destroy(gameObject);
