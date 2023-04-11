@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviour
     }
     else if (other.gameObject.CompareTag("Ammo"))
     {
-        currentAmmo += 5;
+        currentAmmo += 7;
         if (currentAmmo > 25) currentAmmo = 25;
         CanvasManager.Instance.UpdateAmmo(currentAmmo);
         Destroy(other.gameObject);

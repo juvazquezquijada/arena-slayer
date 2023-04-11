@@ -81,7 +81,7 @@ public class Soldier : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
         Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
-        rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+        rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
 
           // Destroy the enemy after a delay
           Destroy(gameObject, destroyTime);
