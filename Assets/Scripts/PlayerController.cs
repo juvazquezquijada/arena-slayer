@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player is Dead!");
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<CharacterController>().enabled = false;
+            GetComponent<PlayerShooting>().isDead = true;
             rb.velocity = Vector3.zero; // stop player movement
             rb.angularVelocity = Vector3.zero;
             

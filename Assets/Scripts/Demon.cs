@@ -10,7 +10,7 @@ public class Demon : MonoBehaviour
     public float fireballInterval = 2f;
     public float knockbackForce = 10f;
     private Transform player;
-    private float lastFireballTime = 999f;
+    private float lastFireballTime = 1f;
     public bool isDead = false;
     public float destroyTime = 20f;
     public AudioClip deathSound; // The death sound to play
