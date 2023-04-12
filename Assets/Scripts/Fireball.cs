@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviour
 {
-    
-    
+    private AudioSource audioSource;
+    public AudioClip shootSound;
 
     void Start()
     {
-         
+         audioSource = GetComponent<AudioSource>();
+         audioSource.PlayOneShot(shootSound);
+         Destroy(gameObject, 5f);
     }
 
    private void OnCollisionEnter(Collision other)

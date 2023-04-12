@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    
+    void Start()
+    {
+        Destroy(gameObject, 10f);
+    }
     
     private void OnCollisionEnter(Collision other)
     {
@@ -12,12 +15,12 @@ public class EnemyBullet : MonoBehaviour
         if (other.gameObject.CompareTag("Wall"))
         {
             Destroy(gameObject);
-            GetComponent<BoxCollider>().enabled = false;
+            
         }
         if (other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
-            GetComponent<BoxCollider>().enabled = false;
+            
         }
     }
 }
