@@ -23,7 +23,7 @@ public class Fireball : MonoBehaviour
        else if(other.gameObject.CompareTag("Player"))
        {
            Destroy(gameObject);
-            GetComponent<BoxCollider>().enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
        }
    }
     

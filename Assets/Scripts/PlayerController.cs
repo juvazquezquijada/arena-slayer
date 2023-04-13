@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
         canvasManager = CanvasManager.Instance;
         CanvasManager.Instance.UpdateHealth(health);
         CanvasManager.Instance.UpdateScore(score);
+        Application.targetFrameRate = 60;
     }
 
     void Update()
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
         {
             Die();
             SpawnManager.Instance.GameOver();
+            CanvasManager.Instance.ShowGameOverScreen();
             if (!hasPlayedDeathSound) 
             {
                 audioSource.PlayOneShot(deathSound);
@@ -105,6 +107,7 @@ public class PlayerController : MonoBehaviour
             GetComponent<PlayerShooting>().isDead = true;
             rb.velocity = Vector3.zero; // stop player movement
             rb.angularVelocity = Vector3.zero;
+            
             
     }
 

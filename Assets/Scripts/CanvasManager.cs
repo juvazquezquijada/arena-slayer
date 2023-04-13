@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CanvasManager : MonoBehaviour
 {
@@ -8,8 +9,10 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI ammo; 
     public TextMeshProUGUI score;
     public AudioClip niceSound; 
-    public AudioSource audioSource; // add an audio source to the CanvasManager game object and assign it to this field
+    public AudioSource audioSource; 
+    public GameObject gameOverScreen;
     private static CanvasManager _instance;
+
     public static CanvasManager Instance
     {
         get
@@ -55,7 +58,7 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-     public void UpdateScore(int scoreValue)
+    public void UpdateScore(int scoreValue)
     {
         if (score != null)
         {
@@ -69,7 +72,6 @@ public class CanvasManager : MonoBehaviour
             }
         }
     }
-
 
     private void UpdateHealthIndicator(int healthValue)
     {
@@ -89,5 +91,18 @@ public class CanvasManager : MonoBehaviour
             }
 
         }
+    }
+
+    public void ShowGameOverScreen()
+    {
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(true);
+        }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("TitleScene"); // replace "GameScene" with the name of your game scene
     }
 }

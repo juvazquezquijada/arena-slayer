@@ -65,6 +65,7 @@ public class Demon : MonoBehaviour
         if (other.gameObject.CompareTag("Bullet"))
         {
             Die();
+            GetComponent<CapsuleCollider>().enabled = false;
         }
     }
 
@@ -77,7 +78,7 @@ public class Demon : MonoBehaviour
         audioSource.PlayOneShot(deathSound);
 
         // Disable the enemy's collider and renderer
-        GetComponent<CapsuleCollider>().enabled = false;
+        
 
         // Apply a force to launch the enemy in the air
         Rigidbody rb = GetComponent<Rigidbody>();

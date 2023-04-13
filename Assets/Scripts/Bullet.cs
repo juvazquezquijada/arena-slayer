@@ -11,16 +11,17 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Demon"))
         {
+            Destroy(gameObject);
             // Deal damage to enemy
             Demon enemy = other.gameObject.GetComponent<Demon>();
-            GetComponent<BoxCollider>().enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
             
                enemy.Die();
                CanvasManager.Instance.UpdateScore(1);
             
 
             // Destroy bullet
-            Destroy(gameObject);
+            
         }
         else if (other.gameObject.CompareTag("Zombie"))
         {
@@ -29,7 +30,7 @@ public class Bullet : MonoBehaviour
             
                 enemy.Die();
                 CanvasManager.Instance.UpdateScore(1);
-            GetComponent<BoxCollider>().enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
 
             // Destroy bullet
             Destroy(gameObject);
@@ -40,7 +41,7 @@ public class Bullet : MonoBehaviour
             Soldier enemy = other.gameObject.GetComponent<Soldier>();
             enemy.Die();
             CanvasManager.Instance.UpdateScore(1);
-            GetComponent<BoxCollider>().enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
 
             // Destroy bullet
             Destroy(gameObject);
