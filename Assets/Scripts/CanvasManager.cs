@@ -12,7 +12,7 @@ public class CanvasManager : MonoBehaviour
     public AudioSource audioSource; 
     public bool gameActive = true;
     public TextMeshProUGUI gameOverText;
-    public Button restartButton;
+    public GameObject restartButton;
     private static CanvasManager _instance;
     public Camera myCamera;
 
@@ -114,7 +114,11 @@ public class CanvasManager : MonoBehaviour
     Cursor.visible = true;
     myCamera.GetComponent<Camera>().enabled = false;
 
-}   
+}
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
 
-    
+
 }

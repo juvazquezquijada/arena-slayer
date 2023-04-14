@@ -9,7 +9,7 @@ public class TitleScreenManager : MonoBehaviour
 
     private void Start()
     {
-        startButton.onClick.AddListener(StartGame);
+        
     }
 
     public void StartGame()

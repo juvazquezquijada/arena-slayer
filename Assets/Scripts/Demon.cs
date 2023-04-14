@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Demon : MonoBehaviour
@@ -93,5 +94,10 @@ public class Demon : MonoBehaviour
     public void PlayerDied()
     {
         playerDead = true;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 }
