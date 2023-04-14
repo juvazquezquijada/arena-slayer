@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
         CanvasManager.Instance.UpdateHealth(health);
         CanvasManager.Instance.UpdateScore(score);
         Application.targetFrameRate = 60;
+       
     }
 
     void Update()
@@ -44,7 +45,7 @@ public class PlayerController : MonoBehaviour
         {
             Die();
             SpawnManager.Instance.GameOver();
-            CanvasManager.Instance.ShowGameOverScreen();
+            CanvasManager.Instance.GameOver();
             if (!hasPlayedDeathSound) 
             {
                 audioSource.PlayOneShot(deathSound);

@@ -18,6 +18,15 @@ public class Camera : MonoBehaviour
         rotX = rot.x;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (CanvasManager.Instance.gameActive) 
+        {
+        Cursor.visible = true;
+        } 
+        else 
+        {
+        Cursor.visible = false;
+        }
     }
 
     void FixedUpdate()
@@ -37,3 +46,7 @@ public class Camera : MonoBehaviour
         transform.parent.Rotate(Vector3.up * mouseX * sensitivity * Time.fixedDeltaTime);
     }
 }
+
+    
+
+

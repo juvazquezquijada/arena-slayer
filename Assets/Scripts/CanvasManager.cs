@@ -10,9 +10,19 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI score;
     public AudioClip niceSound; 
     public AudioSource audioSource; 
-    public GameObject gameOverScreen;
+    public bool gameActive = true;
+    public TextMeshProUGUI gameOverText;
+    public Button restartButton;
     private static CanvasManager _instance;
+    public Camera myCamera;
 
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+          gameActive = true;
+
+          
+    }
     public static CanvasManager Instance
     {
         get
@@ -37,7 +47,8 @@ public class CanvasManager : MonoBehaviour
         {
             _instance = this;
         }
-          audioSource = GetComponent<AudioSource>();
+          
+          
     }
 
     public void UpdateHealth(int healthValue)
@@ -93,16 +104,17 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
-    public void ShowGameOverScreen()
-    {
-        if (gameOverScreen != null)
-        {
-            gameOverScreen.SetActive(true);
-        }
-    }
+    public void GameOver()
+{
+    gameOverText.gameObject.SetActive(true);
+    gameActive = false;
+    restartButton.gameObject.SetActive(true);
+    
+    Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
+    myCamera.GetComponent<Camera>().enabled = false;
 
-    public void RestartGame()
-    {
-        SceneManager.LoadScene("TitleScene"); // replace "GameScene" with the name of your game scene
-    }
+}   
+
+    
 }
