@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //controls the players health
         if (health <= 0)
         {
             Die();
@@ -50,11 +51,20 @@ public class PlayerController : MonoBehaviour
             {
                 audioSource.PlayOneShot(deathSound);
                 hasPlayedDeathSound = true;
+                
             }
 
         }
-        
-        if (isDead == true) // check if the player is dead
+        else if (health < 40)
+        {
+            CanvasManager.Instance.LowHealth();
+        }
+        else if (health > 40)
+        {
+            CanvasManager.Instance.HasHealth();
+        }
+        // check if the player is dead
+        if (isDead == true) 
         {
         moveDirection = Vector3.zero; // stop the movement
         return; // exit the method
@@ -163,6 +173,10 @@ public class PlayerController : MonoBehaviour
     }
         
     }   
+    public void Health()
+    {
+        
+    }
 }
 
         

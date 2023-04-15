@@ -13,6 +13,9 @@ public class CanvasManager : MonoBehaviour
     public bool gameActive = true;
     public TextMeshProUGUI gameOverText;
     public GameObject restartButton;
+    public TextMeshProUGUI outOfAmmoText;
+    public TextMeshProUGUI lowAmmoText;
+    public TextMeshProUGUI lowHealthText;
     private static CanvasManager _instance;
     public Camera myCamera;
 
@@ -113,11 +116,38 @@ public class CanvasManager : MonoBehaviour
     Cursor.lockState = CursorLockMode.None;
     Cursor.visible = true;
     myCamera.GetComponent<Camera>().enabled = false;
+    lowAmmoText.gameObject.SetActive(false);
+    lowHealthText.gameObject.SetActive(false);
+    outOfAmmoText.gameObject.SetActive(false);
 
 }
     public void RestartGame()
     {
         SceneManager.LoadScene("TitleScene");
+    }
+
+    public void OutOfAmmo()
+    {
+        outOfAmmoText.gameObject.SetActive(true);
+        lowAmmoText.gameObject.SetActive(false);
+    }
+    public void LowAmmo()
+    {
+        lowAmmoText.gameObject.SetActive(true);
+        outOfAmmoText.gameObject.SetActive(false);
+    }
+    public void HasAmmo()
+    {
+        outOfAmmoText.gameObject.SetActive(false);
+        lowAmmoText.gameObject.SetActive(false);
+    }
+    public void LowHealth()
+    {
+        lowHealthText.gameObject.SetActive(true);
+    }
+    public void HasHealth()
+    {
+        lowHealthText.gameObject.SetActive(false);
     }
 
 

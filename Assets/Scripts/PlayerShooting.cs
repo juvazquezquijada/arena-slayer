@@ -56,6 +56,21 @@ public class PlayerShooting : MonoBehaviour
             
             //Reset the fire cooldown
             fireTimer = fireRate;
+
+            
+        }
+        // controls the ammo indicators
+        if (currentAmmo < 1)
+            {
+                CanvasManager.Instance.OutOfAmmo();
+            }
+        else if (currentAmmo < 10)
+            {
+                CanvasManager.Instance.LowAmmo();
+            }
+        else if (currentAmmo > 10)
+        {
+            CanvasManager.Instance.HasAmmo();
         }
 
         // Decrease the fire timer if the player can't shoot yet
@@ -106,5 +121,10 @@ public class PlayerShooting : MonoBehaviour
         UpdateAmmo();
         Destroy(other.gameObject);
         }
+    }
+
+    public void Ammo()
+    {
+         
     }
 }
