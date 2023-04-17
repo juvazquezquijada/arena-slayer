@@ -13,6 +13,7 @@ public class Zombie : MonoBehaviour
     private bool playerDead = false;
     public int scoreValue = 1;
     public bool isDead = false;
+    public ParticleSystem explosionParticle;
     private PlayerController playerHealth; // Reference to the player's health script
 
     // Start is called before the first frame update
@@ -58,6 +59,7 @@ public class Zombie : MonoBehaviour
         {
             // Die
             Die();
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
         }      
     }
 
@@ -70,16 +72,17 @@ public class Zombie : MonoBehaviour
 
         // Disable the enemy's collider and renderer
         GetComponent<CapsuleCollider>().enabled = false;
-        GetComponent<Renderer>().enabled = false;
+        
 
         // Apply a force to launch the enemy in the air
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
         Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
-        rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-
+        rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
+        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
         // Destroy the enemy after a delay
         Destroy(gameObject, destroyTime);
+         
     }
 
     public void PlayerDied()

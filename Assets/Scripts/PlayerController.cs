@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
         CanvasManager.Instance.UpdateHealth(health);
         CanvasManager.Instance.UpdateScore(score);
         Application.targetFrameRate = 60;
+        audioSource = GetComponent<AudioSource>();
        
     }
 

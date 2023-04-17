@@ -181,7 +181,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1302186251461501800}
   serializedVersion: 2
-  m_Mass: 20
+  m_Mass: 15
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73fe8b41fc1d1e4fab4e9174aa2f4af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireballPrefab: {fileID: 4743280904960289301, guid: c3487fffab873af4098d12b57799ca8d, type: 3}
+  fireballPrefab: {fileID: 3249501274925233414, guid: 7245c191fe1abbc44aa26b31eb8c5bc6, type: 3}
   moveSpeed: 3
   fireballSpeed: 30
   fireballInterval: 3
@@ -210,6 +210,7 @@ MonoBehaviour:
   destroyTime: 1
   deathSound: {fileID: 8300000, guid: 01c7a8f05b9d3fc4980d85c9da826a41, type: 3}
   hurtSound: {fileID: 8300000, guid: 2ce576ed98cc38f44a3d2ce94f14086e, type: 3}
+  explosionParticle: {fileID: 2120771728646608512, guid: e0d1b8cfdb15a064ab6b0421907526ca, type: 3}
 --- !u!136 &1068556162868519375
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public class Soldier : MonoBehaviour
     public float fireRate = 3;
     public float bulletSpeed = 30;
     public float lastBulletTime = 0;
+    public ParticleSystem explosionParticle;
     public AudioClip gunSound;
     private PlayerController playerHealth; // Reference to the player's health script
     // Start is called before the first frame update
@@ -64,6 +65,7 @@ public class Soldier : MonoBehaviour
     {
         // Die
         Die();
+         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
     }
 }
 
@@ -82,7 +84,8 @@ public class Soldier : MonoBehaviour
         rb.isKinematic = false;
         Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
         rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
-
+        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+        
           // Destroy the enemy after a delay
           Destroy(gameObject, destroyTime);
     }

@@ -18,6 +18,7 @@ public class Demon : MonoBehaviour
     private AudioSource audioSource; // Reference to the AudioSource component
     public AudioClip hurtSound;
     private bool playerDead = false;
+    public ParticleSystem explosionParticle;
     private PlayerController playerHealth; // Reference to the player's health script
 
     // Start is called before the first frame update
@@ -53,6 +54,7 @@ public class Demon : MonoBehaviour
         {
             lastFireballTime = Time.time;
             GameObject fireball = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+            fireball.transform.rotation = Quaternion.identity;
             fireball.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * fireballSpeed;
         }
     }
@@ -67,6 +69,7 @@ public class Demon : MonoBehaviour
         {
             Die();
             GetComponent<CapsuleCollider>().enabled = false;
+            
         }
     }
 
@@ -86,6 +89,7 @@ public class Demon : MonoBehaviour
         rb.isKinematic = false;
         Vector3 knockbackDirection = transform.up + -transform.forward * 0.5f; // adjust knockback direction
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
 
         // Destroy the enemy after a delay
         Destroy(gameObject, destroyTime);
@@ -94,10 +98,5 @@ public class Demon : MonoBehaviour
     public void PlayerDied()
     {
         playerDead = true;
-    }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene("TitleScene");
     }
 }

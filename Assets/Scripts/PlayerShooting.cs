@@ -122,9 +122,4 @@ public class PlayerShooting : MonoBehaviour
         Destroy(other.gameObject);
         }
     }
-
-    public void Ammo()
-    {
-         
-    }
 }
