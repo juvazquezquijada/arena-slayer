@@ -120,6 +120,7 @@ Transform:
   - {fileID: 2093253331115492652}
   - {fileID: 4998072768547117074}
   - {fileID: 7555097629606591946}
+  - {fileID: 467787454095282156}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -203,9 +204,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireballPrefab: {fileID: 3249501274925233414, guid: 7245c191fe1abbc44aa26b31eb8c5bc6, type: 3}
   moveSpeed: 3
-  fireballSpeed: 30
+  fireballSpeed: 20
   fireballInterval: 3
   knockbackForce: 500
+  launcher: {fileID: 467787454095282156}
   isDead: 0
   destroyTime: 1
   deathSound: {fileID: 8300000, guid: 01c7a8f05b9d3fc4980d85c9da826a41, type: 3}
@@ -321,6 +323,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &2839619895742772510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 467787454095282156}
+  m_Layer: 0
+  m_Name: Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &467787454095282156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839619895742772510}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.605, y: 0.38, z: 1.712}
+  m_LocalScale: {x: 1, y: 0.6514608, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1302186251461501796}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5519788738766560768
 GameObject:
   m_ObjectHideFlags: 0

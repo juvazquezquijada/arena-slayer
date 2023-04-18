@@ -16,6 +16,9 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI outOfAmmoText;
     public TextMeshProUGUI lowAmmoText;
     public TextMeshProUGUI lowHealthText;
+    public TextMeshProUGUI tutorialText;
+    private float tutorialDuration = 5f;
+    private float tutorialTimer = 0f;
     private static CanvasManager _instance;
     public Camera myCamera;
 
@@ -23,9 +26,37 @@ public class CanvasManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
           gameActive = true;
-
+    
           
     }
+
+    void Update()
+    {
+        // show or hide tutorial text based on T key press
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            tutorialText.gameObject.SetActive(true);
+            tutorialTimer = 0f;
+        }
+
+        if (Input.GetKeyUp(KeyCode.T))
+        {
+            tutorialText.gameObject.SetActive(false);
+            tutorialTimer = 0f;
+        }
+
+        // hide tutorial text after duration has elapsed
+        if (tutorialText.gameObject.activeSelf)
+        {
+            tutorialTimer += Time.deltaTime;
+            if (tutorialTimer >= tutorialDuration)
+            {
+                tutorialText.gameObject.SetActive(false);
+                tutorialTimer = 0f;
+            }
+        }
+    }
+
     public static CanvasManager Instance
     {
         get

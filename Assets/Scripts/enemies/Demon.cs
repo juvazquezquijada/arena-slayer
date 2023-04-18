@@ -10,6 +10,7 @@ public class Demon : MonoBehaviour
     public float fireballSpeed = 10f;
     public float fireballInterval = 2f;
     public float knockbackForce = 10f;
+    public Transform launcher;
     private Transform player;
     private float lastFireballTime = 1f;
     public bool isDead = false;
@@ -53,7 +54,7 @@ public class Demon : MonoBehaviour
         if (Time.time - lastFireballTime > fireballInterval)
         {
             lastFireballTime = Time.time;
-            GameObject fireball = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+            GameObject fireball = Instantiate(fireballPrefab, launcher.position, launcher.rotation);
             fireball.transform.rotation = Quaternion.identity;
             fireball.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * fireballSpeed;
         }
