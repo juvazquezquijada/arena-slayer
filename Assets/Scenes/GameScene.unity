@@ -2049,6 +2049,7 @@ GameObject:
   - component: {fileID: 696652653}
   - component: {fileID: 696652652}
   - component: {fileID: 696652651}
+  - component: {fileID: 696652655}
   m_Layer: 0
   m_Name: Pillar
   m_TagString: Wall
@@ -2137,6 +2138,22 @@ Transform:
   m_Father: {fileID: 882175507}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &696652655
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696652650}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!4 &776324498 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2896559883660198720, guid: 10e2d692dcdbb9742b97992e73c82b7c, type: 3}
@@ -2248,6 +2265,7 @@ GameObject:
   - component: {fileID: 781261783}
   - component: {fileID: 781261782}
   - component: {fileID: 781261781}
+  - component: {fileID: 781261784}
   m_Layer: 0
   m_Name: Pillar (1)
   m_TagString: Wall
@@ -2333,6 +2351,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 781261779}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &781261784
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781261779}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &800034472
 GameObject:
   m_ObjectHideFlags: 0
@@ -5192,6 +5226,7 @@ GameObject:
   - component: {fileID: 1695220788}
   - component: {fileID: 1695220789}
   - component: {fileID: 1695220790}
+  - component: {fileID: 1695220791}
   m_Layer: 0
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -5435,6 +5470,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!54 &1695220791
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695220783}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!4 &1700047155 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4064282465881321891, guid: 10e2d692dcdbb9742b97992e73c82b7c, type: 3}
@@ -6006,6 +6057,7 @@ GameObject:
   - component: {fileID: 1932843311}
   - component: {fileID: 1932843310}
   - component: {fileID: 1932843309}
+  - component: {fileID: 1932843312}
   m_Layer: 0
   m_Name: Pillar (3)
   m_TagString: Wall
@@ -6091,6 +6143,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932843307}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &1932843312
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932843307}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &1987152228
 GameObject:
   m_ObjectHideFlags: 0
