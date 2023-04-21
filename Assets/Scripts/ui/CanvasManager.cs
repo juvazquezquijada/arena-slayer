@@ -181,5 +181,17 @@ public class CanvasManager : MonoBehaviour
         lowHealthText.gameObject.SetActive(false);
     }
 
+    public void ReloadWarehouse()
+    {
+        SceneManager.LoadScene("Warehouse");
+    }
 
+    public void ReloadCityDay()
+    {
+        SceneManager.LoadScene("CityDay");
+    }
+    public void ReloadCityNight()
+    {
+        SceneManager.LoadScene("CityNight");
+    }
 }
