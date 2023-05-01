@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     //Basic player movement
     public float moveSpeed = 5.0f;
+    public float shiftSpeed = 8.0f;
     public float gravity = 9.81f;
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
@@ -81,11 +82,18 @@ public class PlayerController : MonoBehaviour
         Vector3 right = transform.right * horizontal;
         moveDirection = forward + right;
 
-        //Apply movement direction and speed
-        moveDirection *= moveSpeed;
+            //Apply movement direction and speed
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                moveDirection *= shiftSpeed;
+            }
+            else
+            {
+                moveDirection *= moveSpeed;
+            }
 
-        //Apply gravity
-        moveDirection.y -= gravity * Time.deltaTime;
+            //Apply gravity
+            moveDirection.y -= gravity * Time.deltaTime;
 
         //Move the character controller
         controller.Move(moveDirection * Time.deltaTime);
