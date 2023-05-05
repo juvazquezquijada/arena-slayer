@@ -11,6 +11,7 @@ public class ItemSpawn : MonoBehaviour
     public int maxItemsOnScreen = 3;
     private int currentItemsOnScreen = 0;
     private bool canSpawn = true;
+    public float spawnRangeY = 2;
 
     private void Update()
     {
@@ -28,7 +29,7 @@ public class ItemSpawn : MonoBehaviour
         GameObject itemPrefab = Random.value < 0.5f ? healthPickupPrefab : ammoPickupPrefab;
 
         Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRange;
-        spawnPosition.y = 0;
+        spawnPosition.y = spawnRangeY;
 
         Instantiate(itemPrefab, spawnPosition, Quaternion.identity);
         currentItemsOnScreen++;
