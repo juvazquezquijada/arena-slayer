@@ -31,6 +31,11 @@ public class TitleScreenManager : MonoBehaviour
     {
         SceneManager.LoadScene("CityNight");
     }
+    public void StartStore()// starts the store map
+    {
+        SceneManager.LoadScene("Store");
+    }
+
     public void BackToTitle()
     {
         mapSelect.gameObject.SetActive(false);
