@@ -165,7 +165,7 @@ public class CanvasManager : MonoBehaviour
         else
         {
             // Hide pause menu
-            Time.timeScale = 1f; // Unpause the game
+            Time.timeScale = 2f; // Unpause the game
             isPaused = false;
             pauseMenuPanel.SetActive(false);
             myCamera.GetComponent<Camera>().enabled = true;
@@ -192,6 +192,8 @@ public class CanvasManager : MonoBehaviour
     public void QuitGame()
     {
         SceneManager.LoadScene("TitleScene");
+        myCamera.GetComponent<Camera>().enabled = true;
+        Time.timeScale = 1f;
     }
     public void RetryGame()
     {
