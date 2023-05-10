@@ -5,29 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class CanvasManager : MonoBehaviour
 {
-    public TextMeshProUGUI health;
-    public TextMeshProUGUI ammo; 
-    public TextMeshProUGUI score;
-    public AudioClip niceSound; 
+    public TextMeshProUGUI health; //health indicator
+    public TextMeshProUGUI ammo; //ammo indicator
+    public TextMeshProUGUI score; //score indicator
+    public AudioClip niceSound; // plays when player reaches a certain amount of kills ;)
     public AudioSource audioSource; 
-    public bool gameActive = true;
-    public TextMeshProUGUI gameOverText;
-    public GameObject restartButton;
-    public TextMeshProUGUI outOfAmmoText;
-    public TextMeshProUGUI lowAmmoText;
-    public TextMeshProUGUI lowHealthText;
-    public TextMeshProUGUI tutorialText;
-    private float tutorialDuration = 5f;
-    private float tutorialTimer = 0f;
+    public bool gameActive = true; 
+    public TextMeshProUGUI gameOverText; // game over screen
+    public GameObject restartButton; // go back to home screen
+    public GameObject retryButton;
+    public TextMeshProUGUI outOfAmmoText; // tells the player they are out of ammo
+    public TextMeshProUGUI lowAmmoText; // tells the player they have low ammo
+    public TextMeshProUGUI lowHealthText; // tells the player they have low health
+    public TextMeshProUGUI tutorialText; // text for the tutorial
     private static CanvasManager _instance;
+   // used to lock camera when player is dead
     public Camera myCamera;
-
+    //pause screen
+    public GameObject pauseMenuPanel;
+    private bool isPaused;
+    private Quaternion savedRotation;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
           gameActive = true;
-    
-          
+          pauseMenuPanel.SetActive(false);
+        isPaused = false;    
     }
 
     void Update()
@@ -36,25 +39,18 @@ public class CanvasManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             tutorialText.gameObject.SetActive(true);
-            tutorialTimer = 0f;
         }
 
         if (Input.GetKeyUp(KeyCode.T))
         {
             tutorialText.gameObject.SetActive(false);
-            tutorialTimer = 0f;
+        }
+        // show pause menu when escape key is pressed
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
         }
 
-        // hide tutorial text after duration has elapsed
-        if (tutorialText.gameObject.activeSelf)
-        {
-            tutorialTimer += Time.deltaTime;
-            if (tutorialTimer >= tutorialDuration)
-            {
-                tutorialText.gameObject.SetActive(false);
-                tutorialTimer = 0f;
-            }
-        }
     }
 
     public static CanvasManager Instance
@@ -143,6 +139,7 @@ public class CanvasManager : MonoBehaviour
     gameOverText.gameObject.SetActive(true);
     gameActive = false;
     restartButton.gameObject.SetActive(true);
+    retryButton.gameObject.SetActive(true);
     
     Cursor.lockState = CursorLockMode.None;
     Cursor.visible = true;
@@ -152,10 +149,56 @@ public class CanvasManager : MonoBehaviour
     outOfAmmoText.gameObject.SetActive(false);
 
 }
-    public void RestartGame()
+     public void PauseGame()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        myCamera.GetComponent<Camera>().enabled = false;
+        savedRotation = myCamera.transform.rotation;
+        if (!isPaused)
+        {
+            // Show pause menu
+            Time.timeScale = 0f; // Pause the game
+            isPaused = true;
+            pauseMenuPanel.SetActive(true);
+        }
+        else
+        {
+            // Hide pause menu
+            Time.timeScale = 1f; // Unpause the game
+            isPaused = false;
+            pauseMenuPanel.SetActive(false);
+            myCamera.GetComponent<Camera>().enabled = true;
+            Cursor.visible = false;
+            myCamera.transform.rotation = savedRotation;
+        }
+    }
+    public void ResumeGame()
+    {
+        // Unpause the game
+    Time.timeScale = 1f;
+    isPaused = false;
+    pauseMenuPanel.SetActive(false);
+
+    // Enable the camera and hide the cursor
+    myCamera.GetComponent<Camera>().enabled = true;
+    Cursor.visible = false;
+    Cursor.lockState = CursorLockMode.Locked;
+    myCamera.transform.rotation = savedRotation;
+    gameActive = true;
+
+    }
+
+    public void QuitGame()
     {
         SceneManager.LoadScene("TitleScene");
     }
+    public void RetryGame()
+    {
+        Time.timeScale = 1f; // Unpause the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+    }
+
 
     public void OutOfAmmo()
     {
@@ -180,18 +223,5 @@ public class CanvasManager : MonoBehaviour
     {
         lowHealthText.gameObject.SetActive(false);
     }
-
-    public void ReloadWarehouse()
-    {
-        SceneManager.LoadScene("Warehouse");
-    }
-
-    public void ReloadCityDay()
-    {
-        SceneManager.LoadScene("CityDay");
-    }
-    public void ReloadCityNight()
-    {
-        SceneManager.LoadScene("CityNight");
-    }
+    
 }

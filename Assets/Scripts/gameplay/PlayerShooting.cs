@@ -30,6 +30,12 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0f)
+        {
+            // Don't shoot the gun if the game is paused
+            return;
+        }
+
         //Shoot a bullet when the shoot button is pressed and ammo is more than 0 and the shooting cooldown is up 
         if (Input.GetButtonDown("Fire1") && fireTimer <= 0f && currentAmmo > 0 && isDead == false)
         {
