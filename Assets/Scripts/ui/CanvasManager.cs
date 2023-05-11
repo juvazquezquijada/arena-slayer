@@ -19,6 +19,8 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI lowHealthText; // tells the player they have low health
     public TextMeshProUGUI tutorialText; // text for the tutorial
     private static CanvasManager _instance;
+    public AudioClip menuSound;
+    public AudioClip pauseSound;
    // used to lock camera when player is dead
     public Camera myCamera;
     //pause screen
@@ -155,12 +157,14 @@ public class CanvasManager : MonoBehaviour
         Cursor.visible = true;
         myCamera.GetComponent<Camera>().enabled = false;
         savedRotation = myCamera.transform.rotation;
+        audioSource.PlayOneShot(pauseSound);
         if (!isPaused)
         {
             // Show pause menu
             Time.timeScale = 0f; // Pause the game
             isPaused = true;
             pauseMenuPanel.SetActive(true);
+            myCamera.GetComponent<AudioSource>().enabled = false;
         }
         else
         {
@@ -171,6 +175,7 @@ public class CanvasManager : MonoBehaviour
             myCamera.GetComponent<Camera>().enabled = true;
             Cursor.visible = false;
             myCamera.transform.rotation = savedRotation;
+            myCamera.GetComponent<AudioSource>().enabled = true;
         }
     }
     public void ResumeGame()
@@ -186,17 +191,24 @@ public class CanvasManager : MonoBehaviour
     Cursor.lockState = CursorLockMode.Locked;
     myCamera.transform.rotation = savedRotation;
     gameActive = true;
+    myCamera.GetComponent<AudioSource>().enabled = true;
+    audioSource.PlayOneShot(menuSound);
 
     }
 
     public void QuitGame()
     {
         SceneManager.LoadScene("TitleScene");
+        AudioListener.pause = false; // Resume the music
+        myCamera.GetComponent<Camera>().enabled = true;
+        myCamera.GetComponent<AudioSource>().enabled = true;
+        audioSource.PlayOneShot(menuSound);
     }
     public void RetryGame()
     {
         Time.timeScale = 1f; // Unpause the game
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+        audioSource.PlayOneShot(menuSound);
     }
 
 
