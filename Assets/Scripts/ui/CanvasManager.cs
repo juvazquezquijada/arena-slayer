@@ -21,6 +21,7 @@ public class CanvasManager : MonoBehaviour
     private static CanvasManager _instance;
     public AudioClip menuSound;
     public AudioClip pauseSound;
+    public AudioSource musicAudioSource;
    // used to lock camera when player is dead
     public Camera myCamera;
     //pause screen
@@ -41,11 +42,6 @@ public class CanvasManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             tutorialText.gameObject.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.T))
-        {
-            tutorialText.gameObject.SetActive(false);
         }
         // show pause menu when escape key is pressed
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -164,7 +160,7 @@ public class CanvasManager : MonoBehaviour
             Time.timeScale = 0f; // Pause the game
             isPaused = true;
             pauseMenuPanel.SetActive(true);
-            myCamera.GetComponent<AudioSource>().enabled = false;
+             musicAudioSource.Pause();
         }
         else
         {
@@ -175,7 +171,7 @@ public class CanvasManager : MonoBehaviour
             myCamera.GetComponent<Camera>().enabled = true;
             Cursor.visible = false;
             myCamera.transform.rotation = savedRotation;
-            myCamera.GetComponent<AudioSource>().enabled = true;
+             musicAudioSource.UnPause();
         }
     }
     public void ResumeGame()
@@ -191,8 +187,8 @@ public class CanvasManager : MonoBehaviour
     Cursor.lockState = CursorLockMode.Locked;
     myCamera.transform.rotation = savedRotation;
     gameActive = true;
-    myCamera.GetComponent<AudioSource>().enabled = true;
     audioSource.PlayOneShot(menuSound);
+    musicAudioSource.UnPause();
 
     }
 
@@ -201,14 +197,16 @@ public class CanvasManager : MonoBehaviour
         SceneManager.LoadScene("TitleScene");
         AudioListener.pause = false; // Resume the music
         myCamera.GetComponent<Camera>().enabled = true;
-        myCamera.GetComponent<AudioSource>().enabled = true;
         audioSource.PlayOneShot(menuSound);
+        isPaused = false;
+        Time.timeScale = 1f;
     }
     public void RetryGame()
     {
         Time.timeScale = 1f; // Unpause the game
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
         audioSource.PlayOneShot(menuSound);
+        isPaused = false;
     }
 
 
