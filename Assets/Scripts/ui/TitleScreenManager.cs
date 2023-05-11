@@ -8,6 +8,8 @@ public class TitleScreenManager : MonoBehaviour
 
     public Button startButton;
     public GameObject mapSelect;
+    public TextMeshProUGUI tutorialText;
+    public Button tutorialButton;
     public AudioSource audioSource;
     public AudioClip selectSound;
     public AudioClip backSound;
@@ -19,14 +21,15 @@ public class TitleScreenManager : MonoBehaviour
 
     public void StartGame() // Goes to the map selection menu
     {
-        mapSelect.gameObject.SetActive(true);
-        startButton.gameObject.SetActive(false);
-        audioSource.PlayOneShot(selectSound);
+        mapSelect.gameObject.SetActive(true); //show map select screen
+        startButton.gameObject.SetActive(false); //hide start button
+        audioSource.PlayOneShot(selectSound); // play the select sound
+        tutorialButton.gameObject.SetActive(false); // hide the tutorial button
         
     }
     public void StartWarehouse() // starts the warehouse map
     {
-        SceneManager.LoadScene("Warehouse");
+        SceneManager.LoadScene("Warehouse"); 
         audioSource.PlayOneShot(selectSound);
     }
     public void StartCityDay() // starts the CityDay map
@@ -48,8 +51,18 @@ public class TitleScreenManager : MonoBehaviour
     public void BackToTitle()
     {
         mapSelect.gameObject.SetActive(false);
+        tutorialText.gameObject.SetActive(false);
         startButton.gameObject.SetActive(true);
         audioSource.PlayOneShot(backSound);
+        tutorialButton.gameObject.SetActive(true);
+    }
+
+    public void ShowTutorial()
+    {
+        tutorialText.gameObject.SetActive(true);
+        startButton.gameObject.SetActive(false);
+        audioSource.PlayOneShot(selectSound);
+        tutorialButton.gameObject.SetActive(false);
     }
 }
 
