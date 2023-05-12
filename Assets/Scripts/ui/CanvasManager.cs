@@ -48,12 +48,13 @@ public class CanvasManager : MonoBehaviour
         {
             PauseGame();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        // trigger slowmo
+        if (Input.GetKeyDown(KeyCode.Space)&& !isPaused)
         {
             Time.timeScale = 0.3f;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space)&& !isPaused)
         {
             Time.timeScale = 1;
         }
