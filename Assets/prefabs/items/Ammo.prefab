@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a2e52138f37b645a4a3592e1aaa06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemLifetime: 5
+  itemLifetime: 7
 --- !u!65 &8033764616833375603
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56,7 +56,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7795615421192100847}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 0.36306518, z: 1}
@@ -122,7 +122,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fb056e0c5de5bb2478a1c91df0ed5482, type: 2}
+  - {fileID: 2100000, guid: 5b3991683dd2f8241b58db4e39658222, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -187,7 +187,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.17748666, g: 1, b: 0, a: 1}
   m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 59

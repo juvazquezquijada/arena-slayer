@@ -48,6 +48,15 @@ public class CanvasManager : MonoBehaviour
         {
             PauseGame();
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Time.timeScale = 0.3f;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Time.timeScale = 1;
+        }
 
     }
 
@@ -153,14 +162,15 @@ public class CanvasManager : MonoBehaviour
         Cursor.visible = true;
         myCamera.GetComponent<Camera>().enabled = false;
         savedRotation = myCamera.transform.rotation;
-        audioSource.PlayOneShot(pauseSound);
+        Time.timeScale = 0f; // Pause the game
         if (!isPaused)
         {
             // Show pause menu
-            Time.timeScale = 0f; // Pause the game
+            
             isPaused = true;
             pauseMenuPanel.SetActive(true);
              musicAudioSource.Pause();
+            audioSource.PlayOneShot(pauseSound);
         }
         else
         {
@@ -171,7 +181,7 @@ public class CanvasManager : MonoBehaviour
             myCamera.GetComponent<Camera>().enabled = true;
             Cursor.visible = false;
             myCamera.transform.rotation = savedRotation;
-             musicAudioSource.UnPause();
+            musicAudioSource.UnPause();
         }
     }
     public void ResumeGame()

@@ -13,7 +13,7 @@ public class PlayerShooting : MonoBehaviour
     private float fireTimer = 0f;
     public Animator shotgunAnimator;
     private bool shotFired = false;
-    private int currentAmmo = 0;
+    private int currentAmmo = 25;
     public AudioClip ammoPickup;
     public AudioClip shootSound;
     public int maxAmmo = 25; 

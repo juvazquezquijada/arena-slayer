@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public float gravity = 9.81f;
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
-
     //Audio clips the player makes
     public AudioClip deathSound;
     public AudioClip healthPickup;
@@ -99,6 +98,7 @@ public class PlayerController : MonoBehaviour
         controller.Move(moveDirection * Time.deltaTime);
         }
         
+
     }
 
     
