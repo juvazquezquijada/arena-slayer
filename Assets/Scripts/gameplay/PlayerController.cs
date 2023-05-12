@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public float gravity = 9.81f;
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
-
     //Audio clips the player makes
     public AudioClip deathSound;
     public AudioClip healthPickup;
@@ -99,6 +98,7 @@ public class PlayerController : MonoBehaviour
         controller.Move(moveDirection * Time.deltaTime);
         }
         
+
     }
 
     
@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
     
     else if (other.gameObject.CompareTag("Fireball"))
     {
-        health -= 5;
+        health -= 6;
         if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
         Destroy(other.gameObject);
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
     }
     else if (other.gameObject.CompareTag("EnemyProjectile"))
     {
-        health -= 3;
+        health -= 7;
         if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
         audioSource.PlayOneShot(hurtSound);

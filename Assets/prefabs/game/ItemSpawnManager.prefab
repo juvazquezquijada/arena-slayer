@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4250685314978845791}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.239424, y: 3.9338884, z: -52.81169}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,5 +47,6 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 6360851394277091295, guid: d626b4869405baf45a7f630e91e7e02f, type: 3}
   ammoPickupPrefab: {fileID: 7795615421192100847, guid: 169a2d686b30d504a8d740cf6893d7b5, type: 3}
   spawnRange: 20
-  spawnInterval: 4
-  maxItemsOnScreen: 999
+  spawnInterval: 3
+  maxItemsOnScreen: 999999
+  spawnRangeY: 2

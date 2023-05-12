@@ -39,6 +39,8 @@ public class Camera : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
+       
     }
 
     void FixedUpdate()

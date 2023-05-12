@@ -13,7 +13,7 @@ public class PlayerShooting : MonoBehaviour
     private float fireTimer = 0f;
     public Animator shotgunAnimator;
     private bool shotFired = false;
-    private int currentAmmo = 0;
+    private int currentAmmo = 25;
     public AudioClip ammoPickup;
     public AudioClip shootSound;
     public int maxAmmo = 25; 
@@ -30,6 +30,12 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0f)
+        {
+            // Don't shoot the gun if the game is paused
+            return;
+        }
+
         //Shoot a bullet when the shoot button is pressed and ammo is more than 0 and the shooting cooldown is up 
         if (Input.GetButtonDown("Fire1") && fireTimer <= 0f && currentAmmo > 0 && isDead == false)
         {
