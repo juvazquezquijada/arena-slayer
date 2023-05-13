@@ -21,6 +21,7 @@ public class Demon : MonoBehaviour
     private bool playerDead = false;
     public ParticleSystem explosionParticle;
     private PlayerController playerHealth; // Reference to the player's health script
+   
 
     // Start is called before the first frame update
     void Start()
@@ -81,9 +82,8 @@ public class Demon : MonoBehaviour
 
         // Play death sound
         audioSource.PlayOneShot(deathSound);
-
-        // Disable the enemy's collider and renderer
-        
+        // tell the spawnManager script to subtract the current enemies present value by 1
+        SpawnManager.Instance.EnemyDied();
 
         // Apply a force to launch the enemy in the air
         Rigidbody rb = GetComponent<Rigidbody>();

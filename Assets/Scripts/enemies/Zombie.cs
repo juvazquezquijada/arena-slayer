@@ -15,6 +15,7 @@ public class Zombie : MonoBehaviour
     public bool isDead = false;
     public ParticleSystem explosionParticle;
     private PlayerController playerHealth; // Reference to the player's health script
+    private SpawnManager spawnManager;
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +74,8 @@ public class Zombie : MonoBehaviour
         // Disable the enemy's collider and renderer
         GetComponent<CapsuleCollider>().enabled = false;
         
+        // tell the spawnManager script to subtract the current enemies present value by 1
+        SpawnManager.Instance.EnemyDied();
 
         // Apply a force to launch the enemy in the air
         Rigidbody rb = GetComponent<Rigidbody>();

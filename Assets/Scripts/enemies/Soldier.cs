@@ -21,6 +21,7 @@ public class Soldier : MonoBehaviour
     public ParticleSystem explosionParticle;
     public AudioClip gunSound;
     private PlayerController playerHealth; // Reference to the player's health script
+    private SpawnManager spawnManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +76,9 @@ public class Soldier : MonoBehaviour
 
          // Play death sound
          audioSource.PlayOneShot(deathSound);
+
+         // tell the spawnManager script to subtract the current enemies present value by 1
+        SpawnManager.Instance.EnemyDied();
 
          // Disable the enemy's collider and renderer
          GetComponent<CapsuleCollider>().enabled = false;

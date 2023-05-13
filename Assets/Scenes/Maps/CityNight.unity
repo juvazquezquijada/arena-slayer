@@ -20,12 +20,12 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 2
   m_LinearFogEnd: 70
-  m_AmbientSkyColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+  m_AmbientSkyColor: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
-  m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
+  m_SubtractiveShadowColor: {r: 1, g: 1, b: 1, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: dfc83b6f3ea8b0c498879746af34add0, type: 2}
   m_HaloStrength: 0.689
   m_FlareStrength: 1
@@ -179,12 +179,16 @@ PrefabInstance:
       value: EnemySpawner
       objectReference: {fileID: 0}
     - target: {fileID: 5235031793298469190, guid: c73dc830f73f69c47974b5c14fda580c, type: 3}
-      propertyPath: maxSpawnInterval
+      propertyPath: maxEnemies
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5235031793298469190, guid: c73dc830f73f69c47974b5c14fda580c, type: 3}
-      propertyPath: minSpawnInterval
+      propertyPath: maxSpawnInterval
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5235031793298469190, guid: c73dc830f73f69c47974b5c14fda580c, type: 3}
+      propertyPath: minSpawnInterval
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5235031793298469191, guid: c73dc830f73f69c47974b5c14fda580c, type: 3}
       propertyPath: m_RootOrder
@@ -246,7 +250,7 @@ GameObject:
   - component: {fileID: 81535605}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -397,6 +401,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Traffic cone 1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
 --- !u!4 &96469210 stripped
@@ -471,6 +479,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Green small waste bin
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3f1f0227e9a42054db56e3e2b72651a1, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f1f0227e9a42054db56e3e2b72651a1, type: 3}
 --- !u!4 &106932485 stripped
@@ -544,6 +556,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
       propertyPath: m_Name
       value: Long barrier (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
@@ -663,7 +679,7 @@ GameObject:
   - component: {fileID: 159284107}
   m_Layer: 0
   m_Name: Road (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -757,7 +773,7 @@ GameObject:
   - component: {fileID: 197140646}
   m_Layer: 0
   m_Name: Barrier Items (5)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -860,6 +876,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
       propertyPath: m_Name
       value: Traffic cone 1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
@@ -969,6 +989,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Traffic cone 1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
 --- !u!4 &286820095 stripped
@@ -1031,6 +1055,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Speed breaker 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 16b6d60dc4d29d14f9d7067eadff99f0, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16b6d60dc4d29d14f9d7067eadff99f0, type: 3}
 --- !u!1001 &350961811
@@ -1090,7 +1118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4250685314978845785, guid: 889205858ffd01d45b5d1685982766ba, type: 3}
       propertyPath: maxItemsOnScreen
-      value: 10
+      value: 999
       objectReference: {fileID: 0}
     - target: {fileID: 4250685314978845791, guid: 889205858ffd01d45b5d1685982766ba, type: 3}
       propertyPath: m_Name
@@ -1112,7 +1140,7 @@ GameObject:
   - component: {fileID: 355896851}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1232,6 +1260,100 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1, z: 0.22}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &379548630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 379548631}
+  - component: {fileID: 379548632}
+  m_Layer: 0
+  m_Name: Spot Light (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &379548631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379548630}
+  m_LocalRotation: {x: -0.0037984545, y: 0.0018320677, z: 0.7072615, w: 0.7069395}
+  m_LocalPosition: {x: 0.5455919, y: 0.24190009, z: 1.434742}
+  m_LocalScale: {x: 0.10690702, y: 0.10943884, z: 0.039346363}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1534654240}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: -93.351, y: 0, z: 0}
+--- !u!108 &379548632
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379548630}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 0
+  m_Shape: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 201
+  m_SpotAngle: 72
+  m_InnerSpotAngle: 1
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 1
+    m_Resolution: 1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 1
+  m_Flare: {fileID: 0}
+  m_RenderMode: 1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &383965693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,6 +1593,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Traffic cone 1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
 --- !u!4 &413386346 stripped
@@ -1633,6 +1759,10 @@ PrefabInstance:
     - target: {fileID: 3294564219125457607, guid: 8a8f57edf3523624eb9f886833e8e97a, type: 3}
       propertyPath: m_Name
       value: Free Racing Car Red Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3294564219125457607, guid: 8a8f57edf3523624eb9f886833e8e97a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a8f57edf3523624eb9f886833e8e97a, type: 3}
@@ -6562,7 +6692,7 @@ GameObject:
   - component: {fileID: 517000367}
   m_Layer: 0
   m_Name: Barrier Items (3)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6791,6 +6921,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Traffic cone 1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
 --- !u!4 &564309670 stripped
@@ -6961,6 +7095,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 65faa96893e15434980e6a86726c1def, type: 3}
       propertyPath: m_Name
       value: Concrete barrier
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 65faa96893e15434980e6a86726c1def, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65faa96893e15434980e6a86726c1def, type: 3}
@@ -12112,6 +12250,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White barrier (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
 --- !u!4 &639769808 stripped
@@ -12185,6 +12327,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3f1f0227e9a42054db56e3e2b72651a1, type: 3}
       propertyPath: m_Name
       value: Green small waste bin
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3f1f0227e9a42054db56e3e2b72651a1, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f1f0227e9a42054db56e3e2b72651a1, type: 3}
@@ -12260,6 +12406,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Long barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
 --- !u!4 &708251663 stripped
@@ -12321,6 +12471,10 @@ PrefabInstance:
     - target: {fileID: 3311311803080157842, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_Name
       value: Free Racing Car (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3311311803080157842, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
@@ -17305,7 +17459,7 @@ GameObject:
   - component: {fileID: 788773648}
   m_Layer: 0
   m_Name: Road
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17454,6 +17608,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
       propertyPath: m_Name
       value: Long barrier (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
@@ -17708,6 +17866,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Interceptor
       objectReference: {fileID: 0}
+    - target: {fileID: 115512, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 437054, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -17821,6 +17983,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Traffic cone 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
 --- !u!4 &1022615851 stripped
@@ -17894,6 +18060,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
       propertyPath: m_Name
       value: White barrier (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
@@ -22782,6 +22952,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Long barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
 --- !u!4 &1101328537 stripped
@@ -22799,6 +22973,10 @@ PrefabInstance:
     - target: {fileID: 115512, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
       propertyPath: m_Name
       value: Interceptor (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 115512, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 437054, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
       propertyPath: m_RootOrder
@@ -22912,6 +23090,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 65faa96893e15434980e6a86726c1def, type: 3}
       propertyPath: m_Name
       value: Concrete barrier
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 65faa96893e15434980e6a86726c1def, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65faa96893e15434980e6a86726c1def, type: 3}
@@ -27839,6 +28021,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water barrel 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a9e6d76e901f38648ae0bb3e1834cc08, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9e6d76e901f38648ae0bb3e1834cc08, type: 3}
 --- !u!4 &1163568228 stripped
@@ -28107,6 +28293,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Free Racing Car (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3311311803080157842, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
 --- !u!4 &1198443430 stripped
@@ -28257,6 +28447,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Helicopter
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: ebfa405660e25c549bb7039f0b44f8ff, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: ebfa405660e25c549bb7039f0b44f8ff, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -28318,7 +28512,7 @@ GameObject:
   - component: {fileID: 1249367856}
   m_Layer: 0
   m_Name: Cars
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28410,6 +28604,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 69185b07ffbe52241b4cd90e8238dcaa, type: 3}
       propertyPath: m_Name
       value: Red barrier
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 69185b07ffbe52241b4cd90e8238dcaa, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69185b07ffbe52241b4cd90e8238dcaa, type: 3}
@@ -33298,6 +33496,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White barrier (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
 --- !u!4 &1332137040 stripped
@@ -33372,6 +33574,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue waste bin
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3f8efce555e3e2d4d929bad74b8308c1, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f8efce555e3e2d4d929bad74b8308c1, type: 3}
 --- !u!4 &1346613214 stripped
@@ -33445,6 +33651,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
       propertyPath: m_Name
       value: Traffic cone 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
@@ -33617,6 +33827,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Long barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
 --- !u!4 &1426111341 stripped
@@ -33635,7 +33849,7 @@ GameObject:
   - component: {fileID: 1435246327}
   m_Layer: 0
   m_Name: Barrier Items
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38636,6 +38850,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White barrier (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
 --- !u!4 &1442934898 stripped
@@ -38830,6 +39048,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Free Racing Car Purple Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6645616114513181105, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1858005172513079971, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 62010132604e8c94d96b4cb4fe6d3394, type: 3}
@@ -38848,6 +39070,10 @@ PrefabInstance:
     - target: {fileID: 1610265466720824, guid: 02e641040fb499c49a848e40f535164a, type: 3}
       propertyPath: m_Name
       value: Tocus
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610265466720824, guid: 02e641040fb499c49a848e40f535164a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 4013073016293618, guid: 02e641040fb499c49a848e40f535164a, type: 3}
       propertyPath: m_RootOrder
@@ -38974,6 +39200,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Traffic barrel
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: de69f0924a29f864291d2752f2c726d5, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de69f0924a29f864291d2752f2c726d5, type: 3}
 --- !u!4 &1518268110 stripped
@@ -39048,12 +39278,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: White barrier (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
 --- !u!4 &1518698080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
   m_PrefabInstance: {fileID: 1518698079}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1534654240 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5882143588054718487, guid: 4eeeafb8743fa0d47bb4b3ce0295e08c, type: 3}
+  m_PrefabInstance: {fileID: 1682356256}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1543217487
 PrefabInstance:
@@ -39121,6 +39360,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 65faa96893e15434980e6a86726c1def, type: 3}
       propertyPath: m_Name
       value: Concrete barrier
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 65faa96893e15434980e6a86726c1def, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65faa96893e15434980e6a86726c1def, type: 3}
@@ -39195,6 +39438,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3f8efce555e3e2d4d929bad74b8308c1, type: 3}
       propertyPath: m_Name
       value: Blue waste bin
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3f8efce555e3e2d4d929bad74b8308c1, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f8efce555e3e2d4d929bad74b8308c1, type: 3}
@@ -44083,6 +44330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Traffic cone 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff2fbbfc1f1bdb24f9e0e4d41f558322, type: 3}
 --- !u!4 &1559334906 stripped
@@ -44157,6 +44408,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Long barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
 --- !u!4 &1567196106 stripped
@@ -44179,6 +44434,10 @@ PrefabInstance:
       propertyPath: myCamera
       value: 
       objectReference: {fileID: 206039356}
+    - target: {fileID: 926600218774644115, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 926600218774644117, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -44263,10 +44522,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 926600219216345123, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 926600219216345123, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 926600219216345123, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 926600219216345123, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 3288334335
+      objectReference: {fileID: 0}
+    - target: {fileID: 926600219352541057, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 926600219352541057, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 926600219352541057, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 926600219352541057, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 2382364671
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541956205940059480, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6541956205940059480, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 0233b18c8282cc741be4fff46894e6ec, type: 3}
+      objectReference: {fileID: 8300000, guid: b46886855033960408c92c4d4f6e9cae, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
 --- !u!1001 &1591007928
@@ -44323,6 +44618,10 @@ PrefabInstance:
     - target: {fileID: 3311311803080157842, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_Name
       value: Free Racing Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 3311311803080157842, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7495443279060062592, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
@@ -44634,6 +44933,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car1
       objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: 9ea2ea91c8ce9fa41abab502c21dce33, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 9ea2ea91c8ce9fa41abab502c21dce33, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -44858,6 +45161,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
 --- !u!4 &1700143659 stripped
@@ -44875,6 +45182,10 @@ PrefabInstance:
     - target: {fileID: 1093240827259402, guid: 1d7e0b0537d43b74280f8da8894072f1, type: 3}
       propertyPath: m_Name
       value: toilet_
+      objectReference: {fileID: 0}
+    - target: {fileID: 1093240827259402, guid: 1d7e0b0537d43b74280f8da8894072f1, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 4012727082828120, guid: 1d7e0b0537d43b74280f8da8894072f1, type: 3}
       propertyPath: m_RootOrder
@@ -45000,6 +45311,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
       propertyPath: m_Name
       value: White barrier
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
@@ -45269,6 +45584,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White barrier (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
 --- !u!4 &1841043498 stripped
@@ -45342,6 +45661,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: de69f0924a29f864291d2752f2c726d5, type: 3}
       propertyPath: m_Name
       value: Traffic barrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: de69f0924a29f864291d2752f2c726d5, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de69f0924a29f864291d2752f2c726d5, type: 3}
@@ -45457,6 +45780,10 @@ PrefabInstance:
     - target: {fileID: 100006, guid: ebfa405660e25c549bb7039f0b44f8ff, type: 3}
       propertyPath: m_Name
       value: Helicopter (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: ebfa405660e25c549bb7039f0b44f8ff, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: ebfa405660e25c549bb7039f0b44f8ff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -45598,7 +45925,7 @@ GameObject:
   - component: {fileID: 1910837504}
   m_Layer: 0
   m_Name: default (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50548,6 +50875,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White barrier
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4237319dc504b8d42abc47b25e25f29a, type: 3}
 --- !u!4 &1919815923 stripped
@@ -50562,9 +50893,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 104636, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 111398, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 115512, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
       propertyPath: m_Name
       value: Interceptor (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 115512, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 126268, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 139396, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 437054, guid: 7be733fca5977484eab72a8eca73b1b2, type: 3}
       propertyPath: m_RootOrder
@@ -50625,7 +50976,7 @@ GameObject:
   - component: {fileID: 1993818853}
   m_Layer: 0
   m_Name: default (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50709,7 +51060,7 @@ GameObject:
   - component: {fileID: 1996116210}
   m_Layer: 0
   m_Name: Sign
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55619,7 +55970,7 @@ GameObject:
   - component: {fileID: 2020887189}
   m_Layer: 0
   m_Name: Road (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55866,6 +56217,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water barrel 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a9e6d76e901f38648ae0bb3e1834cc08, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9e6d76e901f38648ae0bb3e1834cc08, type: 3}
 --- !u!4 &2065551739 stripped
@@ -55983,7 +56338,7 @@ GameObject:
   - component: {fileID: 2093453758}
   m_Layer: 0
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56158,7 +56513,7 @@ GameObject:
   - component: {fileID: 2126418222}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56359,6 +56714,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
       propertyPath: m_Name
       value: Long barrier (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d17a4b60c4ca1444392e5efd148745b3, type: 3}
