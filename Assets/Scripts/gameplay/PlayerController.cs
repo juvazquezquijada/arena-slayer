@@ -1,4 +1,4 @@
-susing System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -124,7 +124,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player is Dead!");
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<CharacterController>().enabled = false;
-            GetComponent<PlayerShooting>().isDead = true;
+            GetComponent<Shotgun>().isDead = true;
+            GetComponent<PlasmaGun>().isDead = true;
             rb.velocity = Vector3.zero; // stop player movement
             rb.angularVelocity = Vector3.zero;
             
