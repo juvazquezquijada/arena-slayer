@@ -16,6 +16,9 @@ public class Zombie : MonoBehaviour
     public ParticleSystem explosionParticle;
     private PlayerController playerHealth; // Reference to the player's health script
     private SpawnManager spawnManager;
+    public int health = 6;
+     private bool hasDied = false;
+     public AudioClip hurtSound;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +52,11 @@ public class Zombie : MonoBehaviour
             playerDead = true;
             return;
         }
+
+         if (health <=0)
+        {
+            Die();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -66,6 +74,9 @@ public class Zombie : MonoBehaviour
 
     public void Die()
     {
+        if (hasDied) return;
+         hasDied = true;
+
         isDead = true;
 
         // Play death sound
@@ -84,8 +95,23 @@ public class Zombie : MonoBehaviour
         rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
         // Destroy the enemy after a delay
+        CanvasManager.Instance.UpdateScore(4);
         Destroy(gameObject, destroyTime);
          
+    }
+
+     public void TakeDamage()
+    {   
+        health -= 6;
+        audioSource.PlayOneShot(hurtSound);
+    }
+    public void TakeDamagePlasma()
+    {
+        if (health > 4) // Only play sound if the enemy is still alive
+        {
+            audioSource.PlayOneShot(hurtSound);
+        }
+            health-= 4;
     }
 
     public void PlayerDied()

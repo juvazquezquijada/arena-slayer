@@ -19,7 +19,9 @@ public class Demon : MonoBehaviour
     private AudioSource audioSource; // Reference to the AudioSource component
     public AudioClip hurtSound;
     private bool playerDead = false;
+    private bool hasDied = false;
     public ParticleSystem explosionParticle;
+    public int health = 12;
     private PlayerController playerHealth; // Reference to the player's health script
    
 
@@ -34,6 +36,8 @@ public class Demon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+
         if (isDead) return; // Don't do anything if the enemy is dead
         if (playerDead) 
         {
@@ -59,6 +63,11 @@ public class Demon : MonoBehaviour
             fireball.transform.rotation = Quaternion.identity;
             fireball.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * fireballSpeed;
         }
+        
+        if (health <=0)
+        {
+            Die();
+        }
     }
     
 
@@ -66,25 +75,20 @@ public class Demon : MonoBehaviour
     {
         if (isDead) return; // Don't do anything if the enemy is dead
         if (playerDead) return; //Don't do anything if the player is dead     
-
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            Die();
-            GetComponent<CapsuleCollider>().enabled = false;
-            
-        }
     }
 
     public void Die()
     {
-        
+        if (hasDied) return;
+         hasDied = true;
+
         isDead = true;
 
         // Play death sound
         audioSource.PlayOneShot(deathSound);
         // tell the spawnManager script to subtract the current enemies present value by 1
         SpawnManager.Instance.EnemyDied();
-
+        GetComponent<CapsuleCollider>().enabled = false;
         // Apply a force to launch the enemy in the air
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
@@ -94,8 +98,25 @@ public class Demon : MonoBehaviour
 
         // Destroy the enemy after a delay
         Destroy(gameObject, destroyTime);
+
+        CanvasManager.Instance.UpdateScore(10);
     }
 
+    public void TakeDamage()
+    {   
+        health -= 6;
+        audioSource.PlayOneShot(hurtSound);
+    }
+    public void TakeDamagePlasma()
+    {
+        if (health > 4) // Only play sound if the enemy is still alive
+        {
+            audioSource.PlayOneShot(hurtSound);
+        }
+            health-= 4;
+    }
+       
+    
     public void PlayerDied()
     {
         playerDead = true;

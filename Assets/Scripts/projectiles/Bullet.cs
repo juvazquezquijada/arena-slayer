@@ -16,19 +16,19 @@ public class Bullet : MonoBehaviour
             Demon enemy = other.gameObject.GetComponent<Demon>();
             GetComponent<SphereCollider>().enabled = false;
             
-               enemy.Die();
-               CanvasManager.Instance.UpdateScore(10);
+               enemy.TakeDamage();
+               
             
 
             // Destroy bullet
-            
+            Destroy(gameObject);
         }
         else if (other.gameObject.CompareTag("Zombie"))
         {
             // Deal damage to enemy
             Zombie enemy = other.gameObject.GetComponent<Zombie>();
             
-                enemy.Die();
+                
                 CanvasManager.Instance.UpdateScore(10);
             GetComponent<SphereCollider>().enabled = false;
 
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
         {
             // Deal damage to enemy
             Soldier enemy = other.gameObject.GetComponent<Soldier>();
-            enemy.Die();
+            
             CanvasManager.Instance.UpdateScore(10);
             GetComponent<SphereCollider>().enabled = false;
 

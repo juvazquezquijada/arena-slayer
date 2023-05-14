@@ -20,6 +20,9 @@ public class Soldier : MonoBehaviour
     public float lastBulletTime = 0;
     public ParticleSystem explosionParticle;
     public AudioClip gunSound;
+    public AudioClip hurtSound;
+    private bool hasDied = false;
+    public int health = 20;
     private PlayerController playerHealth; // Reference to the player's health script
     private SpawnManager spawnManager;
     // Start is called before the first frame update
@@ -55,6 +58,11 @@ public class Soldier : MonoBehaviour
             Bullet.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * bulletSpeed;
             audioSource.PlayOneShot(gunSound);
         }
+
+         if (health <=0)
+        {
+            Die();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -62,16 +70,14 @@ public class Soldier : MonoBehaviour
     if (isDead) return; // Don't do anything if the enemy is dead
     if (playerDead) return; //Don't do anything if the player is dead     
 
-    if (other.gameObject.CompareTag("Bullet"))
-    {
-        // Die
-        Die();
-         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-    }
+    
 }
 
     public void Die()
     {
+        if (hasDied) return;
+         hasDied = true;
+
          isDead = true;
 
          // Play death sound
@@ -89,10 +95,25 @@ public class Soldier : MonoBehaviour
         Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
         rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-        
+        CanvasManager.Instance.UpdateScore(15);
           // Destroy the enemy after a delay
           Destroy(gameObject, destroyTime);
     }
+
+    public void TakeDamage()
+    {   
+        health -= 10;
+        audioSource.PlayOneShot(hurtSound);
+    }
+    public void TakeDamagePlasma()
+    {
+        if (health > 4) // Only play sound if the enemy is still alive
+        {
+            audioSource.PlayOneShot(hurtSound);
+        }
+            health-= 4;
+    }
+
     public void PlayerDied()
     {
         playerDead = true;

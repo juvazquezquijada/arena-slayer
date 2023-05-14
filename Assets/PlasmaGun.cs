@@ -13,10 +13,10 @@ public class PlasmaGun : MonoBehaviour
     private float fireTimer = 0f;
     public Animator shotgunAnimator;
     private bool shotFired = false;
-    private int currentAmmo = 75;
+    public int currentAmmo = 40;
     public AudioClip ammoPickup;
     public AudioClip shootSound;
-    public int maxAmmo = 75; 
+    public int maxAmmo = 40; 
     public bool isDead = false;
     private AudioSource audioSource;
     // Start is called before the first frame update
