@@ -28,12 +28,18 @@ public class CanvasManager : MonoBehaviour
     public GameObject pauseMenuPanel;
     private bool isPaused;
     private Quaternion savedRotation;
+    private GameObject player;
+
+
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
           gameActive = true;
           pauseMenuPanel.SetActive(false);
-        isPaused = false;    
+        isPaused = false;
+        player = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     void Update()
@@ -104,6 +110,15 @@ public class CanvasManager : MonoBehaviour
         if (ammo != null)
         {
             ammo.text = ammoValue.ToString();
+            UpdateAmmoText();
+        }
+    }
+    private void UpdateAmmoText()
+    {
+        if (ammo.text == "25" && player.GetComponent<PlasmaGun>().enabled)
+        {
+            int plasmaGunAmmo = player.GetComponent<PlasmaGun>().GetCurrentAmmo();
+            ammo.text = plasmaGunAmmo.ToString();
         }
     }
 

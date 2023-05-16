@@ -13,19 +13,76 @@ public class TitleScreenManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip selectSound;
     public AudioClip backSound;
-    
+
+    private bool usingController = false;
+    private Selectable currentSelection;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void StartGame() // Goes to the map selection menu
+    void Update()
     {
-        mapSelect.gameObject.SetActive(true); //show map select screen
-        startButton.gameObject.SetActive(false); //hide start button
-        audioSource.PlayOneShot(selectSound); // play the select sound
-        tutorialButton.gameObject.SetActive(false); // hide the tutorial button
-        
+        if (Input.GetAxis("Horizontal") != 0 && !usingController)
+        {
+            // Switch to controller input if horizontal axis is detected
+            usingController = true;
+            currentSelection = startButton;
+            currentSelection.Select();
+        }
+
+        if (usingController)
+        {
+            // Move the current selection using controller input
+            if (Input.GetAxis("Horizontal") > 0)
+            {
+                currentSelection.FindSelectableOnRight().Select();
+                currentSelection = currentSelection.FindSelectableOnRight();
+            }
+            else if (Input.GetAxis("Horizontal") < 0)
+            {
+                currentSelection.FindSelectableOnLeft().Select();
+                currentSelection = currentSelection.FindSelectableOnLeft();
+            }
+
+            if (Input.GetAxis("Vertical") > 0)
+            {
+                currentSelection.FindSelectableOnUp().Select();
+                currentSelection = currentSelection.FindSelectableOnUp();
+            }
+            else if (Input.GetAxis("Vertical") < 0)
+            {
+                currentSelection.FindSelectableOnDown().Select();
+                currentSelection = currentSelection.FindSelectableOnDown();
+            }
+
+            // Trigger button action if "A" button is pressed
+            if (Input.GetButtonDown("Submit"))
+            {
+                currentSelection.GetComponent<Button>().onClick.Invoke();
+            }
+        }
+    }
+
+    public void StartGame()
+    {
+        mapSelect.gameObject.SetActive(true);
+        startButton.gameObject.SetActive(false);
+        audioSource.PlayOneShot(selectSound);
+        tutorialButton.gameObject.SetActive(false);
+        currentSelection = mapSelect.GetComponentInChildren<Button>();
+        currentSelection.Select();
+    }
+
+    
+
+
+
+
+    public void StartMultiplayer()
+    {
+        SceneManager.LoadScene("MPMenu");
     }
     public void StartWarehouse() // starts the warehouse map
     {

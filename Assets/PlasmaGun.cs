@@ -16,7 +16,7 @@ public class PlasmaGun : MonoBehaviour
     public int currentAmmo = 40;
     public AudioClip ammoPickup;
     public AudioClip shootSound;
-    public int maxAmmo = 40; 
+    public int maxAmmo = 75; 
     public bool isDead = false;
     private AudioSource audioSource;
     // Start is called before the first frame update
@@ -116,8 +116,8 @@ public class PlasmaGun : MonoBehaviour
         {
          if (other.gameObject.CompareTag("Ammo"))
          {
-        currentAmmo += 7;
-        if (currentAmmo > 75) currentAmmo = 75;
+        currentAmmo += 25;
+        if (currentAmmo > maxAmmo) currentAmmo = maxAmmo;
         CanvasManager.Instance.UpdateAmmo(currentAmmo);
         Destroy(other.gameObject);
         audioSource.PlayOneShot(ammoPickup);
@@ -130,5 +130,11 @@ public class PlasmaGun : MonoBehaviour
         Destroy(other.gameObject);
         }
     }
+    public int GetCurrentAmmo()
+    {
+        // Return the current ammo count for the plasma gun
+        return currentAmmo;
+    }
+
 }
 

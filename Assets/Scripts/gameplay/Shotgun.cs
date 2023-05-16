@@ -114,8 +114,8 @@ public class Shotgun : MonoBehaviour
         {
          if (other.gameObject.CompareTag("Ammo"))
          {
-        currentAmmo += 7;
-        if (currentAmmo > 25) currentAmmo = 25;
+        currentAmmo += 5;
+        if (currentAmmo > maxAmmo) currentAmmo = maxAmmo;
         CanvasManager.Instance.UpdateAmmo(currentAmmo);
         Destroy(other.gameObject);
         audioSource.PlayOneShot(ammoPickup);
@@ -128,4 +128,10 @@ public class Shotgun : MonoBehaviour
         Destroy(other.gameObject);
         }
     }
+    public int GetCurrentAmmo()
+    {
+        // Return the current ammo count for the shotgun
+        return currentAmmo;
+    }
+
 }
