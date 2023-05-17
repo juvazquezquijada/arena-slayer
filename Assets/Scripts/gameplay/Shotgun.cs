@@ -37,33 +37,9 @@ public class Shotgun : MonoBehaviour
         }
 
         //Shoot a bullet when the shoot button is pressed and ammo is more than 0 and the shooting cooldown is up 
-        if (Input.GetButtonDown("Fire1") && fireTimer <= 0f && currentAmmo > 0 && isDead == false)
+        if ((Input.GetButton("Fire1") || Mathf.Abs(Input.GetAxis("JoystickAxis10")) > 0.5f) && fireTimer <= 0f && currentAmmo > 0 && !isDead)
         {
-            PlayShootAnimations();
-
-            //Play shooting sound
-            audioSource.PlayOneShot(shootSound);
-
-            //Spawn bullet at gun barrel
-            GameObject bullet = Instantiate(bulletPrefab, gunBarrel.position, gunBarrel.rotation);
-
-            //Add velocity to the bullet
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            rb.velocity = transform.forward * bulletSpeed;
-
-            //Destroy bullet after 2 seconds
-            Destroy(bullet, bulletLifetime);
-
-            //Decrease the ammo stat
-            currentAmmo--;
-
-            //Update the ammo stat
-            CanvasManager.Instance.UpdateAmmo(currentAmmo);
-            
-            //Reset the fire cooldown
-            fireTimer = fireRate;
-
-            
+            Shoot();
         }
         // controls the ammo indicators
         if (currentAmmo < 1)
@@ -132,6 +108,35 @@ public class Shotgun : MonoBehaviour
     {
         // Return the current ammo count for the shotgun
         return currentAmmo;
+    }
+
+    public void Shoot()
+    {
+        PlayShootAnimations();
+
+            //Play shooting sound
+            audioSource.PlayOneShot(shootSound);
+
+            //Spawn bullet at gun barrel
+            GameObject bullet = Instantiate(bulletPrefab, gunBarrel.position, gunBarrel.rotation);
+
+            //Add velocity to the bullet
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.velocity = transform.forward * bulletSpeed;
+
+            //Destroy bullet after 2 seconds
+            Destroy(bullet, bulletLifetime);
+
+            //Decrease the ammo stat
+            currentAmmo--;
+
+            //Update the ammo stat
+            CanvasManager.Instance.UpdateAmmo(currentAmmo);
+            
+            //Reset the fire cooldown
+            fireTimer = fireRate;
+
+            
     }
 
 }

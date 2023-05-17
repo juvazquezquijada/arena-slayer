@@ -24,27 +24,24 @@ public class WeaponManager : MonoBehaviour
 
     void Update()
     {
-       if (Input.GetKeyDown(KeyCode.Alpha1) && !hasPrimary ||
-    Input.GetKeyDown(KeyCode.Joystick1Button4) && !hasPrimary) // Switch to primary weapon
-    {
-        SwitchToPrimaryWeapon();
-    }
-    else if (Input.GetKeyDown(KeyCode.Alpha2) && !hasSecondary ||
-         Input.GetKeyDown(KeyCode.Joystick1Button5) && !hasSecondary) // Switch to secondary weapon
-    {
-        SwitchToSecondaryWeapon();
-    }
-    else if (Input.GetAxis("Mouse ScrollWheel") > 0f ||
-         Input.GetAxis("Joystick1Axis2") > 0f) // Scroll up to switch to primary weapon
-    {
-        SwitchToPrimaryWeapon();
-    }
-    else if (Input.GetAxis("Mouse ScrollWheel") < 0f ||
-         Input.GetAxis("Joystick1Axis2") < 0f) // Scroll down to switch to secondary weapon
-    {
-        SwitchToSecondaryWeapon();
-    }
-
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !hasPrimary  && Time.timeScale > 0.5 ||// or 
+        Input.GetKeyDown(KeyCode.Joystick1Button4) && !hasPrimary && Time.timeScale > 0.5 ) // Switch to primary weapon
+        {
+            SwitchToPrimaryWeapon();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && !hasSecondary && Time.timeScale > 0.5 || // or
+                 Input.GetKeyDown(KeyCode.Joystick1Button5) && !hasSecondary && Time.timeScale > 0.5) // Switch to secondary weapon
+        {
+            SwitchToSecondaryWeapon();
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            SwitchToPrimaryWeapon();
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            SwitchToSecondaryWeapon();
+        }
     }
 
     public void SwitchToPrimaryWeapon()
@@ -57,9 +54,7 @@ public class WeaponManager : MonoBehaviour
             hasSecondary = false;
         int primaryAmmoValue = primaryWeapon.GetCurrentAmmo();
         canvasManager.UpdateAmmo(primaryAmmoValue);
-
-
-
+        Debug.Log("Switched to Primary Weapon");
     }
 
     public void SwitchToSecondaryWeapon()
@@ -72,7 +67,7 @@ public class WeaponManager : MonoBehaviour
             hasSecondary = true;
         int secondaryAmmoValue = secondaryWeapon.GetCurrentAmmo();
         canvasManager.UpdateAmmo(secondaryAmmoValue);
-
+        Debug.Log ("Switched to Secondary Weapon");
     }
 
 

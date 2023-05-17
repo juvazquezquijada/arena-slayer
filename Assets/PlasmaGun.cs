@@ -19,6 +19,7 @@ public class PlasmaGun : MonoBehaviour
     public int maxAmmo = 75; 
     public bool isDead = false;
     private AudioSource audioSource;
+    public int lowAmmoThreshhold = 25;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,45 +38,22 @@ public class PlasmaGun : MonoBehaviour
         }
 
         //Shoot a bullet when the shoot button is pressed and ammo is more than 0 and the shooting cooldown is up 
-        if (Input.GetButton("Fire1") && fireTimer <= 0f && currentAmmo > 0 && isDead == false)
+        if ((Input.GetButton("Fire1") || Mathf.Abs(Input.GetAxis("JoystickAxis10")) > 0.5f) && fireTimer <= 0f && currentAmmo > 0 && !isDead)
         {
-        PlayShootAnimations();
-
-        //Play shooting sound
-        audioSource.PlayOneShot(shootSound);
-
-        //Spawn bullet at gun barrel
-        GameObject bullet = Instantiate(bulletPrefab, gunBarrel.position, Quaternion.identity);
-
-        //Set the bullet's rotation to be the same as the player's rotation
-        bullet.transform.rotation = transform.rotation;
-
-        //Add velocity to the bullet
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * bulletSpeed;
-
-        //Destroy bullet after 2 seconds
-        Destroy(bullet, bulletLifetime);
-
-        //Decrease the ammo stat
-        currentAmmo--;
-
-        //Update the ammo stat
-        CanvasManager.Instance.UpdateAmmo(currentAmmo);
-
-        //Reset the fire cooldown
-        fireTimer = fireRate;
+            Shoot();
         }
+        
+        
         // controls the ammo indicators
         if (currentAmmo < 1)
             {
                 CanvasManager.Instance.OutOfAmmo();
             }
-        else if (currentAmmo < 5)
+        else if (currentAmmo < lowAmmoThreshhold)
             {
                 CanvasManager.Instance.LowAmmo();
             }
-        else if (currentAmmo > 5)
+        else if (currentAmmo > lowAmmoThreshhold)
         {
             CanvasManager.Instance.HasAmmo();
         }
@@ -114,7 +92,7 @@ public class PlasmaGun : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
         {
-         if (other.gameObject.CompareTag("Ammo"))
+         if (other.CompareTag("Ammo"))
          {
         currentAmmo += 25;
         if (currentAmmo > maxAmmo) currentAmmo = maxAmmo;
@@ -123,7 +101,7 @@ public class PlasmaGun : MonoBehaviour
         audioSource.PlayOneShot(ammoPickup);
         } 
         
-        else if (other.gameObject.CompareTag("Bullet"))
+        else if (other.CompareTag("Bullet"))
         {
         currentAmmo = maxAmmo;
         UpdateAmmo();
@@ -134,6 +112,38 @@ public class PlasmaGun : MonoBehaviour
     {
         // Return the current ammo count for the plasma gun
         return currentAmmo;
+    }
+
+    public void Shoot()
+    {   
+        
+        PlayShootAnimations();
+
+        //Play shooting sound
+        audioSource.PlayOneShot(shootSound);
+
+        //Spawn bullet at gun barrel
+        GameObject bullet = Instantiate(bulletPrefab, gunBarrel.position, Quaternion.identity);
+
+        //Set the bullet's rotation to be the same as the player's rotation
+        bullet.transform.rotation = transform.rotation;
+
+        //Add velocity to the bullet
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        rb.velocity = transform.forward * bulletSpeed;
+
+        //Destroy bullet after 2 seconds
+        Destroy(bullet, bulletLifetime);
+
+        //Decrease the ammo stat
+        currentAmmo--;
+
+        //Update the ammo stat
+        CanvasManager.Instance.UpdateAmmo(currentAmmo);
+
+        //Reset the fire cooldown
+        fireTimer = fireRate;
+        
     }
 
 }

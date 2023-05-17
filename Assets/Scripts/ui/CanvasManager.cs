@@ -45,12 +45,13 @@ public class CanvasManager : MonoBehaviour
     void Update()
     {
         // show or hide tutorial text based on T key press
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T)|| Input.GetKeyDown(KeyCode.Joystick1Button3))
         {
             tutorialText.gameObject.SetActive(true);
         }
         // show pause menu when escape key is pressed
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)|| 
+        Input.GetKeyDown(KeyCode.Joystick1Button7))
         {
             PauseGame();
         }
