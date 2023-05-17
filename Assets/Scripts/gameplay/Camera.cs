@@ -45,25 +45,25 @@ public class Camera : MonoBehaviour
 
     void FixedUpdate()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X");
-        float mouseY = -Input.GetAxisRaw("Mouse Y");
+        float mouseX = Input.GetAxis("Mouse X");
+        float joystickX = Input.GetAxis("JoystickAxis4");
+        
 
         if (Input.GetKeyDown(KeyCode.V))
         {
-            if (currentTransform == firstPersonTransform)
-            {
-                currentTransform = thirdPersonTransform;
-            }
-            else
-            {
-                currentTransform = firstPersonTransform;
-            }
+            SwitchPOV();
         }
+        else if (Input.GetKeyDown(KeyCode.Joystick1Button9))
+        {
+            SwitchPOV();
+        }
+        
 
-        rotY += mouseX * sensitivity * Time.deltaTime;
-        rotX += mouseY * sensitivity * Time.deltaTime;
+        rotY += mouseX * sensitivity * Time.fixedDeltaTime;
+        rotY += joystickX * sensitivity * Time.fixedDeltaTime;
 
         rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         desiredRotation = localRotation;
@@ -75,5 +75,17 @@ public class Camera : MonoBehaviour
 
         // Smoothly interpolate between the current rotation and the desired rotation
         transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, smoothness);
+    }
+
+    public void SwitchPOV()
+    {
+        if (currentTransform == firstPersonTransform)
+            {
+                currentTransform = thirdPersonTransform;
+            }
+            else
+            {
+                currentTransform = firstPersonTransform;
+            }
     }
 }
