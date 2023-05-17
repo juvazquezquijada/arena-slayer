@@ -44266,7 +44266,7 @@ PrefabInstance:
     - target: {fileID: 926600218774644114, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
       propertyPath: myCamera
       value: 
-      objectReference: {fileID: 1682356257}
+      objectReference: {fileID: 0}
     - target: {fileID: 926600218774644114, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
       propertyPath: audioSource
       value: 
@@ -44813,6 +44813,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1457612115183872496, guid: 4eeeafb8743fa0d47bb4b3ce0295e08c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457612115183872496, guid: 4eeeafb8743fa0d47bb4b3ce0295e08c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 2401276787648865956, guid: 4eeeafb8743fa0d47bb4b3ce0295e08c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -44896,11 +44904,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5882143588091735796, guid: 4eeeafb8743fa0d47bb4b3ce0295e08c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4eeeafb8743fa0d47bb4b3ce0295e08c, type: 3}
---- !u!20 &1682356257 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5488059839447535172, guid: 4eeeafb8743fa0d47bb4b3ce0295e08c, type: 3}
-  m_PrefabInstance: {fileID: 1682356256}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1700143658
 PrefabInstance:
   m_ObjectHideFlags: 0
