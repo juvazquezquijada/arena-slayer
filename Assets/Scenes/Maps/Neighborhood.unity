@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -143,7 +143,7 @@ AudioSource:
   m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 6dc8fe74cf1860e4a87ffc7a3e390898, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -343,6 +343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: building_X_prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1516307884609076, guid: 1c6290f76fd11c74fa326bdf8cd95a9f, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 4604579876288746, guid: 1c6290f76fd11c74fa326bdf8cd95a9f, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -411,6 +415,10 @@ PrefabInstance:
     - target: {fileID: 1441186220738132, guid: 150fadf88f51c2b4b9b7b62af8d39db9, type: 3}
       propertyPath: m_Name
       value: Building_u_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441186220738132, guid: 150fadf88f51c2b4b9b7b62af8d39db9, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 4918624855548432, guid: 150fadf88f51c2b4b9b7b62af8d39db9, type: 3}
       propertyPath: m_RootOrder
@@ -714,7 +722,7 @@ GameObject:
   - component: {fileID: 843659322}
   m_Layer: 0
   m_Name: Neighborhood
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -849,6 +857,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gas_station_A_PREFAB
       objectReference: {fileID: 0}
+    - target: {fileID: 1505934643987248, guid: 01bbe20c855564648b02e0092e511cac, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 4888449184639514, guid: 01bbe20c855564648b02e0092e511cac, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -916,7 +928,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 108692860020666210, guid: 3fe63ae892f81c8408044102dd4010b7, type: 3}
       propertyPath: health
-      value: 750
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 108692860020666210, guid: 3fe63ae892f81c8408044102dd4010b7, type: 3}
       propertyPath: player
@@ -931,6 +943,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 108692860020666210, guid: 3fe63ae892f81c8408044102dd4010b7, type: 3}
+      propertyPath: rocketSpeed
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 108692860020666210, guid: 3fe63ae892f81c8408044102dd4010b7, type: 3}
       propertyPath: firstMusicSource
       value: 
       objectReference: {fileID: 8029890}
@@ -938,6 +954,10 @@ PrefabInstance:
       propertyPath: secondMusicSource
       value: 
       objectReference: {fileID: 8029899}
+    - target: {fileID: 108692860020666210, guid: 3fe63ae892f81c8408044102dd4010b7, type: 3}
+      propertyPath: secondPhaseThreshold
+      value: 450
+      objectReference: {fileID: 0}
     - target: {fileID: 1850972521326234240, guid: 3fe63ae892f81c8408044102dd4010b7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1066,6 +1086,10 @@ PrefabInstance:
     - target: {fileID: 1970175596446060, guid: 984e7c3587655ac489a642619bb3ef24, type: 3}
       propertyPath: m_Name
       value: Building_Q_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970175596446060, guid: 984e7c3587655ac489a642619bb3ef24, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 4499188917296862, guid: 984e7c3587655ac489a642619bb3ef24, type: 3}
       propertyPath: m_RootOrder
@@ -1346,7 +1370,7 @@ PrefabInstance:
     - target: {fileID: 6541956205940059480, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 7507576d113fba74e91c7ae53c6f7745, type: 3}
+      objectReference: {fileID: 8300000, guid: 650dc4946be3c0443b78d9553a4fda24, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 950b8f96c60ed8d45bed086fbde1d5a7, type: 3}
 --- !u!4 &2051619315 stripped
@@ -1364,6 +1388,10 @@ PrefabInstance:
     - target: {fileID: 1681277682126416, guid: bbad862e7e06efe4a8ad0346a53e3cde, type: 3}
       propertyPath: m_Name
       value: Building_N_Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681277682126416, guid: bbad862e7e06efe4a8ad0346a53e3cde, type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 4828993989590112, guid: bbad862e7e06efe4a8ad0346a53e3cde, type: 3}
       propertyPath: m_RootOrder

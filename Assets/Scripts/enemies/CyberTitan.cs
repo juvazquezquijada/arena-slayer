@@ -23,6 +23,7 @@ public class CyberTitan : MonoBehaviour
     private PlayerController playerHealth;
     private bool hasPlayedDeathSound = false;
     public AudioClip shootSound;
+    public float secondPhaseThreshold = 450f;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +49,7 @@ public class CyberTitan : MonoBehaviour
             }
         }
 
-        if (health <= 250f)
+        if (health <= secondPhaseThreshold)
         {
             SecondPhase();
         }

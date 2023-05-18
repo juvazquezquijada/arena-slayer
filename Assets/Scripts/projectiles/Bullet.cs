@@ -46,7 +46,18 @@ public class Bullet : MonoBehaviour
             // Destroy bullet
             Destroy(gameObject);
         }
-        
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            // Deal damage to enemy
+            CyberTitan enemy = other.gameObject.GetComponent<CyberTitan>();
+
+            
+            GetComponent<SphereCollider>().enabled = false;
+            enemy.TakeDamage();
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+
         else if (other.gameObject.CompareTag("Wall"))
         {
             // Destroy bullet
