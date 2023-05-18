@@ -15,6 +15,8 @@ public class CyberTitan : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip hurtSound;
     private AudioSource audioSource;
+    public AudioSource firstMusicSource;
+    public AudioSource secondMusicSource;
     private bool playerDead = false;
     public ParticleSystem explosionParticle;
     public int health;
@@ -28,6 +30,7 @@ public class CyberTitan : MonoBehaviour
          player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        secondMusicSource.Pause();
     }
 
     // Update is called once per frame
@@ -44,6 +47,12 @@ public class CyberTitan : MonoBehaviour
                 
             }
         }
+
+        if (health <= 375f)
+        {
+            SecondPhase();
+        }
+
       if (isDead) return; // Don't do anything if the boss is dead
         if (playerDead) 
         {
@@ -76,29 +85,34 @@ public class CyberTitan : MonoBehaviour
     {
         if (isDead) return; // Don't do anything if the enemy is dead
         if (playerDead) return; //Don't do anything if the player is dead     
-
-        if (other.gameObject.CompareTag("Bullet"))
+    }
+    public void TakeDamage()
+    {   
+        health -= 10;
+        audioSource.PlayOneShot(hurtSound);
+    }
+    public void TakeDamagePlasma()
+    {
+        if (health > 5) // Only play sound if the enemy is still alive
         {
-            health -= 1;
-            if (health < 0) health = 0;
-            Destroy(other.gameObject);
             audioSource.PlayOneShot(hurtSound);
         }
+            health-= 1;
     }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            health = 0;
-        }
-    } 
+    
     public void Die()
     {
         GetComponent<BoxCollider>().enabled = false;
         Destroy(gameObject, 5f);
         audioSource.PlayOneShot(deathSound);
+    }
+
+    public void SecondPhase()
+    {
+        fireRate = 0.75f;
+        moveSpeed = 5f;
+        secondMusicSource.UnPause();
+        firstMusicSource.Pause();
     }
 
     

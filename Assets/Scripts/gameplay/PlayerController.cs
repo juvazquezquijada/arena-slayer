@@ -181,6 +181,14 @@ public class PlayerController : MonoBehaviour
         CanvasManager.Instance.UpdateHealth(health);
         audioSource.PlayOneShot(hurtSound);
     }
+    else if (other.gameObject.CompareTag("EnemyRocket"))
+    {
+        health -= 30;
+        if (health < 0) health = 0;
+        CanvasManager.Instance.UpdateHealth(health);
+        Destroy(other.gameObject);
+        audioSource.PlayOneShot(hurtSound);
+    }
         
     }   
     public void Health()
