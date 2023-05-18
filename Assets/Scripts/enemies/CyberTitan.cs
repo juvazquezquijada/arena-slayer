@@ -48,7 +48,7 @@ public class CyberTitan : MonoBehaviour
             }
         }
 
-        if (health <= 375f)
+        if (health <= 250f)
         {
             SecondPhase();
         }
@@ -109,7 +109,7 @@ public class CyberTitan : MonoBehaviour
 
     public void SecondPhase()
     {
-        fireRate = 0.75f;
+        fireRate = 1.55f;
         moveSpeed = 5f;
         secondMusicSource.UnPause();
         firstMusicSource.Pause();
