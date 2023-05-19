@@ -7,6 +7,7 @@ public class Rocket : MonoBehaviour
 {
     public AudioSource  audioSource;
     public AudioClip explodeSound;
+    public GameObject capsule;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,14 +24,17 @@ public class Rocket : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Wall"))
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 1f);
             audioSource.PlayOneShot(explodeSound);
+            capsule.gameObject.SetActive(false);
+            GetComponent<CapsuleCollider>().enabled = false;
         }
         else if(other.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 1f);
             GetComponent<CapsuleCollider>().enabled = false;
             audioSource.PlayOneShot(explodeSound);
+            capsule.gameObject.SetActive (false);
         }
     }
 }
