@@ -47,6 +47,18 @@ public class Plasma: MonoBehaviour
             // Destroy bullet
             Destroy(gameObject);
         }
+
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            // Deal damage to enemy
+            CyberTitan enemy = other.gameObject.GetComponent<CyberTitan>();
+            
+            enemy.TakeDamagePlasma();
+            GetComponent<SphereCollider>().enabled = false;
+
+            // Destroy bullet
+            Destroy(gameObject);
+        }
         
         else if (other.gameObject.CompareTag("Wall"))
         {

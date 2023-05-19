@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         if (health <= 0)
         {
             Die();
-            SpawnManager.Instance.GameOver();
+            
             CanvasManager.Instance.GameOver();
             if (!hasPlayedDeathSound) 
             {
@@ -54,7 +54,6 @@ public class PlayerController : MonoBehaviour
                 hasPlayedDeathSound = true;
                 
             }
-
         }
         else if (health < 40)
         {
@@ -68,6 +67,7 @@ public class PlayerController : MonoBehaviour
         if (isDead == true) 
         {
         moveDirection = Vector3.zero; // stop the movement
+        SpawnManager.Instance.GameOver();
         return; // exit the method
         }
         else if (isDead == false)
@@ -90,6 +90,7 @@ public class PlayerController : MonoBehaviour
             {
                 moveDirection *= moveSpeed;
             }
+
 
             //Apply gravity
             moveDirection.y -= gravity * Time.deltaTime;
@@ -179,6 +180,14 @@ public class PlayerController : MonoBehaviour
         health -= 7;
         if (health < 0) health = 0;
         CanvasManager.Instance.UpdateHealth(health);
+        audioSource.PlayOneShot(hurtSound);
+    }
+    else if (other.gameObject.CompareTag("EnemyRocket"))
+    {
+        health -= 30;
+        if (health < 0) health = 0;
+        CanvasManager.Instance.UpdateHealth(health);
+        Destroy(other.gameObject);
         audioSource.PlayOneShot(hurtSound);
     }
         

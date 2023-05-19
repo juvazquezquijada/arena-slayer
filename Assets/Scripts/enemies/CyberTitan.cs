@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CyberTitan : MonoBehaviour
 {
@@ -14,25 +15,48 @@ public class CyberTitan : MonoBehaviour
     public bool isDead = false;
     public AudioClip deathSound;
     public AudioClip hurtSound;
-    private AudioSource audioSource;
+    public AudioSource audioSource;
+    
     private bool playerDead = false;
     public ParticleSystem explosionParticle;
-    public int health;
+    public float health;
+    public float maxHealth = 1000;
     private PlayerController playerHealth;
     private bool hasPlayedDeathSound = false;
     public AudioClip shootSound;
-
+    public float secondPhaseThreshold = 450f;
+    private float hurtCooldown = 1.5f;  // Adjust the cooldown duration as needed
+    private float lastHurtTime;
+    public bool hasShield = false;
+    public GameObject shieldPrefab;
+    public Image healthBar;
+    
+    
+    
     // Start is called before the first frame update
     void Start()
     {
          player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        health = maxHealth;
+        healthBar.fillAmount = 1f;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+       if(Time.timeScale <= 0f)
+       {
+          audioSource.Pause();
+       }
+    
+        if (health <= 200)
+        {
+            shieldPrefab.gameObject.SetActive(true);
+        }
+        
         // Die if bosses health is 0
         if (health <= 0)
         {
@@ -44,6 +68,12 @@ public class CyberTitan : MonoBehaviour
                 
             }
         }
+
+        if (health <= secondPhaseThreshold)
+        {
+            SecondPhase();
+        }
+
       if (isDead) return; // Don't do anything if the boss is dead
         if (playerDead) 
         {
@@ -76,30 +106,44 @@ public class CyberTitan : MonoBehaviour
     {
         if (isDead) return; // Don't do anything if the enemy is dead
         if (playerDead) return; //Don't do anything if the player is dead     
-
-        if (other.gameObject.CompareTag("Bullet"))
+    }
+    public void TakeDamage()
+    {   
+        health -= 10;
+        healthBar.fillAmount = (float)health / maxHealth;
+             if (Time.time - lastHurtTime >= hurtCooldown)
         {
-            health -= 1;
-            if (health < 0) health = 0;
-            Destroy(other.gameObject);
+        audioSource.PlayOneShot(hurtSound);
+        lastHurtTime = Time.time;
+        }
+         
+    }
+    public void TakeDamagePlasma()
+    {
+        if (health > 5 && Time.time - lastHurtTime >= hurtCooldown) // Only play sound if the enemy is still alive
+        {
             audioSource.PlayOneShot(hurtSound);
         }
+            health-= 1;
+            healthBar.fillAmount = (float)health / maxHealth;
+             
     }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            health = 0;
-        }
-    } 
+    
     public void Die()
     {
         GetComponent<BoxCollider>().enabled = false;
         Destroy(gameObject, 5f);
         audioSource.PlayOneShot(deathSound);
     }
+
+    public void SecondPhase()
+    {
+        fireRate = 1f;
+        moveSpeed = 5f;
+        
+        
+    }
+
 
     
 }
