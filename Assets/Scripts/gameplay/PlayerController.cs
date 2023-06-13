@@ -129,8 +129,6 @@ public class PlayerController : MonoBehaviour
             GetComponent<PlasmaGun>().isDead = true;
             rb.velocity = Vector3.zero; // stop player movement
             rb.angularVelocity = Vector3.zero;
-            
-            
     }
 
 
