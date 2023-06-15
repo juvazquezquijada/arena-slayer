@@ -14,7 +14,6 @@ public class PlasmaGun : MonoBehaviour
     public Animator shotgunAnimator;
     private bool shotFired = false;
     public int currentAmmo = 40;
-    public AudioClip ammoPickup;
     public AudioClip shootSound;
     public int maxAmmo = 75; 
     public bool isDead = false;
@@ -94,11 +93,10 @@ public class PlasmaGun : MonoBehaviour
         {
          if (other.CompareTag("Ammo"))
          {
-        currentAmmo += 25;
+        currentAmmo += 20;
         if (currentAmmo > maxAmmo) currentAmmo = maxAmmo;
         CanvasManager.Instance.UpdateAmmo(currentAmmo);
         Destroy(other.gameObject);
-        audioSource.PlayOneShot(ammoPickup);
         } 
         
         else if (other.CompareTag("Bullet"))

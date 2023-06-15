@@ -115,13 +115,19 @@ public class CanvasManager : MonoBehaviour
         }
     }
     private void UpdateAmmoText()
+{
+    if (player.GetComponent<PlasmaGun>().enabled)
     {
-        if (ammo.text == "25" && player.GetComponent<PlasmaGun>().enabled)
-        {
-            int plasmaGunAmmo = player.GetComponent<PlasmaGun>().GetCurrentAmmo();
-            ammo.text = plasmaGunAmmo.ToString();
-        }
+        int plasmaGunAmmo = player.GetComponent<PlasmaGun>().GetCurrentAmmo();
+        ammo.text = plasmaGunAmmo.ToString();
     }
+    else if (player.GetComponent<RPG>().enabled)
+    {
+        int rpgAmmo = player.GetComponent<RPG>().GetCurrentAmmo();
+        ammo.text = rpgAmmo.ToString();
+    }
+    // Add conditions for other weapons if needed
+}
 
     public void UpdateScore(int scoreValue)
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RPG : MonoBehaviour
 {
-    //Properties of the Plasma gun
+    //Properties of the rocket gun
     public Transform gunBarrel;
     public GameObject bulletPrefab;
     public float bulletSpeed = 50f;

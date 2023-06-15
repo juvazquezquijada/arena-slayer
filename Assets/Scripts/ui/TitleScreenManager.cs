@@ -75,33 +75,36 @@ public class TitleScreenManager : MonoBehaviour
     }
     public void StartWarehouse() // starts the warehouse map
     {
-        SceneManager.LoadScene("Warehouse");
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
+        SceneManager.LoadScene("Warehouse");
     }
     public void StartCityDay() // starts the CityDay map
     {
-        SceneManager.LoadScene("CityDay");
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
+        SceneManager.LoadScene("CityDay");    
     }
     public void StartCityNight()// starts the CityNight map
     {
-        SceneManager.LoadScene("CityNight");
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
+        SceneManager.LoadScene("CityNight");
+        
     }
     public void StartStore()// starts the store map
     {
-        SceneManager.LoadScene("Store");
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
+        SceneManager.LoadScene("Store");
+        
     }
     public void StartMPArena()
     {
-        SceneManager.LoadScene("MPArena");
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
+        SceneManager.LoadScene("MPArena");
+        
     }
 
     public void BackToTitle()

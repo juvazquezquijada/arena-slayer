@@ -18,7 +18,7 @@ public class Shotgun : MonoBehaviour
     public AudioClip shootSound;
     public int maxAmmo = 25; 
     public bool isDead = false;
-    private AudioSource audioSource;
+    public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {

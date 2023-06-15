@@ -3805,7 +3805,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457612115183872450}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9f2a074f0c6be947a800e80cfff71fb, type: 3}
   m_Name: 
@@ -3816,12 +3816,11 @@ MonoBehaviour:
   fireRate: 0.125
   bulletLifetime: 2
   shotgunAnimator: {fileID: 1457612115183872492}
-  currentAmmo: 150
-  ammoPickup: {fileID: 8300000, guid: 4ec02402f2a57d743bd992c178210d12, type: 3}
+  currentAmmo: 60
   shootSound: {fileID: 8300000, guid: 02ec7bf736d91f248bcc8e65ac87c6ec, type: 3}
-  maxAmmo: 150
+  maxAmmo: 60
   isDead: 0
-  lowAmmoThreshhold: 25
+  lowAmmoThreshhold: 20
 --- !u!114 &1457612115183872497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3829,7 +3828,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1457612115183872450}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35aa271234ffd284887c9e5a12093255, type: 3}
   m_Name: 
@@ -3844,6 +3843,7 @@ MonoBehaviour:
   shootSound: {fileID: 8300000, guid: 695f3a4630451704eb86cb4530b139a1, type: 3}
   maxAmmo: 25
   isDead: 0
+  audioSource: {fileID: 1457612115183872499}
 --- !u!114 &3015906455798886693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3859,14 +3859,14 @@ MonoBehaviour:
   gunBarrel: {fileID: 2073367291437746932}
   bulletPrefab: {fileID: 6795738265372505756, guid: 4000b36ce97a8a045b7528d639b70528, type: 3}
   bulletSpeed: 75
-  fireRate: 1.5
+  fireRate: 1
   bulletLifetime: 2
   shotgunAnimator: {fileID: 1457612115183872492}
   currentAmmo: 10
   shootSound: {fileID: 8300000, guid: 6404297b07cfed746adcf160cf515ab6, type: 3}
   maxAmmo: 10
   isDead: 0
-  lowAmmoThreshhold: 3
+  lowAmmoThreshhold: 2
   explosionSound: {fileID: 0}
 --- !u!1 &1457612115201508232
 GameObject:
