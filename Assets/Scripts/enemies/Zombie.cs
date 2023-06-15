@@ -113,6 +113,10 @@ public class Zombie : MonoBehaviour
         }
             health-= 4;
     }
+    public void TakeDamageRocket()
+    {   
+        health -= 6;
+    }
 
     public void PlayerDied()
     {

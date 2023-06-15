@@ -5494,6 +5494,8 @@ GameObject:
   - component: {fileID: 854365315251227735}
   - component: {fileID: 854365315251227730}
   - component: {fileID: 854365315251227731}
+  - component: {fileID: 8693849990118914048}
+  - component: {fileID: 2848780511372777821}
   m_Layer: 0
   m_Name: Player 2
   m_TagString: Player
@@ -5741,6 +5743,45 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8693849990118914048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854365315991118241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f22319d9e86d74194529d986e517f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 100
+  clampAngle: 80
+  smoothness: 0.1
+  firstPersonTransform: {fileID: 0}
+  thirdPersonTransform: {fileID: 0}
+--- !u!114 &2848780511372777821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854365315991118241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e202ad8b620a07d49937498729c64097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  shiftSpeed: 8
+  gravity: 9.81
+  health: 100
+  score: 0
+  points: 0
+  isDead: 0
+  deathSound: {fileID: 0}
+  healthPickup: {fileID: 0}
+  hurtSound: {fileID: 0}
 --- !u!1 &854365316039829769
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,107 +2,106 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class TitleScreenManager : MonoBehaviour
 {
 
-    public Button startButton;
+    public GameObject startButton;
+    public Button multiplayerButton;
     public GameObject mapSelect;
-    public TextMeshProUGUI tutorialText;
+    public GameObject firstMapButton;
+    public GameObject tutorialText;
     public Button tutorialButton;
     public AudioSource audioSource;
     public AudioClip selectSound;
     public AudioClip backSound;
-
-    private bool usingController = false;
-    private Selectable currentSelection;
+    public GameObject loadingText;
+    private bool isMenuActive = false;
+    
+    
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        isMenuActive = true;
+        tutorialText.gameObject.SetActive(false);
+        tutorialButton.gameObject.SetActive(true);
+        mapSelect.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(true);
+        multiplayerButton.gameObject.SetActive(true);
     }
 
-    void Update()
+   void Update()
+{
+    if (Input.GetButtonDown("Start"))
     {
-        if (Input.GetAxis("Horizontal") != 0 && !usingController)
+        StartGame();
+    }
+    if (isMenuActive)
+    {
+        // Check for D-pad or arrow key input
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+
+        if (verticalInput > 0 || horizontalInput < 0)
         {
-            // Switch to controller input if horizontal axis is detected
-            usingController = true;
-            currentSelection = startButton;
-            currentSelection.Select();
+            // Move up or left in the menu
+            EventSystem.current.SetSelectedGameObject(EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp().gameObject);
+            audioSource.PlayOneShot(selectSound);
         }
-
-        if (usingController)
+        else if (verticalInput < 0 || horizontalInput > 0)
         {
-            // Move the current selection using controller input
-            if (Input.GetAxis("Horizontal") > 0)
-            {
-                currentSelection.FindSelectableOnRight().Select();
-                currentSelection = currentSelection.FindSelectableOnRight();
-            }
-            else if (Input.GetAxis("Horizontal") < 0)
-            {
-                currentSelection.FindSelectableOnLeft().Select();
-                currentSelection = currentSelection.FindSelectableOnLeft();
-            }
-
-            if (Input.GetAxis("Vertical") > 0)
-            {
-                currentSelection.FindSelectableOnUp().Select();
-                currentSelection = currentSelection.FindSelectableOnUp();
-            }
-            else if (Input.GetAxis("Vertical") < 0)
-            {
-                currentSelection.FindSelectableOnDown().Select();
-                currentSelection = currentSelection.FindSelectableOnDown();
-            }
-
-            // Trigger button action if "A" button is pressed
-            if (Input.GetButtonDown("Submit"))
-            {
-                currentSelection.GetComponent<Button>().onClick.Invoke();
-            }
+            // Move down or right in the menu
+            EventSystem.current.SetSelectedGameObject(EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown().gameObject);
+            audioSource.PlayOneShot(selectSound);
         }
     }
-
+}
     public void StartGame()
     {
         mapSelect.gameObject.SetActive(true);
         startButton.gameObject.SetActive(false);
         audioSource.PlayOneShot(selectSound);
         tutorialButton.gameObject.SetActive(false);
-        currentSelection = mapSelect.GetComponentInChildren<Button>();
-        currentSelection.Select();
+        multiplayerButton.gameObject.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(firstMapButton);
     }
 
-    
-
-
-
-
+   
     public void StartMultiplayer()
     {
         SceneManager.LoadScene("MPMenu");
     }
     public void StartWarehouse() // starts the warehouse map
     {
-        SceneManager.LoadScene("Warehouse"); 
+        SceneManager.LoadScene("Warehouse");
         audioSource.PlayOneShot(selectSound);
+        loadingText.gameObject.SetActive(true);
     }
     public void StartCityDay() // starts the CityDay map
     {
         SceneManager.LoadScene("CityDay");
         audioSource.PlayOneShot(selectSound);
+        loadingText.gameObject.SetActive(true);
     }
     public void StartCityNight()// starts the CityNight map
     {
         SceneManager.LoadScene("CityNight");
         audioSource.PlayOneShot(selectSound);
+        loadingText.gameObject.SetActive(true);
     }
     public void StartStore()// starts the store map
     {
         SceneManager.LoadScene("Store");
         audioSource.PlayOneShot(selectSound);
+        loadingText.gameObject.SetActive(true);
+    }
+    public void StartMPArena()
+    {
+        SceneManager.LoadScene("MPArena");
+        audioSource.PlayOneShot(selectSound);
+        loadingText.gameObject.SetActive(true);
     }
 
     public void BackToTitle()
@@ -112,6 +111,8 @@ public class TitleScreenManager : MonoBehaviour
         startButton.gameObject.SetActive(true);
         audioSource.PlayOneShot(backSound);
         tutorialButton.gameObject.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(startButton);
+        multiplayerButton.gameObject.SetActive(true);
     }
 
     public void ShowTutorial()

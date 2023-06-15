@@ -125,8 +125,16 @@ public class CyberTitan : MonoBehaviour
             audioSource.PlayOneShot(hurtSound);
         }
             health-= 1;
-            healthBar.fillAmount = (float)health / maxHealth;
-             
+            healthBar.fillAmount = (float)health / maxHealth;      
+    }
+    public void TakeDamageRocket()
+    {
+        if (health > 20 && Time.time - lastHurtTime >= hurtCooldown) // Only play sound if the enemy is still alive
+        {
+            audioSource.PlayOneShot(hurtSound);
+        }
+            health-= 20;
+            healthBar.fillAmount = (float)health / maxHealth;      
     }
     
     public void Die()

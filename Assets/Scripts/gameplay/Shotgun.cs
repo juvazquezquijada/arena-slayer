@@ -61,12 +61,14 @@ public class Shotgun : MonoBehaviour
             fireTimer -= Time.deltaTime;
         }
     }
+    
     private void PlayShootAnimations()
     {
         Animator anim = GetComponent<Animator>();
         anim.SetTrigger("ShootShotgun");
         shotgunAnimator.SetTrigger("ShootShotgun");
     }
+
     public void SetShotFired(bool value)
     {
         shotFired = value;

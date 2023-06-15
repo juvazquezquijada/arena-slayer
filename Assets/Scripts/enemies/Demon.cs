@@ -107,14 +107,18 @@ public class Demon : MonoBehaviour
         health -= 6;
         audioSource.PlayOneShot(hurtSound);
     }
+
     public void TakeDamagePlasma()
-    {
-        if (health > 4) // Only play sound if the enemy is still alive
-        {
-            audioSource.PlayOneShot(hurtSound);
-        }
-            health-= 4;
+    {   
+        health -= 3;
+        audioSource.PlayOneShot(hurtSound);
     }
+    
+    public void TakeDamageRocket()
+    {   
+        health -= 12;
+    }
+    
        
     
     public void PlayerDied()

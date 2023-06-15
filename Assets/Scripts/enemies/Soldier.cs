@@ -113,6 +113,10 @@ public class Soldier : MonoBehaviour
         }
             health-= 4;
     }
+    public void TakeDamageRocket()
+    {   
+        health -= 20;
+    }
 
     public void PlayerDied()
     {
