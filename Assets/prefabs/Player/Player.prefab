@@ -3673,7 +3673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7.5
-  shiftSpeed: 8
+  shiftSpeed: 12
   gravity: 750
   deathSound: {fileID: 8300000, guid: 38e4c518603e37144a0f658d8b6b9442, type: 3}
   healthPickup: {fileID: 8300000, guid: 05f6e018639b72e45b210e02757820c2, type: 3}
@@ -4301,7 +4301,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4371208224610750591, guid: fb8075cb441e64272877c3dcbae21371, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245452492840299751, guid: fb8075cb441e64272877c3dcbae21371, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.37142706
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245452492840299751, guid: fb8075cb441e64272877c3dcbae21371, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8354
       objectReference: {fileID: 0}
     - target: {fileID: 8000458995168224722, guid: fb8075cb441e64272877c3dcbae21371, type: 3}
       propertyPath: m_RootOrder
@@ -4309,7 +4317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8000458995168224722, guid: fb8075cb441e64272877c3dcbae21371, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.344
+      value: -0.489
       objectReference: {fileID: 0}
     - target: {fileID: 8000458995168224722, guid: fb8075cb441e64272877c3dcbae21371, type: 3}
       propertyPath: m_LocalPosition.y

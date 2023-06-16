@@ -136,6 +136,7 @@ MonoBehaviour:
   explodeSound: {fileID: 8300000, guid: 39169dbf2ed57a848b770091ef8d4a44, type: 3}
   capsule: {fileID: 4482301320123917839}
   destroyTime: 3
+  explosionPrefab: {fileID: 2120771728646608518, guid: 7288e7558498d3e4f9941fdd16455b05, type: 3}
 --- !u!65 &4552736892271335185
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -334,7 +335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3831677529287911310, guid: 03ba0a676ea91cc46b661e2032e384b5, type: 3}
       propertyPath: lengthInSec
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3831677529287911310, guid: 03ba0a676ea91cc46b661e2032e384b5, type: 3}
       propertyPath: ShapeModule.type
@@ -358,7 +359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3831677529287911310, guid: 03ba0a676ea91cc46b661e2032e384b5, type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 3831677529287911310, guid: 03ba0a676ea91cc46b661e2032e384b5, type: 3}
       propertyPath: InitialModule.startSizeZ.scalar
@@ -374,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3831677529287911310, guid: 03ba0a676ea91cc46b661e2032e384b5, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 2
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03ba0a676ea91cc46b661e2032e384b5, type: 3}

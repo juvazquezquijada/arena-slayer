@@ -9,6 +9,8 @@ public class PlayerRocket : MonoBehaviour
     public AudioClip explodeSound;
     public GameObject capsule;
     public float destroyTime = 3f;
+    public GameObject explosionPrefab;
+    public float splashDamageRadius = 5f;
     
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,39 @@ public class PlayerRocket : MonoBehaviour
             audioSource.PlayOneShot(explodeSound);
             capsule.gameObject.SetActive(false);
             GetComponent<BoxCollider>().enabled = false;
+              Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
+               Collider[] colliders = Physics.OverlapSphere(transform.position, splashDamageRadius);
+                foreach (Collider collider in colliders)
+        {
+            if (collider.CompareTag("Demon"))
+            {
+                // Deal damage to enemy
+            Demon enemy = collider.GetComponent<Demon>();
+            enemy.TakeDamageRocket();
+            CanvasManager.Instance.UpdateScore(10);
+            // Destroy bullet
+            Destroy(gameObject, destroyTime);
+            }
+            else if (collider.CompareTag("Zombie"))
+            {
+                // Deal damage to enemy
+            Zombie enemy = collider.GetComponent<Zombie>();
+            enemy.TakeDamageRocket();
+            CanvasManager.Instance.UpdateScore(10);
+            // Destroy bullet
+            Destroy(gameObject, destroyTime);
+            }
+            else if (collider.CompareTag("Soldier"))
+            {
+                // Deal damage to enemy
+            Soldier enemy = collider.GetComponent<Soldier>();
+            CanvasManager.Instance.UpdateScore(10);
+           enemy.TakeDamageRocket();
+            // Destroy bullet
+            Destroy(gameObject, destroyTime);
+            }
+        }
+
         }
         else if (other.gameObject.CompareTag("Demon"))
         {
@@ -39,10 +74,8 @@ public class PlayerRocket : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             capsule.gameObject.SetActive(false);
             audioSource.PlayOneShot(explodeSound);
-               enemy.TakeDamageRocket();
-               
-            
-
+            enemy.TakeDamageRocket();
+            Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
             // Destroy bullet
             Destroy(gameObject, destroyTime);
         }
@@ -55,7 +88,7 @@ public class PlayerRocket : MonoBehaviour
                 CanvasManager.Instance.UpdateScore(10);
             GetComponent<BoxCollider>().enabled = false;
             capsule.gameObject.SetActive(false);
-
+            Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
             // Destroy bullet
             Destroy(gameObject, destroyTime);
         }
@@ -68,11 +101,13 @@ public class PlayerRocket : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             capsule.gameObject.SetActive(false);
            enemy.TakeDamageRocket();
+           Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
             // Destroy bullet
             Destroy(gameObject, destroyTime);
         }
         else if (other.gameObject.CompareTag("Enemy"))
         {
+            Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
             // Deal damage to enemy
             CyberTitan enemy = other.gameObject.GetComponent<CyberTitan>();
             audioSource.PlayOneShot(explodeSound);
@@ -80,8 +115,7 @@ public class PlayerRocket : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             enemy.TakeDamageRocket();
             // Destroy bullet
-            Destroy(gameObject, destroyTime);
-            
+            Destroy(gameObject, destroyTime);     
         }
     }
 }

@@ -8,8 +8,10 @@ public class TitleScreenManager : MonoBehaviour
 {
 
     public GameObject startButton;
+    public GameObject backButton;
     public Button multiplayerButton;
     public GameObject mapSelect;
+    public GameObject mapSelect2;
     public GameObject firstMapButton;
     public GameObject tutorialText;
     public Button tutorialButton;
@@ -38,25 +40,11 @@ public class TitleScreenManager : MonoBehaviour
     {
         StartGame();
     }
-    if (isMenuActive)
+    else if (Input.GetKeyDown(KeyCode.Escape))
     {
-        // Check for D-pad or arrow key input
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
-
-        if (verticalInput > 0 || horizontalInput < 0)
-        {
-            // Move up or left in the menu
-            EventSystem.current.SetSelectedGameObject(EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp().gameObject);
-            audioSource.PlayOneShot(selectSound);
-        }
-        else if (verticalInput < 0 || horizontalInput > 0)
-        {
-            // Move down or right in the menu
-            EventSystem.current.SetSelectedGameObject(EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown().gameObject);
-            audioSource.PlayOneShot(selectSound);
-        }
+        BackToTitle();
     }
+
 }
     public void StartGame()
     {
@@ -104,7 +92,12 @@ public class TitleScreenManager : MonoBehaviour
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
         SceneManager.LoadScene("MPArena");
-        
+    }
+    public void StartPool()
+    {
+        audioSource.PlayOneShot(selectSound);
+        loadingText.gameObject.SetActive(true);
+        SceneManager.LoadScene("Pool");
     }
 
     public void BackToTitle()
@@ -124,6 +117,7 @@ public class TitleScreenManager : MonoBehaviour
         startButton.gameObject.SetActive(false);
         audioSource.PlayOneShot(selectSound);
         tutorialButton.gameObject.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(backButton);
     }
 }
 
