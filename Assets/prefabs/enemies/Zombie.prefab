@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 5214926815092331968}
   - component: {fileID: -5443527147590703903}
   - component: {fileID: 7047293314535438019}
+  - component: {fileID: -2981211812746572285}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Zombie
@@ -180,7 +181,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4886257324512662451}
   serializedVersion: 2
-  m_Mass: 7
+  m_Mass: 40
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -311,7 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  knockbackForce: 50
+  knockbackForce: 2000
   destroyTime: 1
   deathSound: {fileID: 8300000, guid: 12683dd7492686c47b83749bbbef883d, type: 3}
   scoreValue: 1
@@ -319,6 +320,28 @@ MonoBehaviour:
   explosionParticle: {fileID: 2120771728646608512, guid: e0d1b8cfdb15a064ab6b0421907526ca, type: 3}
   health: 6
   hurtSound: {fileID: 8300000, guid: 86f5822ac88a13e438518fd87c5da35f, type: 3}
+--- !u!195 &-2981211812746572285
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4886257324512662451}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &7435749743658677553
 GameObject:
   m_ObjectHideFlags: 0

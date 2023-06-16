@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Soldier : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Soldier : MonoBehaviour
     public float moveSpeed = 1;
     private Transform player;
     public bool isDead = false;
-    private bool playerDead= false;
+    private bool playerDead = false;
     public Transform bulletSpawn;
     public float fireRate = 3;
     public float bulletSpeed = 30;
@@ -23,24 +24,31 @@ public class Soldier : MonoBehaviour
     public AudioClip hurtSound;
     private bool hasDied = false;
     public int health = 20;
-    private PlayerController playerHealth; // Reference to the player's health script
+
+    private PlayerController playerHealth;
+    private NavMeshAgent navMeshAgent;
     private SpawnManager spawnManager;
-    // Start is called before the first frame update
+    
+
     void Start()
     {
+       
         player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        // Set the agent to be active and enable auto-braking
+        navMeshAgent.enabled = true;
+        navMeshAgent.autoBraking = true;
+       
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (isDead) return; // Don't do anything if the enemy is dead
-        if (playerDead) 
+        if (isDead) return;
+        if (playerDead)
         {
-            // Freeze the enemy's movement
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            navMeshAgent.velocity = Vector3.zero;
             return;
         }
         if (playerHealth.isDead)
@@ -48,73 +56,76 @@ public class Soldier : MonoBehaviour
             playerDead = true;
             return;
         }
-        // Move towards the player
-        transform.LookAt(player);
-        transform.position += transform.forward * moveSpeed * Time.deltaTime;
+
+        // Move towards the player using NavMeshAgent
+        navMeshAgent.SetDestination(player.position);
+
         if (Time.time - lastBulletTime > fireRate)
         {
             lastBulletTime = Time.time;
-           GameObject Bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+            GameObject Bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
             Bullet.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * bulletSpeed;
             audioSource.PlayOneShot(gunSound);
         }
 
-         if (health <=0)
+        if (health <= 0)
         {
             Die();
         }
     }
 
     private void OnTriggerEnter(Collider other)
-{
-    if (isDead) return; // Don't do anything if the enemy is dead
-    if (playerDead) return; //Don't do anything if the player is dead     
+    {
+        if (isDead) return;
+        if (playerDead) return;
 
-    
-}
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            Die();
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+        }
+    }
 
     public void Die()
     {
         if (hasDied) return;
-         hasDied = true;
+        hasDied = true;
 
-         isDead = true;
+        isDead = true;
 
-         // Play death sound
-         audioSource.PlayOneShot(deathSound);
+        audioSource.PlayOneShot(deathSound);
 
-         // tell the spawnManager script to subtract the current enemies present value by 1
+        GetComponent<CapsuleCollider>().enabled = false;
+        navMeshAgent.enabled = false;
         SpawnManager.Instance.EnemyDied();
 
-         // Disable the enemy's collider and renderer
-         GetComponent<CapsuleCollider>().enabled = false;
-    
-         // Apply a force to launch the enemy in the air
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
         Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
         rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
         CanvasManager.Instance.UpdateScore(15);
-          // Destroy the enemy after a delay
-          Destroy(gameObject, destroyTime);
+
+        Destroy(gameObject, destroyTime);
     }
 
     public void TakeDamage()
-    {   
+    {
         health -= 10;
         audioSource.PlayOneShot(hurtSound);
     }
+
     public void TakeDamagePlasma()
     {
-        if (health > 4) // Only play sound if the enemy is still alive
+        if (health > 4)
         {
             audioSource.PlayOneShot(hurtSound);
         }
-            health-= 4;
+        health -= 4;
     }
+
     public void TakeDamageRocket()
-    {   
+    {
         health -= 20;
     }
 
@@ -122,7 +133,4 @@ public class Soldier : MonoBehaviour
     {
         playerDead = true;
     }
-} 
-    
-
-
+}

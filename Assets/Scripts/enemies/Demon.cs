@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Demon : MonoBehaviour
 {
     public GameObject fireballPrefab;
-    public float moveSpeed = 3f;
     public float fireballSpeed = 10f;
     public float fireballInterval = 2f;
     public float knockbackForce = 10f;
@@ -15,34 +14,34 @@ public class Demon : MonoBehaviour
     private float lastFireballTime = 1f;
     public bool isDead = false;
     public float destroyTime = 20f;
-    public AudioClip deathSound; // The death sound to play
-    private AudioSource audioSource; // Reference to the AudioSource component
+    public AudioClip deathSound;
+    private AudioSource audioSource;
     public AudioClip hurtSound;
     private bool playerDead = false;
     private bool hasDied = false;
     public ParticleSystem explosionParticle;
     public int health = 12;
-    private PlayerController playerHealth; // Reference to the player's health script
-   
 
-    // Start is called before the first frame update
-    void Start()
+    private PlayerController playerHealth;
+
+    private NavMeshAgent navMeshAgent; // Reference to the NavMeshAgent component
+
+    private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
+        navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
-
-        if (isDead) return; // Don't do anything if the enemy is dead
-        if (playerDead) 
+        if (isDead) return;
+        if (playerDead)
         {
-            // Freeze the enemy's movement
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            navMeshAgent.velocity = Vector3.zero; // Freeze the agent's movement
             return;
         }
         if (playerHealth.isDead)
@@ -51,9 +50,8 @@ public class Demon : MonoBehaviour
             return;
         }
 
-        // Move towards the player
-        transform.LookAt(player);
-        transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        // Move towards the player using NavMeshAgent
+        navMeshAgent.SetDestination(player.position);
 
         // Shoot fireballs at the player
         if (Time.time - lastFireballTime > fireballInterval)
@@ -63,64 +61,58 @@ public class Demon : MonoBehaviour
             fireball.transform.rotation = Quaternion.identity;
             fireball.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * fireballSpeed;
         }
-        
-        if (health <=0)
+
+        if (health <= 0)
         {
             Die();
         }
     }
-    
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isDead) return; // Don't do anything if the enemy is dead
-        if (playerDead) return; //Don't do anything if the player is dead     
+        if (isDead) return;
+        if (playerDead) return;
     }
 
     public void Die()
     {
         if (hasDied) return;
-         hasDied = true;
+        hasDied = true;
 
         isDead = true;
-
-        // Play death sound
+        navMeshAgent.enabled = false;
         audioSource.PlayOneShot(deathSound);
-        // tell the spawnManager script to subtract the current enemies present value by 1
         SpawnManager.Instance.EnemyDied();
         GetComponent<CapsuleCollider>().enabled = false;
-        // Apply a force to launch the enemy in the air
+
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
-        Vector3 knockbackDirection = transform.up + -transform.forward * 0.5f; // adjust knockback direction
+        Vector3 knockbackDirection = transform.up + -transform.forward * 0.5f;
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
 
-        // Destroy the enemy after a delay
         Destroy(gameObject, destroyTime);
 
         CanvasManager.Instance.UpdateScore(10);
     }
 
     public void TakeDamage()
-    {   
+    {
         health -= 6;
         audioSource.PlayOneShot(hurtSound);
     }
 
     public void TakeDamagePlasma()
-    {   
+    {
         health -= 3;
         audioSource.PlayOneShot(hurtSound);
     }
-    
+
     public void TakeDamageRocket()
-    {   
+    {
         health -= 12;
     }
-    
-       
-    
+
     public void PlayerDied()
     {
         playerDead = true;
