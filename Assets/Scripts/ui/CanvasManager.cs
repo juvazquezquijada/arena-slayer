@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+
 
 public class CanvasManager : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class CanvasManager : MonoBehaviour
     private static CanvasManager _instance;
     public AudioClip menuSound;
     public AudioClip pauseSound;
+    public AudioClip hoverSound;
     public AudioSource musicAudioSource;
    // used to lock camera when player is dead
     public Camera myCamera;
@@ -240,6 +243,10 @@ public class CanvasManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
         audioSource.PlayOneShot(menuSound);
         isPaused = false;
+    }
+    public void PlayButtonHoverSound(BaseEventData eventData)
+    {
+    audioSource.PlayOneShot(hoverSound);
     }
 
 

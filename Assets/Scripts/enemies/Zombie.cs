@@ -20,7 +20,7 @@ public class Zombie : MonoBehaviour
     public int health = 6;
     private bool hasDied = false;
     public AudioClip hurtSound;
-    private Rigidbody rb;
+   
 
     void Start()
     {
