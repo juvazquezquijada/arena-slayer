@@ -57,7 +57,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         
         Player[] players = PhotonNetwork.PlayerList;
-        foreach(Transform child in playerListContent)
+       foreach(Transform child in playerListContent)
 		{
 			Destroy(child.gameObject);
 		}
@@ -67,7 +67,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 			Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
 		}
 
-        startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+		startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -83,7 +83,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void StartGame()
     {
-        PhotonNetwork.LoadLevel(7);
+        PhotonNetwork.LoadLevel(1);
     }
     public override void OnLeftRoom()
     {
