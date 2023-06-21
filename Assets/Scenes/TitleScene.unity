@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00030103544, g: 0.00030677207, b: 0.0003749527, a: 1}
+  m_IndirectSpecularColor: {r: 0.07415758, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -458,7 +458,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -2605116827209646099, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
 --- !u!4 &51525882 stripped
 Transform:
@@ -2288,7 +2289,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -2981211812746572285, guid: 026b43e36572cf6499c71057eb1e351c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 026b43e36572cf6499c71057eb1e351c, type: 3}
 --- !u!4 &457649981 stripped
 Transform:
@@ -3655,6 +3657,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 514360480316009832, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1056557635728436356, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -3715,7 +3721,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 514360480316009832, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
 --- !u!4 &858510566 stripped
 Transform:
@@ -4072,7 +4079,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon (3)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 514360480316009832, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
 --- !u!4 &1027165682 stripped
 Transform:
@@ -4146,7 +4154,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -2605116827209646099, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
 --- !u!4 &1042765029 stripped
 Transform:
@@ -4396,7 +4405,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -2981211812746572285, guid: 026b43e36572cf6499c71057eb1e351c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 026b43e36572cf6499c71057eb1e351c, type: 3}
 --- !u!4 &1091749435 stripped
 Transform:
@@ -4827,7 +4837,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Soldier
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -2605116827209646099, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
 --- !u!4 &1261771962 stripped
 Transform:
@@ -5199,7 +5210,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 514360480316009832, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
 --- !u!4 &1348658108 stripped
 Transform:
@@ -5265,7 +5277,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Soldier (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -2605116827209646099, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
 --- !u!4 &1424362936 stripped
 Transform:
@@ -5917,7 +5930,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -2605116827209646099, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dbfc9a308172cbd4885910dda45b0f5c, type: 3}
 --- !u!4 &1648952473 stripped
 Transform:
@@ -6973,7 +6987,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 514360480316009832, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8326329c3637acb4eb82dac98a3f039a, type: 3}
 --- !u!4 &2057654508 stripped
 Transform:

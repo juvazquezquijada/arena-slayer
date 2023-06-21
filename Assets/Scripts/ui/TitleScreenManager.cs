@@ -19,14 +19,14 @@ public class TitleScreenManager : MonoBehaviour
     public AudioClip selectSound;
     public AudioClip backSound;
     public GameObject loadingText;
-    private bool isMenuActive = false;
+
     
     
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        isMenuActive = true;
+       
         tutorialText.gameObject.SetActive(false);
         tutorialButton.gameObject.SetActive(true);
         mapSelect.gameObject.SetActive(false);
