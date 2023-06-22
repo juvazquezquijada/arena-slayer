@@ -6,12 +6,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class NetPlayerController : MonoBehaviour
+public class NetPlayerController : MonoBehaviourPunCallbacks
 {
    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
    [SerializeField] GameObject cameraHolder;
    [SerializeField] GameObject Camera;
-  
+   [SerializeField] Item[] items;
+
+   int itemIndex;
+   int previousItemIndex = -1;
+
+
    bool grounded;
    Vector3 smoothMoveVelocity;
    Vector3 moveAmount;
@@ -29,9 +34,14 @@ public class NetPlayerController : MonoBehaviour
    void Start()
    {
 		{
-		if (!PV.IsMine)
+		if(PV.IsMine)
 		{
-       Camera.SetActive(false);
+			EquipItem(0);
+		}
+		else
+		{
+			Camera.SetActive(false);
+			Destroy(rb);
 		}
 		
 	}
@@ -46,6 +56,38 @@ public class NetPlayerController : MonoBehaviour
 		Look();
 		Move();
 		Jump();
+
+		for(int i = 0; i < items.Length; i++)
+		{
+			if(Input.GetKeyDown((i + 1).ToString()))
+			{
+				EquipItem(i);
+				break;
+			}
+		}
+
+		if(Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+		{
+			if(itemIndex >= items.Length - 1)
+			{
+				EquipItem(0);
+			}
+			else
+			{
+				EquipItem(itemIndex + 1);
+			}
+		}
+		else if(Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+		{
+			if(itemIndex <= 0)
+			{
+				EquipItem(items.Length - 1);
+			}
+			else
+			{
+				EquipItem(itemIndex - 1);
+			}
+		}
    }
 
    void Look()
@@ -72,6 +114,39 @@ public class NetPlayerController : MonoBehaviour
 	{
 		grounded = _grounded;
 	}
+	void EquipItem(int _index)
+	{
+		
+		if(_index == previousItemIndex)
+			return;
+
+		itemIndex = _index;
+
+		items[itemIndex].itemGameObject.SetActive(true);
+
+		if(previousItemIndex != -1)
+		{
+			items[previousItemIndex].itemGameObject.SetActive(false);
+		}
+
+		previousItemIndex = itemIndex;
+
+		if(PV.IsMine)
+		{
+			Hashtable hash = new Hashtable();
+			hash.Add("itemIndex", itemIndex);
+			PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+		}
+	}
+
+	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+	{
+		if(changedProps.ContainsKey("itemIndex") && !PV.IsMine && targetPlayer == PV.Owner)
+		{
+			EquipItem((int)changedProps["itemIndex"]);
+		}
+	}
+
 	void FixedUpdate()
 	{
 		if(!PV.IsMine)
