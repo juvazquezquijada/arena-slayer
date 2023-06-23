@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class NetPlayerController : MonoBehaviourPunCallbacks
+public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable 
 {
    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
    [SerializeField] GameObject cameraHolder;
@@ -24,12 +24,18 @@ public class NetPlayerController : MonoBehaviourPunCallbacks
    Rigidbody rb;
    PhotonView PV;
 
+	const float maxHealth = 100f;
+	float currentHealth = maxHealth;
+
+	PlayerManager playerManager;
+
    void Awake()
    {
 		rb = GetComponent<Rigidbody>();
 		PV = GetComponent<PhotonView>();
 
-   }
+		playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+	}
 
    void Start()
    {
@@ -88,7 +94,12 @@ public class NetPlayerController : MonoBehaviourPunCallbacks
 				EquipItem(itemIndex - 1);
 			}
 		}
-   }
+
+		if (Input.GetMouseButton(0))
+		{
+			items[itemIndex].Use();
+		}
+	}
 
    void Look()
 	{
@@ -147,11 +158,36 @@ public class NetPlayerController : MonoBehaviourPunCallbacks
 		}
 	}
 
+	public void TakeDamage(float damage)
+	{
+		Debug.Log("took damage" + damage);
+		PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+	}
+
+	[PunRPC]
+	void RPC_TakeDamage(float damage)
+	{
+		if (!PV.IsMine)
+			return;
+
+		currentHealth -= damage;
+
+		if (currentHealth <= 0)
+		{
+			Die();
+		}
+	}
+
 	void FixedUpdate()
 	{
 		if(!PV.IsMine)
 			return;
 
 		rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+	}
+
+	void Die()
+	{
+		playerManager.Die();
 	}
 }

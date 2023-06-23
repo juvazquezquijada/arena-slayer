@@ -136,9 +136,7 @@ public class Shotgun : MonoBehaviour
             CanvasManager.Instance.UpdateAmmo(currentAmmo);
             
             //Reset the fire cooldown
-            fireTimer = fireRate;
-
-            
+            fireTimer = fireRate; 
     }
 
 }
