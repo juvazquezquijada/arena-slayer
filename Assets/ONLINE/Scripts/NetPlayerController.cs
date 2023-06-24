@@ -6,39 +6,39 @@ using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable 
+public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
-   [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
-   [SerializeField] GameObject cameraHolder;
-   [SerializeField] GameObject Camera;
-   [SerializeField] Item[] items;
+	[SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, smoothTime;
+	[SerializeField] GameObject cameraHolder;
+	[SerializeField] GameObject Camera;
+	[SerializeField] Item[] items;
 
-   int itemIndex;
-   int previousItemIndex = -1;
+	int itemIndex;
+	int previousItemIndex = -1;
 
 
-   bool grounded;
-   Vector3 smoothMoveVelocity;
-   Vector3 moveAmount;
-   
-   Rigidbody rb;
-   PhotonView PV;
+	bool grounded;
+	Vector3 smoothMoveVelocity;
+	Vector3 moveAmount;
+
+	Rigidbody rb;
+	PhotonView PV;
 
 	const float maxHealth = 100f;
 	float currentHealth = maxHealth;
 
 	PlayerManager playerManager;
 
-   void Awake()
-   {
+	void Awake()
+	{
 		rb = GetComponent<Rigidbody>();
 		PV = GetComponent<PhotonView>();
 
 		playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
 	}
 
-   void Start()
-   {
+	void Start()
+	{
 		{
 			if (PV.IsMine)
 			{
@@ -53,29 +53,29 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
-   }
+	}
 
-   void Update()
-   {
-		if(!PV.IsMine)
+	void Update()
+	{
+		if (!PV.IsMine)
 			return;
 
 		Look();
 		Move();
-		
 
-		for(int i = 0; i < items.Length; i++)
+
+		for (int i = 0; i < items.Length; i++)
 		{
-			if(Input.GetKeyDown((i + 1).ToString()))
+			if (Input.GetKeyDown((i + 1).ToString()))
 			{
 				EquipItem(i);
 				break;
 			}
 		}
 
-		if(Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+		if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
 		{
-			if(itemIndex >= items.Length - 1)
+			if (itemIndex >= items.Length - 1)
 			{
 				EquipItem(0);
 			}
@@ -84,9 +84,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 				EquipItem(itemIndex + 1);
 			}
 		}
-		else if(Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+		else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
 		{
-			if(itemIndex <= 0)
+			if (itemIndex <= 0)
 			{
 				EquipItem(items.Length - 1);
 			}
@@ -107,7 +107,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 		}
 	}
 
-   void Look()
+	void Look()
 	{
 		transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
 
@@ -120,29 +120,29 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
 		moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
 	}
-	
+
 	public void SetGroundedState(bool _grounded)
 	{
 		grounded = _grounded;
 	}
 	void EquipItem(int _index)
 	{
-		
-		if(_index == previousItemIndex)
+
+		if (_index == previousItemIndex)
 			return;
 
 		itemIndex = _index;
 
 		items[itemIndex].itemGameObject.SetActive(true);
 
-		if(previousItemIndex != -1)
+		if (previousItemIndex != -1)
 		{
 			items[previousItemIndex].itemGameObject.SetActive(false);
 		}
 
 		previousItemIndex = itemIndex;
 
-		if(PV.IsMine)
+		if (PV.IsMine)
 		{
 			Hashtable hash = new Hashtable();
 			hash.Add("itemIndex", itemIndex);
@@ -152,7 +152,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
 	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
 	{
-		if(changedProps.ContainsKey("itemIndex") && !PV.IsMine && targetPlayer == PV.Owner)
+		if (changedProps.ContainsKey("itemIndex") && !PV.IsMine && targetPlayer == PV.Owner)
 		{
 			EquipItem((int)changedProps["itemIndex"]);
 		}
@@ -178,13 +178,63 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 		}
 	}
 
+	[SerializeField] float raycastDistance = 0.1f;
+
 	void FixedUpdate()
 	{
-		if(!PV.IsMine)
+		if (!PV.IsMine)
 			return;
 
-		rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+		float rotationY = transform.rotation.eulerAngles.y;
+		Quaternion rotation = Quaternion.Euler(0f, rotationY, 0f);
+
+		Vector3 moveDir = rotation * new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+		Vector3 moveAmount = moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed) * Time.fixedDeltaTime;
+
+		// Perform collision check
+		bool collisionDetected = CheckCollision(moveAmount);
+
+		if (!collisionDetected)
+		{
+			// Move the player's position
+			transform.position += moveAmount;
+		}
 	}
+
+	bool CheckCollision(Vector3 moveAmount)
+	{
+		float directionX = Mathf.Sign(moveAmount.x);
+		float directionZ = Mathf.Sign(moveAmount.z);
+
+		Vector3 rayOriginBottom = transform.position + new Vector3(directionX, 0f, directionZ) * 0.5f;
+		Vector3 rayOriginTop = transform.position + new Vector3(directionX, 1.8f, directionZ) * 0.5f;
+
+		RaycastHit hitBottom;
+		RaycastHit hitTop;
+
+		bool collisionDetected = false;
+
+		// Check collision at the bottom of the player
+		if (Physics.Raycast(rayOriginBottom, moveAmount, out hitBottom, moveAmount.magnitude + raycastDistance))
+		{
+			if (!hitBottom.collider.isTrigger)
+			{
+				collisionDetected = true;
+			}
+		}
+
+		// Check collision at the top of the player
+		if (Physics.Raycast(rayOriginTop, moveAmount, out hitTop, moveAmount.magnitude + raycastDistance))
+		{
+			if (!hitTop.collider.isTrigger)
+			{
+				collisionDetected = true;
+			}
+		}
+
+		return collisionDetected;
+	}
+
 
 	void Die()
 	{

@@ -11,8 +11,15 @@ public class SingleShotGun : Gun
 	[SerializeField] float fireRate;
 	[SerializeField] AudioClip shootSound;
 	[SerializeField] AudioSource gunSound;
+	PhotonView PV;
 	
 	private float lastFireTime; // Time when the gun was last firedd
+
+
+	void Awake()
+	{
+		PV = GetComponent<PhotonView>();
+	}
 
 	public override void Use()
 	{
@@ -34,13 +41,19 @@ public class SingleShotGun : Gun
 		{
 			Debug.Log("We hit" + hit.collider.gameObject.name);
 			hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
-			
+			PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
 		}
 	}
 
 	[PunRPC]
-	void RPC_Shoot()
+	void RPC_Shoot(Vector3 hitPosition, Vector3 hitNormal)
 	{
-		
+		Collider[] colliders = Physics.OverlapSphere(hitPosition, 0.3f);
+		if (colliders.Length != 0)
+		{
+			GameObject bulletImpactObj = Instantiate(bulletImpactPrefab, hitPosition + hitNormal * 0.001f, Quaternion.LookRotation(hitNormal, Vector3.up) * bulletImpactPrefab.transform.rotation);
+			Destroy(bulletImpactObj, 10f);
+			bulletImpactObj.transform.SetParent(colliders[0].transform);
+		}
 	}
 }
