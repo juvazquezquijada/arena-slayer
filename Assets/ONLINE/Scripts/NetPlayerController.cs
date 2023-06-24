@@ -40,18 +40,19 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
    void Start()
    {
 		{
-		if(PV.IsMine)
-		{
-			EquipItem(0);
+			if (PV.IsMine)
+			{
+				EquipItem(0);
+			}
+			else
+			{
+				Camera.SetActive(false);
+				Destroy(rb);
+			}
 		}
-		else
-		{
-			Camera.SetActive(false);
-			Destroy(rb);
-		}
-		
-	}
 
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
    }
 
    void Update()
@@ -61,7 +62,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
 		Look();
 		Move();
-		Jump();
+		
 
 		for(int i = 0; i < items.Length; i++)
 		{
@@ -99,6 +100,11 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 		{
 			items[itemIndex].Use();
 		}
+
+		if (transform.position.y < -5f) // Die if you fall out of the world
+		{
+			Die();
+		}
 	}
 
    void Look()
@@ -114,13 +120,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
 		moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
 	}
-	void Jump()
-	{
-		if(Input.GetKeyDown(KeyCode.Space) && grounded)
-		{
-			rb.AddForce(transform.up * jumpForce);
-		}
-	}
+	
 	public void SetGroundedState(bool _grounded)
 	{
 		grounded = _grounded;
