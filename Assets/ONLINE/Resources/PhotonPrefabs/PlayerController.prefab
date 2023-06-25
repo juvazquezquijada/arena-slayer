@@ -4575,7 +4575,7 @@ GameObject:
   - component: {fileID: 6632268810244793669}
   - component: {fileID: -8980095199185301762}
   - component: {fileID: -7866048651351664197}
-  - component: {fileID: 3306918168785227163}
+  - component: {fileID: 119157108336734825}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Player
@@ -4809,19 +4809,11 @@ MonoBehaviour:
   mouseSensitivity: 3
   sprintSpeed: 8
   walkSpeed: 6
-  jumpForce: 500
   smoothTime: 0.15
   cameraHolder: {fileID: 4940436904653650153}
-  Camera: {fileID: 854365315635659531}
   items:
   - {fileID: 4541878702799560178}
   - {fileID: 4497428027370999680}
-  isGrounded: 0
-  groundCheckDistance: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  raycastDistance: 0.1
 --- !u!114 &-8980095199185301762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4852,22 +4844,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &3306918168785227163
-Rigidbody:
+--- !u!143 &119157108336734825
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854365315991118241}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Mass: 70
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 1
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &854365316067385008
 GameObject:
   m_ObjectHideFlags: 0
@@ -5464,7 +5458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 9b929d931a0db3641a2321ff76d88dce, type: 2}
   itemGameObject: {fileID: 854365315160594326}
-  bulletImpactPrefab: {fileID: 8071447181538663472, guid: 98693a066e6419746bf8e935ebefa105, type: 3}
+  bulletImpactPrefab: {fileID: 8071447181538663472, guid: 5c59e6f6a73836241b2313868bce1d9d, type: 3}
   cam: {fileID: 854365314121642089}
   animator: {fileID: 854365315251227730}
   shootAnimationName: ShootPlasma
