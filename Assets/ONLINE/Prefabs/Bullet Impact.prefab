@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2812574369861977320}
   - component: {fileID: 5794550828292940228}
   - component: {fileID: 807783218144299558}
-  - component: {fileID: 8740242369519590382}
+  - component: {fileID: -5875949955244820587}
   m_Layer: 0
   m_Name: Bullet Impact
   m_TagString: Untagged
@@ -84,16 +84,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8740242369519590382
-SphereCollider:
+--- !u!114 &-5875949955244820587
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8071447181538663472}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6b0262b8f951c349a8159787e24f4d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

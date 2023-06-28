@@ -11,8 +11,8 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI ammo; //ammo indicator
     public TextMeshProUGUI score; //score indicator
     public AudioClip niceSound; // plays when player reaches a certain amount of kills ;)
-    public AudioSource audioSource; 
-    public bool gameActive = true; 
+    public AudioSource audioSource;
+    public bool gameActive = true;
     public TextMeshProUGUI gameOverText; // game over screen
     public GameObject restartButton; // go back to home screen
     public GameObject retryButton;
@@ -25,7 +25,7 @@ public class CanvasManager : MonoBehaviour
     public AudioClip pauseSound;
     public AudioClip hoverSound;
     public AudioSource musicAudioSource;
-   // used to lock camera when player is dead
+    // used to lock camera when player is dead
     public Camera myCamera;
     //pause screen
     public GameObject pauseMenuPanel;
@@ -38,8 +38,8 @@ public class CanvasManager : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-          gameActive = true;
-          pauseMenuPanel.SetActive(false);
+        gameActive = true;
+        pauseMenuPanel.SetActive(false);
         isPaused = false;
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -48,23 +48,23 @@ public class CanvasManager : MonoBehaviour
     void Update()
     {
         // show or hide tutorial text based on T key press
-        if (Input.GetKeyDown(KeyCode.T)|| Input.GetKeyDown(KeyCode.Joystick1Button3))
+        if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.Joystick1Button3))
         {
             tutorialText.gameObject.SetActive(true);
         }
         // show pause menu when escape key is pressed
-        if (Input.GetKeyDown(KeyCode.Escape)|| 
+        if (Input.GetKeyDown(KeyCode.Escape) ||
         Input.GetKeyDown(KeyCode.Joystick1Button7))
         {
             PauseGame();
         }
         // trigger slowmo
-        if (Input.GetKeyDown(KeyCode.Space)&& !isPaused)
+        if (Input.GetKeyDown(KeyCode.Space) && !isPaused)
         {
             Time.timeScale = 0.3f;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space)&& !isPaused)
+        if (Input.GetKeyUp(KeyCode.Space) && !isPaused)
         {
             Time.timeScale = 1;
         }
@@ -81,22 +81,22 @@ public class CanvasManager : MonoBehaviour
             }
 
             return _instance;
-            
+
         }
     }
 
     private void Awake()
     {
-        if(_instance !=null && _instance !=this)
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
         }
-        else 
+        else
         {
             _instance = this;
         }
-          
-          
+
+
     }
 
     public void UpdateHealth(int healthValue)
@@ -109,7 +109,7 @@ public class CanvasManager : MonoBehaviour
         UpdateHealthIndicator(healthValue);
     }
 
-    public void UpdateAmmo(int ammoValue) 
+    public void UpdateAmmo(int ammoValue)
     {
         if (ammo != null)
         {
@@ -118,19 +118,19 @@ public class CanvasManager : MonoBehaviour
         }
     }
     private void UpdateAmmoText()
-{
-    if (player.GetComponent<PlasmaGun>().enabled)
     {
-        int plasmaGunAmmo = player.GetComponent<PlasmaGun>().GetCurrentAmmo();
-        ammo.text = plasmaGunAmmo.ToString();
+        if (player.GetComponent<PlasmaGun>().enabled)
+        {
+            int plasmaGunAmmo = player.GetComponent<PlasmaGun>().GetCurrentAmmo();
+            ammo.text = plasmaGunAmmo.ToString();
+        }
+        else if (player.GetComponent<RPG>().enabled)
+        {
+            int rpgAmmo = player.GetComponent<RPG>().GetCurrentAmmo();
+            ammo.text = rpgAmmo.ToString();
+        }
+        // Add conditions for other weapons if needed
     }
-    else if (player.GetComponent<RPG>().enabled)
-    {
-        int rpgAmmo = player.GetComponent<RPG>().GetCurrentAmmo();
-        ammo.text = rpgAmmo.ToString();
-    }
-    // Add conditions for other weapons if needed
-}
 
     public void UpdateScore(int scoreValue)
     {
@@ -168,21 +168,21 @@ public class CanvasManager : MonoBehaviour
     }
 
     public void GameOver()
-{
-    gameOverText.gameObject.SetActive(true);
-    gameActive = false;
-    restartButton.gameObject.SetActive(true);
-    retryButton.gameObject.SetActive(true);
-    
-    Cursor.lockState = CursorLockMode.None;
-    Cursor.visible = true;
-    myCamera.GetComponent<Camera>().enabled = false;
-    lowAmmoText.gameObject.SetActive(false);
-    lowHealthText.gameObject.SetActive(false);
-    outOfAmmoText.gameObject.SetActive(false);
+    {
+        gameOverText.gameObject.SetActive(true);
+        gameActive = false;
+        restartButton.gameObject.SetActive(true);
+        retryButton.gameObject.SetActive(true);
 
-}
-     public void PauseGame()
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        myCamera.GetComponent<Camera>().enabled = false;
+        lowAmmoText.gameObject.SetActive(false);
+        lowHealthText.gameObject.SetActive(false);
+        outOfAmmoText.gameObject.SetActive(false);
+
+    }
+    public void PauseGame()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -192,10 +192,10 @@ public class CanvasManager : MonoBehaviour
         if (!isPaused)
         {
             // Show pause menu
-            
+
             isPaused = true;
             pauseMenuPanel.SetActive(true);
-             musicAudioSource.Pause();
+            musicAudioSource.Pause();
             audioSource.PlayOneShot(pauseSound);
         }
         else
@@ -213,18 +213,18 @@ public class CanvasManager : MonoBehaviour
     public void ResumeGame()
     {
         // Unpause the game
-    Time.timeScale = 1f;
-    isPaused = false;
-    pauseMenuPanel.SetActive(false);
+        Time.timeScale = 1f;
+        isPaused = false;
+        pauseMenuPanel.SetActive(false);
 
-    // Enable the camera and hide the cursor
-    myCamera.GetComponent<Camera>().enabled = true;
-    Cursor.visible = false;
-    Cursor.lockState = CursorLockMode.Locked;
-    myCamera.transform.rotation = savedRotation;
-    gameActive = true;
-    audioSource.PlayOneShot(menuSound);
-    musicAudioSource.UnPause();
+        // Enable the camera and hide the cursor
+        myCamera.GetComponent<Camera>().enabled = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        myCamera.transform.rotation = savedRotation;
+        gameActive = true;
+        audioSource.PlayOneShot(menuSound);
+        musicAudioSource.UnPause();
 
     }
 
@@ -246,7 +246,7 @@ public class CanvasManager : MonoBehaviour
     }
     public void PlayButtonHoverSound(BaseEventData eventData)
     {
-    audioSource.PlayOneShot(hoverSound);
+        audioSource.PlayOneShot(hoverSound);
     }
 
 
@@ -273,5 +273,4 @@ public class CanvasManager : MonoBehaviour
     {
         lowHealthText.gameObject.SetActive(false);
     }
-    
 }

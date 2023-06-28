@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -7,36 +7,49 @@ using System.IO;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
-	public static RoomManager Instance;
+    public static RoomManager Instance;
 
-	void Awake()
-	{
-		if(Instance)
-		{
-			Destroy(gameObject);
-			return;
-		}
-		DontDestroyOnLoad(gameObject);
-		Instance = this;
-	}
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-	public override void OnEnable()
-	{
-		base.OnEnable();
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
-	public override void OnDisable()
-	{
-		base.OnDisable();
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-	}
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-	{
-		if(scene.buildIndex == 1) // We're in the game scene
-		{
-			PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
-		}
-	}
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.buildIndex == 1) // We're in the game scene
+        {
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogError("Failed to instantiate PlayerManager. PhotonNetwork is not connected and ready.");
+            }
+        }
+        else if (scene.buildIndex == 0) // We're in the menu scene
+        {
+            if (PhotonNetwork.IsConnectedAndReady)
+            {
+                PhotonNetwork.Destroy(gameObject); // Destroy the RoomManager object when returning to the menu scene
+            }
+        }
+    }
 }

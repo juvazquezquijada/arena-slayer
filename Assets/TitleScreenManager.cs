@@ -20,13 +20,13 @@ public class TitleScreenManager : MonoBehaviour
     public AudioClip backSound;
     public GameObject loadingText;
 
-    
-    
+
+
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-       
+
         tutorialText.gameObject.SetActive(false);
         tutorialButton.gameObject.SetActive(true);
         mapSelect.gameObject.SetActive(false);
@@ -34,18 +34,18 @@ public class TitleScreenManager : MonoBehaviour
         multiplayerButton.gameObject.SetActive(true);
     }
 
-   void Update()
-{
-    if (Input.GetButtonDown("Start"))
+    void Update()
     {
-        StartGame();
-    }
-    else if (Input.GetKeyDown(KeyCode.Escape))
-    {
-        BackToTitle();
-    }
+        if (Input.GetButtonDown("Start"))
+        {
+            StartGame();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            BackToTitle();
+        }
 
-}
+    }
     public void StartGame()
     {
         mapSelect.gameObject.SetActive(true);
@@ -56,7 +56,7 @@ public class TitleScreenManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(firstMapButton);
     }
 
-   
+
     public void StartMultiplayer()
     {
         SceneManager.LoadScene("MPMenu");
@@ -71,21 +71,21 @@ public class TitleScreenManager : MonoBehaviour
     {
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
-        SceneManager.LoadScene("CityDay");    
+        SceneManager.LoadScene("CityDay");
     }
     public void StartCityNight()// starts the CityNight map
     {
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
         SceneManager.LoadScene("CityNight");
-        
+
     }
     public void StartStore()// starts the store map
     {
         audioSource.PlayOneShot(selectSound);
         loadingText.gameObject.SetActive(true);
         SceneManager.LoadScene("Store");
-        
+
     }
     public void StartMPArena()
     {
@@ -120,4 +120,3 @@ public class TitleScreenManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(backButton);
     }
 }
-

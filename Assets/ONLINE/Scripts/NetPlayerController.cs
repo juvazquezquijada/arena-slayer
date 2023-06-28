@@ -4,17 +4,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
-    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, smoothTime;
+    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, smoothTime, yMouseSensitivity;
+    [SerializeField] GameObject playerCamera;
     [SerializeField] GameObject cameraHolder;
+    [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] Image healthBar;
+    [SerializeField] TMP_Text healthbarText;
+    [SerializeField] GameObject ui;
+    public AudioClip hurtSound;
+    public bool isJumping = false;
 
     int itemIndex;
     int previousItemIndex = -1;
-
+    float verticalLookRotation;
     Vector3 smoothMoveVelocity;
     Vector3 moveAmount;
 
@@ -42,8 +51,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         }
         else
         {
-            cameraHolder.SetActive(false);
+            Destroy(playerCamera);
             Destroy(characterController);
+            Destroy(ui);
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -99,13 +109,23 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             Die();
         }
+
+        if (characterController.isGrounded)
+        {
+        // Reset jumping flag
+        isJumping = false;
+        }
+
     }
 
     void Look()
     {
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
+        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * yMouseSensitivity;
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
-        cameraHolder.transform.localEulerAngles = Vector3.left;
+        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+        
     }
 
     void Move()
@@ -117,16 +137,31 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (characterController.isGrounded)
         {
+            // Apply horizontal movement
             moveAmount = moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed);
+
+            // Check for jump input
+            if (Input.GetButton("Jump"))
+            {
+                isJumping = true;
+                moveAmount.y = jumpForce;
+            }
         }
         else
         {
-            moveAmount += Physics.gravity * Time.deltaTime;
+            // Only apply vertical movement due to gravity
+            moveAmount.y += Physics.gravity.y * Time.deltaTime;
+
+            // Reset jumping flag if the player starts descending
+            if (moveAmount.y < 0)
+            {
+                isJumping = false;
+            }
         }
 
+        // Apply movement
         characterController.Move(moveAmount * Time.deltaTime);
     }
-
 
     void EquipItem(int _index)
     {
@@ -163,20 +198,20 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     public void TakeDamage(float damage)
     {
         Debug.Log("took damage" + damage);
-        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+        PV.RPC(nameof(RPC_TakeDamage), PV.Owner, damage);
     }
 
     [PunRPC]
-    void RPC_TakeDamage(float damage)
+    void RPC_TakeDamage(float damage, PhotonMessageInfo info)
     {
-        if (!PV.IsMine)
-            return;
-
+        audioSource.PlayOneShot(hurtSound);
         currentHealth -= damage;
-
+        healthBar.fillAmount = currentHealth / maxHealth;
+        healthbarText.text = currentHealth.ToString();
         if (currentHealth <= 0)
         {
             Die();
+            PlayerManager.Find(info.Sender).GetKill();
         }
     }
 

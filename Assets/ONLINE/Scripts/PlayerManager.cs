@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 using System.IO;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -11,35 +13,84 @@ public class PlayerManager : MonoBehaviour
 
     GameObject controller;
 
+    int kills;
+    int deaths;
+
+    string playerName;
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        if(PV.IsMine)
+        if (PV.IsMine)
         {
             CreateController();
+            GameManager.instance.StartGame(); // Start the game when the local player spawns
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void CreateController()
     {
         Transform spawnpoint = PlayerSpawner.Instance.GetSpawnPoint();
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position, spawnpoint.rotation, 0, new object[] { PV.ViewID });
-        // Instantiate PlayerController
     }
 
-    public void Die() 
+    public void Die()
     {
         PhotonNetwork.Destroy(controller);
-        CreateController();
+
+        deaths++;
+        Hashtable hash = new Hashtable();
+        hash.Add("deaths", deaths);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
+        CheckEndGameCondition();
+    }
+
+    public void GetKill()
+    {
+        PV.RPC(nameof(RPC_GetKill), RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void RPC_GetKill()
+    {
+        kills++;
+        Hashtable hash = new Hashtable();
+        hash.Add("kills", kills);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
+        CheckEndGameCondition();
+    }
+
+    void CheckEndGameCondition()
+    {
+        if (GameManager.instance.IsGameRunning && GameManager.instance.ElapsedTime >= GameManager.instance.GameDuration)
+        {
+            GameManager.instance.EndGame();
+        }
+    }
+
+    public int GetKills()
+    {
+        return kills;
+    }
+
+    public string GetPlayerName()
+    {
+        return playerName;
+    }
+
+    public void SetPlayerName(string name)
+    {
+        playerName = name;
+    }
+
+    public static PlayerManager Find(Player player)
+    {
+        return FindObjectsOfType<PlayerManager>().SingleOrDefault(x => x.PV.Owner == player);
     }
 }

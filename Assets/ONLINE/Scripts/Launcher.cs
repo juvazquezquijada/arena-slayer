@@ -39,7 +39,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene("TitleScene");
         Debug.Log("Disconnected");
-         Destroy(RoomManager.gameObject);
+        Destroy(RoomManager.gameObject);
     }
 
 	public override void OnConnectedToMaster()

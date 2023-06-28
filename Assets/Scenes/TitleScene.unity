@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.003717011, g: 0.0036601746, b: 0.004281511, a: 1}
+  m_IndirectSpecularColor: {r: 0.063640185, g: 0.063825466, b: 0.06921509, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 6a43ee43d361aa0468c786f5808e7c58, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4979,8 +4979,8 @@ GameObject:
   - component: {fileID: 1283009211}
   - component: {fileID: 1283009210}
   - component: {fileID: 1283009209}
-  - component: {fileID: 1283009214}
   - component: {fileID: 1283009213}
+  - component: {fileID: 1283009214}
   m_Layer: 5
   m_Name: TitleUi
   m_TagString: Untagged
@@ -5178,16 +5178,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1283009208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0ea7f2d9eacc0e4080d242e5ae0d6f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 27e9ceacf5785384e97c0e4b6fb7aaa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startButton: {fileID: 387929770}
-  backButton: {fileID: 577570808}
+  backButton: {fileID: 1540726110}
   multiplayerButton: {fileID: 402895602}
   mapSelect: {fileID: 442561553}
   mapSelect2: {fileID: 0}
   firstMapButton: {fileID: 32281782}
-  tutorialText: {fileID: 1090618119}
+  tutorialText: {fileID: 726050223}
   tutorialButton: {fileID: 1790012666}
   audioSource: {fileID: 1283009213}
   selectSound: {fileID: 8300000, guid: 253f088bfe4cd7c459cae80f4a9e4607, type: 3}
@@ -6480,7 +6480,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1283009214}
         m_TargetAssemblyTypeName: TitleScreenManager, Assembly-CSharp
-        m_MethodName: ShowTutorial
+        m_MethodName: StartCityDay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
