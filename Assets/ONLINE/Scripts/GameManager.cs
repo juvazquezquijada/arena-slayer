@@ -1,153 +1,98 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using System.Linq;
-using System.IO;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 using TMPro;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public static GameManager instance;
+    public static GameManager Instance;
 
-    public float gameDuration = 300f; // 5 minutes in seconds
+    public int targetKills = 10; // The number of kills needed to end the game
+    public TextMeshProUGUI winnerText; // Reference to the TMPro text component to display the winner's name
 
-    bool isGameRunning = false;
-    [SerializeField] float elapsedTime = 0f;
+    public List<PlayerManager> playerManagers = new List<PlayerManager>(); // List of PlayerManager instances in the scene
 
-    [SerializeField] TMP_Text timerText;
-    [SerializeField] TMP_Text winnerText;
-
-    public List<PlayerManager> playerManagers = new List<PlayerManager>();
+    private bool isGameEnded = false; // Flag to check if the game has ended
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
-        // Find all PlayerManager components in the scene and add them to the list
-        PlayerManager[] managers = FindObjectsOfType<PlayerManager>();
-        playerManagers.AddRange(managers);
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
+    public override void OnEnable()
     {
-        if (PhotonNetwork.IsMasterClient)
+        base.OnEnable();
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    public void RegisterPlayerManager(PlayerManager playerManager)
+    {
+        if (!playerManagers.Contains(playerManager))
         {
-            StartGame();
+            playerManagers.Add(playerManager);
         }
     }
 
-    void Update()
+    public void UnregisterPlayerManager(PlayerManager playerManager)
     {
-        if (isGameRunning)
+        if (playerManagers.Contains(playerManager))
         {
-            elapsedTime += Time.deltaTime;
-            UpdateTimerUI();
+            playerManagers.Remove(playerManager);
         }
     }
 
-    public bool IsGameRunning
+    public void AddKill(PlayerManager playerManager)
     {
-        get { return isGameRunning; }
+        if (isGameEnded)
+            return;
+
+        playerManager.GetKill();
+
+        CheckGameEndConditions();
     }
 
-    public float ElapsedTime
+    void CheckGameEndConditions()
     {
-        get { return elapsedTime; }
-    }
-
-    public float GameDuration
-    {
-        get { return gameDuration; }
-    }
-
-    public void StartGame()
-    {
-        isGameRunning = true;
-    }
-
-    public void EndGame()
-    {
-        isGameRunning = false;
-
-        // Determine the winner based on kills
-        PlayerManager winner = playerManagers[0];
-        bool isTie = false;
-
-        foreach (PlayerManager manager in playerManagers)
+        foreach (PlayerManager playerManager in playerManagers)
         {
-            int playerKills = manager.GetKills();
-            int winnerKills = winner.GetKills();
-
-            if (playerKills > winnerKills)
+            if (playerManager.GetKills() >= targetKills)
             {
-                winner = manager;
-                isTie = false;
-            }
-            else if (playerKills == winnerKills)
-            {
-                isTie = true;
-            }
-        }
+                // Game has ended
+                isGameEnded = true;
+                string winnerName = playerManager.GetPlayerName();
+                winnerText.text = "Winner: " + winnerName;
+                winnerText.gameObject.SetActive(true);
 
-        if (isTie)
-        {
-            // Handle tie scenario (e.g., display tie message)
-            winnerText.text = "It's a tie!";
-            Debug.Log("Game Over! It's a tie!");
-        }
-        else
-        {
-            // Display the winner's name
-            winnerText.text = "Winner: " + winner.GetPlayerName().ToString();
-            Debug.Log("Game Over! Winner: " + winner.GetPlayerName());
-        }
-    }
+                Debug.Log("Game Over! Player " + winnerName + " wins!");
 
+                // Trigger game end logic here (e.g., display a game over screen, show stats, etc.)
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        if (targetPlayer == PhotonNetwork.LocalPlayer && changedProps.ContainsKey("kills"))
-        {
-            CheckEndGameCondition();
-        }
-    }
-
-    void CheckEndGameCondition()
-    {
-        if (isGameRunning && elapsedTime >= gameDuration)
-        {
-            EndGame();
-        }
-        else if (isGameRunning && elapsedTime < gameDuration)
-        {
-            float remainingTime = Mathf.Clamp(gameDuration - elapsedTime, 0f, gameDuration);
-            int minutes = Mathf.FloorToInt(remainingTime / 60f);
-            int seconds = Mathf.FloorToInt(remainingTime % 60f);
-
-            if (minutes == 0 && seconds == 0)
-            {
-                EndGame();
+                // You can also implement a restart or back to menu functionality here
+                // Example: StartCoroutine(RestartGameCoroutine());
+                break;
             }
         }
     }
 
-    void UpdateTimerUI()
+    IEnumerator RestartGameCoroutine()
     {
-        float remainingTime = Mathf.Clamp(gameDuration - elapsedTime, 0f, gameDuration);
-        int minutes = Mathf.FloorToInt(remainingTime / 60f);
-        int seconds = Mathf.FloorToInt(remainingTime % 60f);
-        string timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
-        timerText.text = timerString;
+        yield return new WaitForSeconds(5f); // Wait for 5 seconds before restarting the game
+
+        // Restart the game logic here
     }
 }

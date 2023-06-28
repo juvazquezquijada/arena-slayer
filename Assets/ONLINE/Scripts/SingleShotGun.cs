@@ -37,11 +37,10 @@ public class SingleShotGun : Gun
     {
         currentAmmo = Mathf.Clamp(currentAmmo, -1, maxAmmo);
 
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < maxAmmo)
+        if (currentAmmo <= -1)
         {
             Reload();
         }
-
     }
 
     public override void Use()

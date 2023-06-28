@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: 854365314280875310}
   - component: {fileID: 854365314280875296}
   - component: {fileID: 854365314280875297}
+  - component: {fileID: 3837630929378440231}
   m_Layer: 7
   m_Name: Left Arm
   m_TagString: Untagged
@@ -332,6 +333,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3837630929378440231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854365314280875311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &854365314294004208
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,6 +640,7 @@ GameObject:
   - component: {fileID: 854365314432553102}
   - component: {fileID: 854365314432553088}
   - component: {fileID: 854365314432553089}
+  - component: {fileID: 2276552291971312222}
   m_Layer: 7
   m_Name: Right Arm
   m_TagString: Untagged
@@ -695,6 +713,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2276552291971312222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854365314432553103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &854365314460792971
 GameObject:
   m_ObjectHideFlags: 0
@@ -2505,7 +2539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &854365315160594313
 Transform:
   m_ObjectHideFlags: 0
@@ -4789,6 +4823,8 @@ MonoBehaviour:
   observableSearch: 1
   ObservedComponents:
   - {fileID: -8980095199185301762}
+  - {fileID: 3837630929378440231}
+  - {fileID: 2276552291971312222}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5756,7 +5792,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4754576958077921464}
         m_TargetAssemblyTypeName: LeaveMenu, Assembly-CSharp
         m_MethodName: Cancel
         m_Mode: 1
@@ -5996,6 +6032,7 @@ GameObject:
   - component: {fileID: 8781621048147942327}
   - component: {fileID: 8217492567815911636}
   - component: {fileID: 4965504682025615674}
+  - component: {fileID: 4754576958077921464}
   m_Layer: 5
   m_Name: PlayerHUD
   m_TagString: Untagged
@@ -6089,6 +6126,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4754576958077921464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3953502360990211071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc14b6675f294a64f905764d4f2b727a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leaveGameMenu: {fileID: 8199009235436566397}
 --- !u!1 &4257720249243423556
 GameObject:
   m_ObjectHideFlags: 0
@@ -7093,6 +7143,7 @@ GameObject:
   - component: {fileID: 347662030662491568}
   - component: {fileID: 69095964327308067}
   - component: {fileID: 4957497636556062241}
+  - component: {fileID: 1658950821067209981}
   m_Layer: 0
   m_Name: 3D Canvas
   m_TagString: Untagged
@@ -7182,6 +7233,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1658950821067209981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6233847784689088010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e78fb63b2f445340baa5bf85277294d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPV: {fileID: 2574223680705496257}
+  text: {fileID: 3605330326713318723}
 --- !u!1 &7208274732513769353
 GameObject:
   m_ObjectHideFlags: 0
@@ -7380,7 +7445,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4754576958077921464}
         m_TargetAssemblyTypeName: LeaveMenu, Assembly-CSharp
         m_MethodName: LeaveGame
         m_Mode: 1

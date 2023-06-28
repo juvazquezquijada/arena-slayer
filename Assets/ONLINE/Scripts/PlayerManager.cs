@@ -28,7 +28,6 @@ public class PlayerManager : MonoBehaviour
         if (PV.IsMine)
         {
             CreateController();
-            GameManager.instance.StartGame(); // Start the game when the local player spawns
         }
     }
 
@@ -41,13 +40,12 @@ public class PlayerManager : MonoBehaviour
     public void Die()
     {
         PhotonNetwork.Destroy(controller);
+        CreateController();
 
         deaths++;
         Hashtable hash = new Hashtable();
         hash.Add("deaths", deaths);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-
-        CheckEndGameCondition();
     }
 
     public void GetKill()
@@ -62,16 +60,6 @@ public class PlayerManager : MonoBehaviour
         Hashtable hash = new Hashtable();
         hash.Add("kills", kills);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-
-        CheckEndGameCondition();
-    }
-
-    void CheckEndGameCondition()
-    {
-        if (GameManager.instance.IsGameRunning && GameManager.instance.ElapsedTime >= GameManager.instance.GameDuration)
-        {
-            GameManager.instance.EndGame();
-        }
     }
 
     public int GetKills()

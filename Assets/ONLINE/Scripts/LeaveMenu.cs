@@ -8,21 +8,25 @@ public class LeaveMenu : MonoBehaviourPunCallbacks
 {
     public GameObject leaveGameMenu; // Reference to the leave game menu UI object
 
-    private bool isLeaving = false; // Flag to track if the player is in the process of leaving
+    private bool menuActive = false; // Flag to track if the player is in the process of leaving
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !menuActive)
         {
             ToggleLeaveGameMenu();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && menuActive)
+        {
+            Cancel();
         }
     }
 
     public void LeaveGame()
     {
-        if (!isLeaving && PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
+        if  (PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
         {
-            isLeaving = true;
+            
             PhotonNetwork.LeaveRoom(); // Leave the current room
             PhotonNetwork.Disconnect();
             PhotonNetwork.AutomaticallySyncScene = false;
@@ -39,10 +43,12 @@ public class LeaveMenu : MonoBehaviourPunCallbacks
         leaveGameMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        menuActive = false;
     }
 
     private void ToggleLeaveGameMenu()
     {
+        menuActive = true;
         bool isMenuActive = leaveGameMenu.activeSelf;
         leaveGameMenu.SetActive(!isMenuActive);
         Cursor.lockState = CursorLockMode.None;
