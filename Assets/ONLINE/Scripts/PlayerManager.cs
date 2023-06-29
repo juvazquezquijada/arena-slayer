@@ -50,31 +50,17 @@ public class PlayerManager : MonoBehaviour
 
     public void GetKill()
     {
-        PV.RPC(nameof(RPC_GetKill), RpcTarget.AllBuffered);
+        PV.RPC(nameof(RPC_GetKill), PV.Owner);
     }
 
     [PunRPC]
     void RPC_GetKill()
     {
         kills++;
+
         Hashtable hash = new Hashtable();
         hash.Add("kills", kills);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-    }
-
-    public int GetKills()
-    {
-        return kills;
-    }
-
-    public string GetPlayerName()
-    {
-        return playerName;
-    }
-
-    public void SetPlayerName(string name)
-    {
-        playerName = name;
     }
 
     public static PlayerManager Find(Player player)

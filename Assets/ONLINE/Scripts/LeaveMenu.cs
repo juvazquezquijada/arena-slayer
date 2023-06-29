@@ -30,7 +30,7 @@ public class LeaveMenu : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom(); // Leave the current room
             PhotonNetwork.Disconnect();
             PhotonNetwork.AutomaticallySyncScene = false;
-            PhotonNetwork.LoadLevel(0);
+            PhotonNetwork.LoadLevel(2);
         }
 
         // Hide the leave game menu

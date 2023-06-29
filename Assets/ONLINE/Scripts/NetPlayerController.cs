@@ -18,6 +18,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] Image healthBar;
     [SerializeField] TMP_Text healthbarText;
     [SerializeField] GameObject ui;
+    [SerializeField] GameObject wepCamera;
+
+    public FFAGameManager gameManager;
     public AudioClip hurtSound;
     public bool isJumping = false;
 
@@ -41,6 +44,8 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         PV = GetComponent<PhotonView>();
 
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+
+        gameManager = FFAGameManager.Instance;
     }
 
     void Start()
@@ -52,6 +57,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         else
         {
             Destroy(playerCamera);
+            Destroy(wepCamera);
             Destroy(characterController);
             Destroy(ui);
         }
@@ -62,59 +68,69 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void Update()
     {
-        if (!PV.IsMine)
-            return;
-
-        Look();
-        Move();
-
-        for (int i = 0; i < items.Length; i++)
+        if (!FFAGameManager.Instance.isGameOver)
         {
-            if (Input.GetKeyDown((i + 1).ToString()))
+            if (!PV.IsMine)
+                return;
+
+            Look();
+            Move();
+
+            for (int i = 0; i < items.Length; i++)
             {
-                EquipItem(i);
-                break;
+                if (Input.GetKeyDown((i + 1).ToString()))
+                {
+                    EquipItem(i);
+                    break;
+                }
             }
+
+            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+            {
+                if (itemIndex >= items.Length - 1)
+                {
+                    EquipItem(0);
+                }
+                else
+                {
+                    EquipItem(itemIndex + 1);
+                }
+            }
+            else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+            {
+                if (itemIndex <= 0)
+                {
+                    EquipItem(items.Length - 1);
+                }
+                else
+                {
+                    EquipItem(itemIndex - 1);
+                }
+            }
+
+            if (Input.GetMouseButton(0))
+            {
+                items[itemIndex].Use();
+            }
+
+            if (transform.position.y < -5f) // Die if you fall out of the world
+            {
+                Die();
+            }
+
+            if (characterController.isGrounded)
+            {
+                // Reset jumping flag
+                isJumping = false;
+            }
+
         }
 
-        if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+        else
         {
-            if (itemIndex >= items.Length - 1)
-            {
-                EquipItem(0);
-            }
-            else
-            {
-                EquipItem(itemIndex + 1);
-            }
-        }
-        else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
-        {
-            if (itemIndex <= 0)
-            {
-                EquipItem(items.Length - 1);
-            }
-            else
-            {
-                EquipItem(itemIndex - 1);
-            }
+            GameOver();
         }
 
-        if (Input.GetMouseButton(0))
-        {
-            items[itemIndex].Use();
-        }
-
-        if (transform.position.y < -5f) // Die if you fall out of the world
-        {
-            Die();
-        }
-
-        if (characterController.isGrounded)
-        {
-        // Reset jumping flag
-        isJumping = false;
-        }
 
     }
 
@@ -125,7 +141,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
-        
+
     }
 
     void Move()
@@ -213,6 +229,14 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             Die();
             PlayerManager.Find(info.Sender).GetKill();
         }
+    }
+
+    void GameOver()
+    {
+        Destroy(playerCamera);
+        Destroy(wepCamera);
+        Destroy(characterController);
+        Destroy(ui);
     }
 
     void Die()
