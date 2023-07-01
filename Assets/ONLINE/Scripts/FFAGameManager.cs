@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using Photon.Pun;
 using TMPro;
@@ -11,6 +13,12 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
     public float gameDuration = 300f; // 5 minutes in seconds
     public TMP_Text timerText;
     public GameObject endGame;
+    public AudioSource gameMusicSource;
+    public AudioSource lastSecondsMusicSource;
+    public float fadeDuration = 1f; // Duration of the fade in seconds
+
+
+
 
     public static FFAGameManager Instance;
 
@@ -55,6 +63,14 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 double remainingSeconds = gameDuration - elapsedSeconds;
                 UpdateTimerText(remainingSeconds);
+
+                // Check if there are 30 seconds remaining
+                if (remainingSeconds <= 60 && !lastSecondsMusicSource.isPlaying)
+                {
+                    // Stop the initial game music and play the 30-second music
+                    gameMusicSource.Stop();
+                    lastSecondsMusicSource.Play();
+                }
             }
         }
         else if (isTimerInitialized)
@@ -82,12 +98,19 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         networkTime = PhotonNetwork.Time;
         syncTime = networkTime;
         isTimerInitialized = true;
+        // Play the initial game music
+        gameMusicSource.Play();
     }
 
     private void EndGame()
     {
         // Notify all clients that the game has ended
         photonView.RPC("GameEnded", RpcTarget.All);
+
+        if (lastSecondsMusicSource.isPlaying)
+        {
+            StartCoroutine(FadeOutMusic(lastSecondsMusicSource, fadeDuration));
+        }
     }
 
     [PunRPC]
@@ -135,4 +158,38 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         syncTime = PhotonNetwork.Time;
         isTimerInitialized = true;
     }
+
+    private IEnumerator FadeOutMusic(AudioSource audioSource, float duration)
+    {
+        // Store the initial volume of the audio source
+        float startVolume = audioSource.volume;
+
+        // Calculate the target volume (0)
+        float targetVolume = 0f;
+
+        // Calculate the current time and the end time of the fade
+        float currentTime = 0f;
+        float endTime = currentTime + duration;
+
+        // Gradually decrease the volume over time
+        while (currentTime < endTime)
+        {
+            // Calculate the current volume based on the fade progress
+            float t = currentTime / duration;
+            audioSource.volume = Mathf.Lerp(startVolume, targetVolume, t);
+
+            // Increment the current time
+            currentTime += Time.deltaTime;
+
+            // Wait for the next frame
+            yield return null;
+        }
+
+        // Ensure the volume is set to the target volume
+        audioSource.volume = targetVolume;
+
+        // Stop the audio source
+        audioSource.Stop();
+    }
+
 }
