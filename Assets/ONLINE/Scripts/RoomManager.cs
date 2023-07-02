@@ -33,18 +33,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.buildIndex == 1) // We're in the game scene
+        if (PhotonNetwork.IsConnectedAndReady)
         {
-            if (PhotonNetwork.IsConnectedAndReady)
+            if (scene.name == "MPBattlefield" || scene.name == "MPPool")
             {
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
             }
-            else
-            {
-                Debug.LogError("Failed to instantiate PlayerManager. PhotonNetwork is not connected and ready.");
-            }
         }
-        else if (scene.buildIndex == 0) // We're in the menu scene
+
+        if (scene.buildIndex == 0) // We're in the menu scene
         {
             if (PhotonNetwork.IsConnectedAndReady)
             {
