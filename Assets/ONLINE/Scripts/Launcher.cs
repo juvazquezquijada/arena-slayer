@@ -194,6 +194,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         List<string> maps = new List<string>();
         maps.Add("MPPool");
         maps.Add("MPBattlefield");
+        maps.Add("MPCity");
         // Add more maps as needed
 
         return maps;
