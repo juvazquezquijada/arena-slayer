@@ -12,6 +12,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
     public Camera mapCamera;
     public float gameDuration = 300f; // 5 minutes in seconds
     public TMP_Text timerText;
+    public TMP_Text gameTimerText;
     public GameObject endGame;
     public AudioSource gameMusicSource;
     public AudioSource lastSecondsMusicSource;
@@ -38,6 +39,8 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         Instance = this;
+
+        
     }
 
     private void Start()
@@ -47,6 +50,8 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
             isHost = true;
             StartGame();
         }
+
+        mapCamera.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -87,6 +92,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         // Format the timer text
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        gameTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     private void StartGame()
@@ -105,7 +111,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
     private void EndGame()
     {
         // Notify all clients that the game has ended
-        photonView.RPC("GameEnded", RpcTarget.All);
+        photonView.RPC("RPC_GameEnded", RpcTarget.All);
 
         if (lastSecondsMusicSource.isPlaying)
         {
@@ -114,7 +120,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    private void GameEnded()
+    void RPC_GameEnded()
     {
         isGameOver = true;
 
@@ -122,6 +128,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         scoreboard.alpha = 1;
 
         Destroy(timerText);
+        Destroy(gameTimerText);
         endGame.gameObject.SetActive(true);
 
         // Switch to the map camera

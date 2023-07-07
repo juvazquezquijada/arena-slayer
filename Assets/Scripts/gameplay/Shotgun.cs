@@ -13,7 +13,7 @@ public class Shotgun : MonoBehaviour
     private float fireTimer = 0f;
     public Animator shotgunAnimator;
     private bool shotFired = false;
-    private int currentAmmo = 25;
+    public int currentAmmo = 25;
     public AudioClip ammoPickup;
     public AudioClip shootSound;
     public int maxAmmo = 25; 
@@ -22,8 +22,8 @@ public class Shotgun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       CanvasManager.Instance.UpdateAmmo(currentAmmo); 
-       audioSource = GetComponent<AudioSource>();
+        CanvasManager.Instance.UpdateAmmo(currentAmmo);
+        audioSource = GetComponent<AudioSource>();
        currentAmmo = maxAmmo;
     }
 

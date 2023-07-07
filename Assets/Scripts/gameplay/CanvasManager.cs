@@ -119,7 +119,13 @@ public class CanvasManager : MonoBehaviour
     }
     private void UpdateAmmoText()
     {
-        if (player.GetComponent<PlasmaGun>().enabled)
+        if (player.GetComponent<Shotgun>().enabled)
+        {
+            int shotgunAmmo = player.GetComponent<Shotgun>().GetCurrentAmmo();
+            ammo.text = shotgunAmmo.ToString();
+        }
+
+        else if (player.GetComponent<PlasmaGun>().enabled)
         {
             int plasmaGunAmmo = player.GetComponent<PlasmaGun>().GetCurrentAmmo();
             ammo.text = plasmaGunAmmo.ToString();
@@ -176,7 +182,7 @@ public class CanvasManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        myCamera.GetComponent<Camera>().enabled = false;
+        myCamera.GetComponent<PlayerCamera>().enabled = false;
         lowAmmoText.gameObject.SetActive(false);
         lowHealthText.gameObject.SetActive(false);
         outOfAmmoText.gameObject.SetActive(false);
@@ -186,7 +192,7 @@ public class CanvasManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        myCamera.GetComponent<Camera>().enabled = false;
+        myCamera.GetComponent<PlayerCamera>().enabled = false;
         savedRotation = myCamera.transform.rotation;
         Time.timeScale = 0f; // Pause the game
         if (!isPaused)
@@ -204,7 +210,7 @@ public class CanvasManager : MonoBehaviour
             Time.timeScale = 1f; // Unpause the game
             isPaused = false;
             pauseMenuPanel.SetActive(false);
-            myCamera.GetComponent<Camera>().enabled = true;
+            myCamera.GetComponent<PlayerCamera>().enabled = true;
             Cursor.visible = false;
             myCamera.transform.rotation = savedRotation;
             musicAudioSource.UnPause();
@@ -218,7 +224,7 @@ public class CanvasManager : MonoBehaviour
         pauseMenuPanel.SetActive(false);
 
         // Enable the camera and hide the cursor
-        myCamera.GetComponent<Camera>().enabled = true;
+        myCamera.GetComponent<PlayerCamera>().enabled = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         myCamera.transform.rotation = savedRotation;
@@ -232,7 +238,7 @@ public class CanvasManager : MonoBehaviour
     {
         SceneManager.LoadScene("TitleScene");
         AudioListener.pause = false; // Resume the music
-        myCamera.GetComponent<Camera>().enabled = true;
+        myCamera.GetComponent<PlayerCamera>().enabled = true;
         audioSource.PlayOneShot(menuSound);
         isPaused = false;
         Time.timeScale = 1f;

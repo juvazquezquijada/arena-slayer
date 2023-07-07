@@ -26,7 +26,11 @@ public class SingleShotGun : Gun
 
     private float lastFireTime; // Time when the gun was last fired
 
-
+    void Start()
+    {
+        currentAmmo = maxAmmo;
+        UpdateAmmoUI();
+    }
 
     void Awake()
     {
@@ -35,9 +39,9 @@ public class SingleShotGun : Gun
 
     void Update()
     {
-        currentAmmo = Mathf.Clamp(currentAmmo, -1, maxAmmo);
+        currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
 
-        if (currentAmmo <= -1)
+        if (currentAmmo <= 0)
         {
             Reload();
         }
@@ -50,26 +54,27 @@ public class SingleShotGun : Gun
             return;
         }
 
-        if (currentAmmo > -1 && Time.time - lastFireTime >= fireRate) // Check if enough time has passed since the last shot and if there is ammo available
+        if (currentAmmo > 0 && Time.time - lastFireTime >= fireRate) // Check if enough time has passed since the last shot and if there is ammo available
         {
             lastFireTime = Time.time; // Update the last fire time
 
             Shoot(); // Perform the shooting logic
         }
+
+        
+    }
+
+    public void UpdateAmmoUIOnSwitch()
+    {
+        UpdateAmmoUI();
     }
 
     void Shoot()
     {
-        if (currentAmmo <= -1)
-        {
-            // Player is out of ammo
-            return;
-        }
+        currentAmmo--;
 
         UpdateAmmoUI();
-        currentAmmo--;
-        ammoBar.fillAmount = (float)currentAmmo / maxAmmo;
-
+        
         // play shoot effects
         animator.SetTrigger(shootAnimationName);
         PV.RPC("RPC_PlayShootEffects", RpcTarget.All);
@@ -120,6 +125,8 @@ public class SingleShotGun : Gun
     void UpdateAmmoUI()
     {
         ammoText.text = currentAmmo.ToString();
+        ammoBar.fillAmount = (float)currentAmmo / maxAmmo;
+
 
         // Update UI indicators based on ammo count
         if (currentAmmo <= lowAmmoThreshold && currentAmmo > 0)

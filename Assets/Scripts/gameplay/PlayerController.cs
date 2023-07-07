@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     public int points = 0;
     public bool isDead = false;
     private CanvasManager canvasManager;
-    private Rigidbody rb;
     private bool hasPlayedDeathSound = false;
     
 
@@ -31,7 +30,6 @@ public class PlayerController : MonoBehaviour
         
         //Get CharacterController component
         controller = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
         canvasManager = CanvasManager.Instance;
         CanvasManager.Instance.UpdateHealth(health);
         CanvasManager.Instance.UpdateScore(score);
@@ -127,9 +125,8 @@ public class PlayerController : MonoBehaviour
             GetComponent<CharacterController>().enabled = false;
             GetComponent<Shotgun>().isDead = true;
             GetComponent<PlasmaGun>().isDead = true;
-            rb.velocity = Vector3.zero; // stop player movement
-            rb.angularVelocity = Vector3.zero;
-                                 
+            GetComponent<RPG>().isDead = true;
+
     }
 
 

@@ -37,7 +37,12 @@ public class WeaponManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !hasPrimary  && Time.timeScale > 0.5 ||// or 
+        if (Time.timeScale == 0f)
+        {
+            // Don't shoot the gun if the game is paused
+            return;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && !hasPrimary  && Time.timeScale > 0.5 ||// or 
         Input.GetKeyDown(KeyCode.Joystick1Button4) && !hasPrimary && Time.timeScale > 0.5 ) // Switch to primary weapon
         {
             SwitchToPrimaryWeapon();

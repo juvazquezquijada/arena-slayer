@@ -30,6 +30,18 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     Vector3 smoothMoveVelocity;
     Vector3 moveAmount;
 
+    public float maxStamina = 100f;
+    public float currentStamina;
+    public float staminaRegenRate = 10f;
+    public float sprintStaminaCost = 20f;
+    public float jumpStaminaCost = 10f;
+    public float refillDelayDuration = 3f;
+    private bool isRefillingStamina;
+    private float timeSinceLastAction;
+    private bool isSprinting;
+
+    public Image staminaBarImage;
+
     CharacterController characterController;
     PhotonView PV;
 
@@ -64,6 +76,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        currentStamina = maxStamina;
+        timeSinceLastAction = Time.time;
     }
 
     void Update()
@@ -153,32 +168,58 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (characterController.isGrounded)
         {
-            // Apply horizontal movement
-            moveAmount = moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed);
+            // Check for sprint input and adjust movement speed and stamina
+            if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0)
+            {
+                isSprinting = true;
+                moveAmount = moveDir * sprintSpeed;
+                currentStamina -= sprintStaminaCost * Time.deltaTime;
+                timeSinceLastAction = Time.time;
+            }
+            else
+            {
+                isSprinting = false;
+                moveAmount = moveDir * walkSpeed;
+            }
 
-            // Check for jump input
-            if (Input.GetButton("Jump"))
+            // Check for jump input and consume stamina
+            if (Input.GetButton("Jump") && currentStamina >= jumpStaminaCost)
             {
                 isJumping = true;
                 moveAmount.y = jumpForce;
+                currentStamina -= jumpStaminaCost;
+                timeSinceLastAction = Time.time;
             }
         }
         else
         {
-            // Only apply vertical movement due to gravity
             moveAmount.y += Physics.gravity.y * Time.deltaTime;
 
-            // Reset jumping flag if the player starts descending
             if (moveAmount.y < 0)
             {
                 isJumping = false;
             }
         }
 
+        // Prevent sprinting when stamina is 0
+        if (currentStamina <= 0)
+        {
+            isSprinting = false;
+        }
+
+        // Refill stamina if it has been refillDelayDuration seconds since the last action
+        if (Time.time - timeSinceLastAction >= refillDelayDuration)
+        {
+            currentStamina += staminaRegenRate * Time.deltaTime;
+            currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
+        }
+
+        // Update stamina bar fill amount
+        staminaBarImage.fillAmount = currentStamina / maxStamina;
+
         // Apply movement
         characterController.Move(moveAmount * Time.deltaTime);
     }
-
     void EquipItem(int _index)
     {
         if (_index == previousItemIndex)
@@ -195,6 +236,12 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         previousItemIndex = itemIndex;
 
+        // Call the UpdateAmmoUIOnSwitch method on the currently equipped gun (if it is a SingleShotGun)
+        if (items[itemIndex] is SingleShotGun singleShotGun)
+        {
+            singleShotGun.UpdateAmmoUIOnSwitch();
+        }
+
         if (PV.IsMine)
         {
             Hashtable hash = new Hashtable();
@@ -202,6 +249,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
         }
     }
+
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
