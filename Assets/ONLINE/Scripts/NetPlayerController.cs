@@ -83,6 +83,15 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            // Call the Reload() method on the currently equipped gun
+            if (items[itemIndex] is Gun equippedGun)
+            {
+                equippedGun.Reload();
+            }
+        }
+
         if (!FFAGameManager.Instance.isGameOver)
         {
             if (!PV.IsMine)

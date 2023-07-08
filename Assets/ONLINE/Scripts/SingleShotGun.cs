@@ -90,7 +90,7 @@ public class SingleShotGun : Gun
         }
     }
 
-    void Reload()
+    public override void Reload()
     {
         if (isReloading || currentAmmo == maxAmmo)
         {
