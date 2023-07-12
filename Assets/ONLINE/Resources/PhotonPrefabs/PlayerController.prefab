@@ -4940,6 +4940,7 @@ MonoBehaviour:
   wepCamera: {fileID: 0}
   gameManager: {fileID: 0}
   hurtSound: {fileID: 8300000, guid: 0df9dde590ee377488e3ab9b25540ccc, type: 3}
+  jumpSound: {fileID: 8300000, guid: ee830c132e10d594e8ffbc6412536a26, type: 3}
   isJumping: 0
   maxStamina: 100
   currentStamina: 0
@@ -8151,7 +8152,7 @@ MonoBehaviour:
   lowAmmoText: {fileID: 2042981062802695934}
   outOfAmmoText: {fileID: 4718490214590361130}
   reloadTime: 4
-  reloadSound: {fileID: 0}
+  reloadSound: {fileID: 8300000, guid: ac7801aec1b14f842a026ac30906a237, type: 3}
   reloadAnimationName: ReloadAK47
 --- !u!82 &9138613998520104121
 AudioSource:

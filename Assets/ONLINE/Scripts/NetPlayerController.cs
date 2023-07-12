@@ -22,6 +22,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public FFAGameManager gameManager;
     public AudioClip hurtSound;
+    public AudioClip jumpSound;
     public bool isJumping = false;
 
     int itemIndex;
@@ -198,6 +199,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
                 moveAmount.y = jumpForce;
                 currentStamina -= jumpStaminaCost;
                 timeSinceLastAction = Time.time;
+                audioSource.PlayOneShot(jumpSound);
             }
         }
         else
