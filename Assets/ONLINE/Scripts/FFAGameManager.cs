@@ -154,6 +154,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         scoreboard.alpha = 1;
 
         timerText.gameObject.SetActive(false);
+        gameTimerText.gameObject.SetActive(false);
 
         endGame.gameObject.SetActive(true);
 
