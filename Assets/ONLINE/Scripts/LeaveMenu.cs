@@ -53,5 +53,7 @@ public class LeaveMenu : MonoBehaviourPunCallbacks
         leaveGameMenu.SetActive(!isMenuActive);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+
     }
 }

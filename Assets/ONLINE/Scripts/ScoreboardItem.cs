@@ -14,6 +14,28 @@ public class ScoreboardItem : MonoBehaviourPunCallbacks
 
 	Player player;
 
+	void Start()
+	{
+		UpdateStats();
+	}
+
+	void Update()
+	{
+		UpdateStats();
+	}
+
+	public void ResetStats()
+	{
+		Hashtable hash = new Hashtable();
+		hash.Add("kills", 0);
+		hash.Add("deaths", 0);
+		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
+		Debug.Log("Reseted Player stats");
+	}
+
+
+
 	public void Initialize(Player player)
 	{
 		this.player = player;

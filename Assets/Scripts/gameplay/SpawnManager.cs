@@ -11,7 +11,7 @@ public class SpawnManager : MonoBehaviour
     private int currentEnemies = 0;
     public Transform[] spawnPositions;
     private bool gameOver = false;
-    private PlayerController player;
+    private PlayerController1 player;
     public static SpawnManager Instance;
 
     private void Awake()
@@ -21,7 +21,7 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        player = FindObjectOfType<PlayerController>();
+        player = FindObjectOfType<PlayerController1>();
         StartCoroutine(SpawnEnemies());
     }
 

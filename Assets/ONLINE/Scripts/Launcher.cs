@@ -14,7 +14,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     [SerializeField] TMP_InputField roomNameInputField;
     [SerializeField] TMP_Text errorText;
-    [SerializeField] TMP_Text roomNameText;
+    [SerializeField] TMP_Text roomNameText, mapNameText;
     [SerializeField] Transform roomListContent;
     [SerializeField] GameObject roomListItemPrefab;
     [SerializeField] Transform playerListContent;
@@ -115,6 +115,20 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
 
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+
+        // Display selected map for local player
+        mapNameText.text = "Selected map: " + selectedMap;
+
+        // Check if the custom property "map" exists in the room
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("map", out object mapValue))
+        {
+            string mapName = mapValue as string;
+            mapNameText.text = "Selected map: " + mapName;
+        }
+        else
+        {
+            Debug.LogError("Failed to retrieve selected map from custom room properties.");
+        }
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -187,8 +201,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
-    }
 
+        // When a new player enters the room, update their UI to display the selected map
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("map", out object mapValue))
+        {
+            string mapName = mapValue as string;
+            photonView.RPC("UpdateMapDisplayForNewPlayer", newPlayer, mapName);
+        }
+    }
     private List<string> GetAvailableMaps()
     {
         List<string> maps = new List<string>();
@@ -198,5 +218,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         // Add more maps as needed
 
         return maps;
+    }
+
+    // Remote Procedure Call (RPC) method to update the map display for new players
+    [PunRPC]
+    void UpdateMapDisplayForNewPlayer(string mapName)
+    {
+        mapNameText.text = "Selected map: " + mapName;
     }
 }

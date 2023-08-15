@@ -16,11 +16,12 @@ public class SingleShotGun : Gun
     public int maxAmmo, lowAmmoThreshold;
     public int currentAmmo;
     [SerializeField] Image ammoBar;
-    [SerializeField] TextMeshProUGUI ammoText, lowAmmoText, outOfAmmoText;
+    [SerializeField] TextMeshProUGUI ammoText, lowAmmoText, outOfAmmoText, reloadingText;
     [SerializeField] float reloadTime;
     [SerializeField] AudioClip reloadSound;
     [SerializeField] string reloadAnimationName;
     private bool isReloading = false;
+    [SerializeField] ParticleSystem muzzleFlashParticleSystem;
 
     PhotonView PV;
 
@@ -40,11 +41,6 @@ public class SingleShotGun : Gun
     void Update()
     {
         currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
-
-        if (currentAmmo <= 0)
-        {
-            Reload();
-        }
     }
 
     public override void Use()
@@ -88,6 +84,8 @@ public class SingleShotGun : Gun
             hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
             PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
         }
+
+        PlayMuzzleFlash();
     }
 
     public override void Reload()
@@ -107,6 +105,8 @@ public class SingleShotGun : Gun
         StartCoroutine(RefillAmmo());
 
         PV.RPC("RPC_PlayReloadEffects", RpcTarget.All);
+
+        reloadingText.gameObject.SetActive(true);
     }
 
     IEnumerator RefillAmmo()
@@ -114,19 +114,28 @@ public class SingleShotGun : Gun
         yield return new WaitForSeconds(reloadTime);
 
         currentAmmo = maxAmmo;
-        ammoBar.fillAmount = 1f;
-        isReloading = false;
+        if (!ammoBar == null)
+        {
+            ammoBar.fillAmount = 1f;
+        }
+        isReloading = false; // Reset the reloading flag
         UpdateAmmoUI();
     }
 
 
 
 
+
     void UpdateAmmoUI()
     {
+        if (ammoText == null || ammoBar == null || lowAmmoText == null || outOfAmmoText == null)
+        {
+            // One of the UI elements is null, so return to avoid the error
+            return;
+        }
+
         ammoText.text = currentAmmo.ToString();
         ammoBar.fillAmount = (float)currentAmmo / maxAmmo;
-
 
         // Update UI indicators based on ammo count
         if (currentAmmo <= lowAmmoThreshold && currentAmmo > 0)
@@ -147,6 +156,10 @@ public class SingleShotGun : Gun
             outOfAmmoText.gameObject.SetActive(false);
         }
 
+        if (!isReloading)
+        {
+            reloadingText.gameObject.SetActive(false);
+        }
     }
 
     [PunRPC]
@@ -174,5 +187,41 @@ public class SingleShotGun : Gun
         animator.SetTrigger(reloadAnimationName);
         gunSound.PlayOneShot(reloadSound);
     }
+    void PlayMuzzleFlash()
+    {
+        // Play the muzzle flash locally
+        muzzleFlashParticleSystem.Play();
+
+        // Call an RPC to play the muzzle flash on all clients
+        PV.RPC("RPC_PlayMuzzleFlash", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_PlayMuzzleFlash()
+    {
+        // Play the muzzle flash for all clients
+        muzzleFlashParticleSystem.Play();
+
+        // Stop the muzzle flash after a short duration
+        StartCoroutine(StopMuzzleFlash());
+    }
+    IEnumerator StopMuzzleFlash()
+    {
+        // Wait for a short duration (e.g., 0.1 seconds) and then stop the muzzle flash locally
+        yield return new WaitForSeconds(0.1f);
+
+        muzzleFlashParticleSystem.Stop();
+
+        // Call an RPC to stop the muzzle flash on all clients
+        PV.RPC("RPC_StopMuzzleFlash", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_StopMuzzleFlash()
+    {
+        // Stop the muzzle flash for all clients
+        muzzleFlashParticleSystem.Stop();
+    }
+
 }
 

@@ -8,6 +8,7 @@ using Photon.Realtime;
 
 public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
+    [SerializeField] Scoreboard Scoreboard;
     public CanvasGroup scoreboard;
     public Camera mapCamera;
     public float gameDuration = 300f; // 5 minutes in seconds
@@ -17,9 +18,10 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
     public AudioSource gameMusicSource;
     public AudioSource lastSecondsMusicSource;
     public float fadeDuration = 1f; // Duration of the fade in seconds
+    
+    private Player winningPlayer;
 
-
-
+    public WinnerUI winnerUI;
 
     public static FFAGameManager Instance;
 
@@ -40,17 +42,18 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         Instance = this;
 
-        
+
     }
 
-    private void Start()
+    void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
             isHost = true;
             StartGame();
+            
         }
-
+        Scoreboard.ResetStatsForAllPlayers();
         mapCamera.gameObject.SetActive(false);
     }
 
@@ -73,8 +76,8 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
                 if (remainingSeconds <= 60 && !lastSecondsMusicSource.isPlaying)
                 {
                     // Stop the initial game music and play the 30-second music
-                    gameMusicSource.Stop();
-                    lastSecondsMusicSource.Play();
+                    photonView.RPC("RPC_StopGameMusic", RpcTarget.All);
+                    photonView.RPC("RPC_PlayLastSecondsMusic", RpcTarget.All);
                 }
             }
         }
@@ -95,7 +98,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         gameTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    private void StartGame()
+    void StartGame()
     {
         // Activate the map camera at the start
         mapCamera.gameObject.SetActive(true);
@@ -105,13 +108,60 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         syncTime = networkTime;
         isTimerInitialized = true;
         // Play the initial game music
-        gameMusicSource.Play();
+        photonView.RPC("RPC_PlayGameMusic", RpcTarget.All);
+        
+
     }
 
-    private void EndGame()
+    public void EndGame()
     {
+        DetermineWinner();
+
         // Notify all clients that the game has ended
-        photonView.RPC("RPC_GameEnded", RpcTarget.All);
+        photonView.RPC("RPC_GameEnded", RpcTarget.All, winningPlayer);
+
+
+    }
+
+    public void DetermineWinner()
+    {
+        Player[] players = PhotonNetwork.PlayerList;
+        int maxKills = -1;
+        winningPlayer = null;
+
+        foreach (Player player in players)
+        {
+            if (player.CustomProperties.TryGetValue("kills", out object killsValue))
+            {
+                int kills = (int)killsValue;
+                if (kills > maxKills)
+                {
+                    maxKills = kills;
+                    winningPlayer = player;
+                }
+            }
+        }
+    }
+
+
+
+    [PunRPC]
+    void RPC_GameEnded(Player winner)
+    {
+        isGameOver = true;
+
+        // Show the scoreboard
+        scoreboard.alpha = 1;
+
+        timerText.gameObject.SetActive(false);
+
+        endGame.gameObject.SetActive(true);
+
+        // Switch to the map camera
+        mapCamera.gameObject.SetActive(true);
+
+        // Display the winner's name
+        winnerUI.SetWinner(winner);
 
         if (lastSecondsMusicSource.isPlaying)
         {
@@ -119,21 +169,6 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    [PunRPC]
-    void RPC_GameEnded()
-    {
-        isGameOver = true;
-
-        // Show the scoreboard
-        scoreboard.alpha = 1;
-
-        Destroy(timerText);
-        Destroy(gameTimerText);
-        endGame.gameObject.SetActive(true);
-
-        // Switch to the map camera
-        mapCamera.gameObject.SetActive(true);
-    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -164,6 +199,24 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         networkTime = time;
         syncTime = PhotonNetwork.Time;
         isTimerInitialized = true;
+    }
+
+    [PunRPC]
+    void RPC_PlayGameMusic()
+    {
+        gameMusicSource.Play();
+    }
+
+    [PunRPC]
+    void RPC_PlayLastSecondsMusic()
+    {
+        lastSecondsMusicSource.Play();
+    }
+
+    [PunRPC]
+    void RPC_StopGameMusic()
+    {
+        gameMusicSource.Stop();
     }
 
     private IEnumerator FadeOutMusic(AudioSource audioSource, float duration)

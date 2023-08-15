@@ -19,11 +19,12 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] TMP_Text healthbarText;
     [SerializeField] GameObject ui;
     [SerializeField] GameObject wepCamera;
-
+    [SerializeField] Animator animator;
     public FFAGameManager gameManager;
     public AudioClip hurtSound;
     public AudioClip jumpSound;
     public bool isJumping = false;
+    bool isPaused = false;
 
     int itemIndex;
     int previousItemIndex = -1;
@@ -40,7 +41,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     private bool isRefillingStamina;
     private float timeSinceLastAction;
     private bool isSprinting;
-
+    private float lastWeaponSwitchTime = 0f;
+    public float weaponSwitchCooldown = 0.5f; // Adjust the cooldown duration as needed
+    private bool isReloading = false;
     public Image staminaBarImage;
 
     CharacterController characterController;
@@ -48,8 +51,11 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     const float maxHealth = 100f;
     float currentHealth = maxHealth;
+    public GameObject lowHealthText;
 
     PlayerManager playerManager;
+
+
 
     void Awake()
     {
@@ -84,14 +90,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            // Call the Reload() method on the currently equipped gun
-            if (items[itemIndex] is Gun equippedGun)
-            {
-                equippedGun.Reload();
-            }
-        }
+
 
         if (!FFAGameManager.Instance.isGameOver)
         {
@@ -107,31 +106,34 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
                 {
                     EquipItem(i);
                     break;
+                    PV.RPC("RPC_PlayWeaponSwitch", RpcTarget.All);
                 }
             }
 
-            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+            if (!isReloading && Time.time - lastWeaponSwitchTime >= weaponSwitchCooldown)
             {
-                if (itemIndex >= items.Length - 1)
+                if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
                 {
-                    EquipItem(0);
+                    // Scroll up
+                    if (itemIndex < items.Length - 1)
+                    {
+                        EquipItem(itemIndex + 1);
+                        lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
+                        PV.RPC("RPC_PlayWeaponSwitch", RpcTarget.All);
+                    }
                 }
-                else
+                else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
                 {
-                    EquipItem(itemIndex + 1);
+                    // Scroll down
+                    if (itemIndex > 0)
+                    {
+                        EquipItem(itemIndex - 1);
+                        lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
+                        PV.RPC("RPC_PlayWeaponSwitch", RpcTarget.All);
+                    }
                 }
             }
-            else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
-            {
-                if (itemIndex <= 0)
-                {
-                    EquipItem(items.Length - 1);
-                }
-                else
-                {
-                    EquipItem(itemIndex - 1);
-                }
-            }
+
 
             if (Input.GetMouseButton(0))
             {
@@ -148,12 +150,24 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
                 // Reset jumping flag
                 isJumping = false;
             }
-
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                // Call the Reload() method on the currently equipped gun
+                if (items[itemIndex] is Gun equippedGun)
+                {
+                    equippedGun.Reload();
+                }
+            }
         }
 
         else
         {
             GameOver();
+        }
+
+        if (currentHealth <= 30)
+        {
+            lowHealthText.gameObject.SetActive(true);
         }
 
 
@@ -166,7 +180,6 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
-
     }
 
     void Move()
@@ -233,8 +246,10 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     }
     void EquipItem(int _index)
     {
-        if (_index == previousItemIndex)
+        if (isReloading || _index == previousItemIndex || Time.time - lastWeaponSwitchTime < weaponSwitchCooldown)
             return;
+
+        lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
 
         itemIndex = _index;
 
@@ -288,6 +303,12 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             Die();
             PlayerManager.Find(info.Sender).GetKill();
         }
+    }
+
+    [PunRPC]
+    void RPC_PlayWeaponSwitch()
+    {
+        animator.SetTrigger("SwitchWeapon");
     }
 
     void GameOver()

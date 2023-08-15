@@ -15,7 +15,7 @@ public class Zombie : MonoBehaviour
     public int scoreValue = 1;
     public bool isDead = false;
     public ParticleSystem explosionParticle;
-    private PlayerController playerHealth;
+    private PlayerController1 playerHealth;
     private NavMeshAgent navMeshAgent;
     public int health = 6;
     private bool hasDied = false;
@@ -26,7 +26,7 @@ public class Zombie : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
         navMeshAgent = GetComponent<NavMeshAgent>();
        
         // Set the agent to be active and enable auto-braking

@@ -9,7 +9,8 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 	[SerializeField] Transform container;
 	[SerializeField] GameObject scoreboardItemPrefab;
 	[SerializeField] CanvasGroup canvasGroup;
-
+	public FFAGameManager gameManager;
+	
 	Dictionary<Player, ScoreboardItem> scoreboardItems = new Dictionary<Player, ScoreboardItem>();
 
 	void Start()
@@ -18,6 +19,8 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 		{
 			AddScoreboardItem(player);
 		}
+
+		gameManager = FFAGameManager.Instance;
 	}
 
 	public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -41,7 +44,18 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 	{
 		Destroy(scoreboardItems[player].gameObject);
 		scoreboardItems.Remove(player);
+		
 	}
+
+	public void ResetStatsForAllPlayers()
+	{
+		foreach (ScoreboardItem scoreboardItem in scoreboardItems.Values)
+		{
+			scoreboardItem.ResetStats();
+			Debug.Log("Reset stats for all");
+		}
+	}
+
 
 	void Update()
 	{
@@ -49,7 +63,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 		{
 			canvasGroup.alpha = 1;
 		}
-		else if (Input.GetKeyUp(KeyCode.Tab))
+		else if (Input.GetKeyUp(KeyCode.Tab) && !FFAGameManager.Instance.isGameOver)
 		{
 			canvasGroup.alpha = 0;
 		}

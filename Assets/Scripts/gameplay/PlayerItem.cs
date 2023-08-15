@@ -2,18 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerItem : MonoBehaviour
+public abstract class PlayerItem : MonoBehaviour
 {
-    public int itemLifetime = 4;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public ItemInfo itemInfo;
+	public GameObject itemGameObject;
 
-    // Update is called once per frame
-    void Update()
-    {
-        Destroy(gameObject, itemLifetime);
-    }
+	public abstract void Use();
 }

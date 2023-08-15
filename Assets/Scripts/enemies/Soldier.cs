@@ -25,7 +25,7 @@ public class Soldier : MonoBehaviour
     private bool hasDied = false;
     public int health = 20;
 
-    private PlayerController playerHealth;
+    private PlayerController1 playerHealth;
     private NavMeshAgent navMeshAgent;
     private SpawnManager spawnManager;
     
@@ -35,7 +35,7 @@ public class Soldier : MonoBehaviour
        
         player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         // Set the agent to be active and enable auto-braking
         navMeshAgent.enabled = true;

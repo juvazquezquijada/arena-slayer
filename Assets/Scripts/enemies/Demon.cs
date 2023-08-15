@@ -22,7 +22,7 @@ public class Demon : MonoBehaviour
     public ParticleSystem explosionParticle;
     public int health = 12;
 
-    private PlayerController playerHealth;
+    private PlayerController1 playerHealth;
 
     private NavMeshAgent navMeshAgent; // Reference to the NavMeshAgent component
 
@@ -30,7 +30,7 @@ public class Demon : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         audioSource = GetComponent<AudioSource>();
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
         
