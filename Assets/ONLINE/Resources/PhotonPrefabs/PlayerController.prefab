@@ -6890,6 +6890,7 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: c8f89fe42df64184db975a57eb33ccd5, type: 3}
   reloadAnimationName: ReloadPlasma
   muzzleFlashParticleSystem: {fileID: 368157589262165896}
+  maxRaycastDistance: 60
 --- !u!1 &4940436904653650153
 GameObject:
   m_ObjectHideFlags: 0
@@ -7536,6 +7537,7 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: fc41a9954a06edf47b0c97103ef7b514, type: 3}
   reloadAnimationName: ReloadMagic
   muzzleFlashParticleSystem: {fileID: 1505952096653049562}
+  maxRaycastDistance: 100
 --- !u!82 &5028537445881580898
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7592,7 +7594,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -8399,6 +8401,7 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: dcd7f297571a6cc40a675a060b485c28, type: 3}
   reloadAnimationName: ReloadShotgun
   muzzleFlashParticleSystem: {fileID: 4854276295060295280}
+  maxRaycastDistance: 20
 --- !u!1 &8719484345887400007
 GameObject:
   m_ObjectHideFlags: 0
@@ -8489,6 +8492,7 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: ac7801aec1b14f842a026ac30906a237, type: 3}
   reloadAnimationName: ReloadAK47
   muzzleFlashParticleSystem: {fileID: 2932978431368557096}
+  maxRaycastDistance: 45
 --- !u!82 &9138613998520104121
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9456,7 +9460,19 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7530151780783633269, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 8284513949015212673, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 4603595872055860558, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 4495481245781528538, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 5972806854220863694, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 7382943830064673241, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 1585878913409415501, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 6132895211542443226, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 4394697620683447453, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 9064066717454062541, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 3196301274738604139, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
+    - {fileID: 6598921740384619623, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ebcfc6b6117184d48b05e8b0115a7ebf, type: 3}
 --- !u!1 &3443236782771176932 stripped
 GameObject:

@@ -22,6 +22,7 @@ public class SingleShotGun : Gun
     [SerializeField] string reloadAnimationName;
     private bool isReloading = false;
     [SerializeField] ParticleSystem muzzleFlashParticleSystem;
+    public float maxRaycastDistance = 100f; // Replace with your desired max distance
 
     PhotonView PV;
 
@@ -78,7 +79,7 @@ public class SingleShotGun : Gun
         //shoot ray
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
         ray.origin = cam.transform.position;
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, maxRaycastDistance))
         {
             Debug.Log("We hit" + hit.collider.gameObject.name);
             hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);

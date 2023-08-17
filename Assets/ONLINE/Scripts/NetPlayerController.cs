@@ -55,6 +55,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     PlayerManager playerManager;
 
+    float healthRegenRate = 10f; // Adjust the regeneration rate as needed
+    float lastHitTime = 0f;
+    bool isRegenerating = false;
 
 
     void Awake()
@@ -168,6 +171,20 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (currentHealth <= 30)
         {
             lowHealthText.gameObject.SetActive(true);
+        }
+
+        // Health Regeneration
+        if (isRegenerating && Time.time - lastHitTime >= 5f) // Adjust the delay as needed
+        {
+            currentHealth += healthRegenRate * Time.deltaTime;
+            currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+            healthBar.fillAmount = currentHealth / maxHealth;
+
+            if (currentHealth >= maxHealth)
+            {
+                isRegenerating = false;
+                lowHealthText.gameObject.SetActive(false);
+            }
         }
 
 
@@ -298,12 +315,19 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         currentHealth -= damage;
         healthBar.fillAmount = currentHealth / maxHealth;
         healthbarText.text = currentHealth.ToString();
+
+        // Set the last hit time and start regeneration
+        lastHitTime = Time.time;
+        isRegenerating = true;
+
+
         if (currentHealth <= 0)
         {
             Die();
             PlayerManager.Find(info.Sender).GetKill();
         }
     }
+
 
     [PunRPC]
     void RPC_PlayWeaponSwitch()

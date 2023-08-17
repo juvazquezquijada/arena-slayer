@@ -28,9 +28,7 @@ public class TitleScreenManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         tutorialText.gameObject.SetActive(false);
-        tutorialButton.gameObject.SetActive(true);
         mapSelect.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
         multiplayerButton.gameObject.SetActive(true);
     }
 

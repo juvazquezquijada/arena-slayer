@@ -54,7 +54,6 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
             
         }
         Scoreboard.ResetStatsForAllPlayers();
-        mapCamera.gameObject.SetActive(false);
     }
 
     private void Update()

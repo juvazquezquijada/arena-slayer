@@ -15,8 +15,11 @@ public class PlayerManager : MonoBehaviour
 
 	[SerializeField] int kills;
 	[SerializeField] int deaths;
-
+	public float respawnTime = 3f;
 	public string playerName;
+
+	[SerializeField] GameObject killTextPrefab;
+	[SerializeField] GameObject deathText;
 
 	void Awake()
 	{
@@ -39,20 +42,26 @@ public class PlayerManager : MonoBehaviour
 	{
 		Transform spawnpoint = PlayerSpawner.Instance.GetSpawnPoint();
 		controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position, spawnpoint.rotation, 0, new object[] { PV.ViewID });
-
-
+		if (!deathText == null)
+		{
+			Destroy(deathText); // Destroy the text
+		}
+		
 	}
 
 	public void Die()
 	{
 		PhotonNetwork.Destroy(controller);
-		CreateController();
-
 		deaths++;
 
+		// Instantiate the Kill +1 text UI prefab
+		GameObject deathTextPrefab = Instantiate(deathText, transform.position + Vector3.up * 2, Quaternion.identity);
+		
 		Hashtable hash = new Hashtable();
 		hash.Add("deaths", deaths);
 		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+		// Create a new controller after a delay
+		StartCoroutine(RespawnAfterDelay());
 	}
 
 	public void GetKill()
@@ -68,10 +77,22 @@ public class PlayerManager : MonoBehaviour
 		Hashtable hash = new Hashtable();
 		hash.Add("kills", kills);
 		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
+		// Instantiate the Kill +1 text UI prefab
+		GameObject killText = Instantiate(killTextPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
+		Destroy(killText, 2f); // Destroy the text after 2 seconds
 	}
+
 
 	public static PlayerManager Find(Player player)
 	{
 		return FindObjectsOfType<PlayerManager>().SingleOrDefault(x => x.PV.Owner == player);
+	}
+
+	IEnumerator RespawnAfterDelay()
+	{
+		yield return new WaitForSeconds(respawnTime); // Adjust this delay as needed
+		CreateController();
+		
 	}
 }
