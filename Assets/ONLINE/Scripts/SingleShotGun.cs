@@ -91,7 +91,7 @@ public class SingleShotGun : Gun
 
     public override void Reload()
     {
-        if (isReloading || currentAmmo == maxAmmo)
+        if(isReloading || currentAmmo == maxAmmo || Time.time - lastFireTime < fireRate)
         {
             // Cannot reload while already reloading or if ammo is already full
             return;
@@ -124,6 +124,10 @@ public class SingleShotGun : Gun
     }
 
 
+    public bool IsReloading()
+    {
+        return isReloading;
+    }
 
 
 

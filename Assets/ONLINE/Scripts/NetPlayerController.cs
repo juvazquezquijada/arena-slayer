@@ -11,7 +11,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, smoothTime, yMouseSensitivity;
     [SerializeField] GameObject playerCamera;
-    [SerializeField] GameObject cameraHolder;
+    [SerializeField] GameObject cameraHolder, wepHolder;
     [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
     [SerializeField] AudioSource audioSource;
@@ -93,7 +93,10 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void Update()
     {
-
+        if (items[itemIndex] is SingleShotGun Gun)
+        {
+            Gun.IsReloading();
+        }
 
         if (!FFAGameManager.Instance.isGameOver)
         {
@@ -145,7 +148,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
             if (transform.position.y < -5f) // Die if you fall out of the world
             {
-                Die();
+                playerManager.Fall();
             }
 
             if (characterController.isGrounded)
@@ -159,6 +162,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
                 if (items[itemIndex] is Gun equippedGun)
                 {
                     equippedGun.Reload();
+                    animator.ResetTrigger("PlayerBob");
                 }
             }
         }
@@ -179,6 +183,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             currentHealth += healthRegenRate * Time.deltaTime;
             currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
             healthBar.fillAmount = currentHealth / maxHealth;
+            healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
 
             if (currentHealth >= maxHealth)
             {
@@ -197,6 +202,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+        wepHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
 
     void Move()
@@ -215,12 +221,15 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
                 moveAmount = moveDir * sprintSpeed;
                 currentStamina -= sprintStaminaCost * Time.deltaTime;
                 timeSinceLastAction = Time.time;
+                animator.SetTrigger("PlayerBob");
             }
             else
             {
                 isSprinting = false;
                 moveAmount = moveDir * walkSpeed;
+                animator.ResetTrigger("PlayerBob");
             }
+
 
             // Check for jump input and consume stamina
             if (Input.GetButton("Jump") && currentStamina >= jumpStaminaCost)
@@ -230,6 +239,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
                 currentStamina -= jumpStaminaCost;
                 timeSinceLastAction = Time.time;
                 audioSource.PlayOneShot(jumpSound);
+                animator.SetTrigger("PlayerBob");
             }
         }
         else
@@ -260,6 +270,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         // Apply movement
         characterController.Move(moveAmount * Time.deltaTime);
+
+            
+        
     }
     void EquipItem(int _index)
     {
@@ -284,6 +297,8 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         {
             singleShotGun.UpdateAmmoUIOnSwitch();
         }
+
+        
 
         if (PV.IsMine)
         {
@@ -314,7 +329,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         audioSource.PlayOneShot(hurtSound);
         currentHealth -= damage;
         healthBar.fillAmount = currentHealth / maxHealth;
-        healthbarText.text = currentHealth.ToString();
+        healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
 
         // Set the last hit time and start regeneration
         lastHitTime = Time.time;
