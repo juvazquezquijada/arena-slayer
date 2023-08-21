@@ -43,9 +43,10 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     private bool isSprinting;
     private float lastWeaponSwitchTime = 0f;
     public float weaponSwitchCooldown = 0.5f; // Adjust the cooldown duration as needed
-    private bool isReloading = false;
+  
     public Image staminaBarImage;
 
+    private SingleShotGun currentWeapon; // Add this field
     CharacterController characterController;
     PhotonView PV;
 
@@ -58,6 +59,8 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     float healthRegenRate = 10f; // Adjust the regeneration rate as needed
     float lastHitTime = 0f;
     bool isRegenerating = false;
+
+
 
 
     void Awake()
@@ -93,11 +96,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void Update()
     {
-        if (items[itemIndex] is SingleShotGun Gun)
-        {
-            Gun.IsReloading();
-        }
-
+      
         if (!FFAGameManager.Instance.isGameOver)
         {
             if (!PV.IsMine)
@@ -105,18 +104,18 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
             Look();
             Move();
-
+           
             for (int i = 0; i < items.Length; i++)
             {
-                if (Input.GetKeyDown((i + 1).ToString()))
+                if (Input.GetKeyDown((i + 1).ToString()) &&Time.time - lastWeaponSwitchTime >= weaponSwitchCooldown && currentWeapon != null && !currentWeapon.IsReloadingOrShooting())
                 {
                     EquipItem(i);
-                    break;
                     PV.RPC("RPC_PlayWeaponSwitch", RpcTarget.All);
+                    break;
                 }
             }
 
-            if (!isReloading && Time.time - lastWeaponSwitchTime >= weaponSwitchCooldown)
+            if (Time.time - lastWeaponSwitchTime >= weaponSwitchCooldown && currentWeapon != null && !currentWeapon.IsReloadingOrShooting())
             {
                 if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
                 {
@@ -141,7 +140,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             }
 
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && lastWeaponSwitchTime >= weaponSwitchCooldown)
             {
                 items[itemIndex].Use();
             }
@@ -183,7 +182,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             currentHealth += healthRegenRate * Time.deltaTime;
             currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
             healthBar.fillAmount = currentHealth / maxHealth;
-            healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
+            healthbarText.text = currentHealth.ToString("F"); // Formats to one decimal place
 
             if (currentHealth >= maxHealth)
             {
@@ -276,7 +275,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     }
     void EquipItem(int _index)
     {
-        if (isReloading || _index == previousItemIndex || Time.time - lastWeaponSwitchTime < weaponSwitchCooldown)
+        if ( _index == previousItemIndex || Time.time - lastWeaponSwitchTime < weaponSwitchCooldown)
             return;
 
         lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
@@ -296,6 +295,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (items[itemIndex] is SingleShotGun singleShotGun)
         {
             singleShotGun.UpdateAmmoUIOnSwitch();
+            currentWeapon = singleShotGun;
         }
 
         

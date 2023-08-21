@@ -100,7 +100,7 @@ public class PlayerManager : MonoBehaviour
 
 		if (currentKillStreak >= 10)
 		{
-			streakMessage = "HOLY SHIT";
+			streakMessage = "HOLY SHIT!";
 			streakText.GetComponent<AudioSource>().PlayOneShot(killStreakAnnouncerClips[killStreakAnnouncerClips.Length - 1]); // Play the last clip
 		}
 		else if (currentKillStreak >= 2 && currentKillStreak - 2 <= killStreakMessages.Length)
@@ -108,7 +108,7 @@ public class PlayerManager : MonoBehaviour
 			streakMessage = killStreakMessages[currentKillStreak - 2]; // -2 because arrays are zero-based
 		}
 
-		streakText.text = streakMessage;
+		streakText.text = streakMessage + "!";
 
 		// Stop any ongoing coroutine and start a new one
 		if (clearTextCoroutine != null)

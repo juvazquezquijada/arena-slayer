@@ -20,7 +20,9 @@ public class SingleShotGun : Gun
     [SerializeField] float reloadTime;
     [SerializeField] AudioClip reloadSound;
     [SerializeField] string reloadAnimationName;
-    private bool isReloading = false;
+    private bool isReloading = false; // Reset the reloading flag
+    private bool isUsingWeapon = false;
+
     [SerializeField] ParticleSystem muzzleFlashParticleSystem;
     public float maxRaycastDistance = 100f; // Replace with your desired max distance
 
@@ -42,6 +44,15 @@ public class SingleShotGun : Gun
     void Update()
     {
         currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
+
+        if (Time.time - lastFireTime >= fireRate)
+        {
+            isUsingWeapon = false;
+        }
+    }
+    public bool IsReloadingOrShooting()
+    {
+        return isReloading || isUsingWeapon;
     }
 
     public override void Use()
@@ -54,7 +65,7 @@ public class SingleShotGun : Gun
         if (currentAmmo > 0 && Time.time - lastFireTime >= fireRate) // Check if enough time has passed since the last shot and if there is ammo available
         {
             lastFireTime = Time.time; // Update the last fire time
-
+            
             Shoot(); // Perform the shooting logic
         }
 
@@ -71,7 +82,9 @@ public class SingleShotGun : Gun
         currentAmmo--;
 
         UpdateAmmoUI();
-        
+
+        isUsingWeapon = true; // Mark that the weapon is in use for shooting
+
         // play shoot effects
         animator.SetTrigger(shootAnimationName);
         PV.RPC("RPC_PlayShootEffects", RpcTarget.All);
@@ -86,12 +99,14 @@ public class SingleShotGun : Gun
             PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
         }
 
+        
+
         PlayMuzzleFlash();
     }
 
     public override void Reload()
     {
-        if(isReloading || currentAmmo == maxAmmo || Time.time - lastFireTime < fireRate)
+        if(isReloading || currentAmmo == maxAmmo || Time.time - lastFireTime < fireRate|| isUsingWeapon)
         {
             // Cannot reload while already reloading or if ammo is already full
             return;
@@ -122,13 +137,6 @@ public class SingleShotGun : Gun
         isReloading = false; // Reset the reloading flag
         UpdateAmmoUI();
     }
-
-
-    public bool IsReloading()
-    {
-        return isReloading;
-    }
-
 
 
     void UpdateAmmoUI()
