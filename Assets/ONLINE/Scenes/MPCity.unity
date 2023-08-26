@@ -5495,14 +5495,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592683250}
-  m_LocalRotation: {x: -0.11652343, y: -0.80768734, z: -0.1704076, w: 0.5522905}
-  m_LocalPosition: {x: -21.45, y: 0.23, z: 8.77}
+  m_LocalRotation: {x: 0.24139681, y: -0.807793, z: 0.27646786, w: 0.46126303}
+  m_LocalPosition: {x: -21.45, y: 29.8, z: 8.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: -23.827, y: -111.272, z: 0}
+  m_LocalEulerAnglesHint: {x: 42.017, y: -124.574, z: -10.465}
 --- !u!114 &592683254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17842,7 +17842,11 @@ PrefabInstance:
     - target: {fileID: 3200173656444511020, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: a26f8ef5a064d114d8c17d54185fae9d, type: 3}
+      objectReference: {fileID: 8300000, guid: fe6530a5c145de249bd5c9788d7dcc20, type: 3}
+    - target: {fileID: 3200173656444511022, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3200173656444511022, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
       propertyPath: m_Volume
       value: 0.5
@@ -17854,7 +17858,7 @@ PrefabInstance:
     - target: {fileID: 3200173656444511022, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: bcb5c7ba564f3024da16dae354175335, type: 3}
+      objectReference: {fileID: 8300000, guid: 872da461064afca439049cd473647ac9, type: 3}
     - target: {fileID: 3200173656444511024, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
       propertyPath: m_Name
       value: FFAGameManager
@@ -17929,7 +17933,7 @@ PrefabInstance:
       objectReference: {fileID: 738098228}
     - target: {fileID: 3200173656444511027, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
       propertyPath: gameDuration
-      value: 210
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 3200173656444511027, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
       propertyPath: gameTimerText

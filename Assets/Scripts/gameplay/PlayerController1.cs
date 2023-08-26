@@ -2,30 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerController1 : MonoBehaviour
 {
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, smoothTime, yMouseSensitivity;
     [SerializeField] GameObject playerCamera;
-    [SerializeField] GameObject cameraHolder;
+    [SerializeField] GameObject cameraHolder, weaponHolder;
     [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
     [SerializeField] AudioSource audioSource;
     [SerializeField] Image healthBar;
     [SerializeField] TMP_Text healthbarText;
-    [SerializeField] GameObject ui;
     [SerializeField] GameObject wepCamera;
     [SerializeField] Animator animator;
 
     public TextMeshProUGUI health, score; //health indicator
-
+    public AudioClip pauseSound;
     public AudioClip hurtSound;
     public AudioClip jumpSound;
     public bool isJumping = false;
     public bool isPaused = false;
     public bool isDead = false;
-
+    public GameObject pauseMenuPanel;
     int itemIndex;
     int previousItemIndex = -1;
     float verticalLookRotation;
@@ -57,7 +57,8 @@ public class PlayerController1 : MonoBehaviour
 
     void Start()
     {
-        
+        EquipItem(0);
+        animator.SetTrigger("SwitchWeapon");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -67,7 +68,7 @@ public class PlayerController1 : MonoBehaviour
 
     void Update()
     {
-        if (isDead)
+        if (isDead || isPaused)
             return;
 
             Look();
@@ -78,6 +79,7 @@ public class PlayerController1 : MonoBehaviour
                 if (Input.GetKeyDown((i + 1).ToString()))
                 {
                     EquipItem(i);
+                    animator.SetTrigger("SwitchWeapon");
                     break;
                 }
             }
@@ -88,7 +90,8 @@ public class PlayerController1 : MonoBehaviour
                 if (itemIndex < items.Length - 1)
                 {
                     EquipItem(itemIndex + 1);
-                }
+                    animator.SetTrigger("SwitchWeapon");
+                 }
             }
             else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
             {
@@ -96,7 +99,8 @@ public class PlayerController1 : MonoBehaviour
                 if (itemIndex > 0)
                 {
                     EquipItem(itemIndex - 1);
-                }
+                    animator.SetTrigger("SwitchWeapon");
+                 }
             }
 
             if (Input.GetMouseButton(0))
@@ -137,6 +141,11 @@ public class PlayerController1 : MonoBehaviour
             return; // exit the method
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+        }
+
     }
 
     void Look()
@@ -146,6 +155,7 @@ public class PlayerController1 : MonoBehaviour
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+        weaponHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
 
     void Move()
@@ -164,11 +174,13 @@ public class PlayerController1 : MonoBehaviour
                 moveAmount = moveDir * sprintSpeed;
                 currentStamina -= sprintStaminaCost * Time.deltaTime;
                 timeSinceLastAction = Time.time;
+                animator.SetTrigger("PlayerBob");
             }
             else
             {
                 isSprinting = false;
                 moveAmount = moveDir * walkSpeed;
+                animator.ResetTrigger("PlayerBob");
             }
 
             // Check for jump input and consume stamina
@@ -238,17 +250,115 @@ public class PlayerController1 : MonoBehaviour
         animator.SetTrigger("SwitchWeapon");
     }
 
-    void GameOver()
-    {
-        Destroy(playerCamera);
-        Destroy(wepCamera);
-        Destroy(characterController);
-        Destroy(ui);
-    }
-
     void Die()
     {
         isDead = true;
         Debug.Log("Player is Dead!");
+    }
+
+    public void PauseGame()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Time.timeScale = 0f; // Pause the game
+        if (!isPaused)
+        {
+            // Show pause menu
+
+            isPaused = true;
+            pauseMenuPanel.SetActive(true);
+            audioSource.PlayOneShot(pauseSound);
+        }
+        else
+        {
+            // Hide pause menu
+            Time.timeScale = 1f; // Unpause the game
+            isPaused = false;
+            pauseMenuPanel.SetActive(false);
+            Cursor.visible = false;
+        }
+    }
+
+    public void ResumeGame()
+    {
+        // Unpause the game
+        Time.timeScale = 1f;
+        isPaused = false;
+        pauseMenuPanel.SetActive(false);
+
+        // Enable the camera and hide the cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+    }
+
+    public void QuitGame()
+    {
+        SceneManager.LoadScene("TitleScene");
+        AudioListener.pause = false; // Resume the music
+        Time.timeScale = 1f;
+    }
+
+    void UpdateHealthUI()
+    {
+        healthBar.fillAmount = currentHealth / maxHealth;
+        healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.CompareTag("Health"))
+        {
+            currentHealth += 25;
+            if (currentHealth > 100) currentHealth = 100;
+            Destroy(other.gameObject);
+            UpdateHealthUI();
+        }
+
+        else if (other.gameObject.CompareTag("Fireball"))
+        {
+            currentHealth -= 6;
+            if (currentHealth < 0) currentHealth = 0;
+            Destroy(other.gameObject);
+            audioSource.PlayOneShot(hurtSound);
+            UpdateHealthUI();
+        }
+        else if (other.gameObject.CompareTag("Demon"))
+        {
+            currentHealth -= 5;
+            if (currentHealth < 0) currentHealth = 0;
+            audioSource.PlayOneShot(hurtSound);
+            UpdateHealthUI();
+        }
+        else if (other.gameObject.CompareTag("Zombie"))
+        {
+            currentHealth -= 5;
+            if (currentHealth < 0) currentHealth = 0;
+            audioSource.PlayOneShot(hurtSound);
+            UpdateHealthUI();
+        }
+        else if (other.gameObject.CompareTag("Soldier"))
+        {
+            currentHealth -= 10;
+            if (currentHealth < 0) currentHealth = 0;
+            audioSource.PlayOneShot(hurtSound);
+            UpdateHealthUI();
+        }
+        else if (other.gameObject.CompareTag("EnemyProjectile"))
+        {
+            currentHealth -= 7;
+            if (currentHealth < 0) currentHealth = 0;
+            audioSource.PlayOneShot(hurtSound);
+            UpdateHealthUI();
+        }
+        else if (other.gameObject.CompareTag("EnemyRocket"))
+        {
+            currentHealth -= 30;
+            if (currentHealth < 0) currentHealth = 0;
+            Destroy(other.gameObject);
+            audioSource.PlayOneShot(hurtSound);
+            UpdateHealthUI();
+        }
     }
 }

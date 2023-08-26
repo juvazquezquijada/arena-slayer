@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
             Zombie enemy = other.gameObject.GetComponent<Zombie>();
             
                 enemy.TakeDamage();
-                CanvasManager.Instance.UpdateScore(10);
+                //CanvasManager.Instance.UpdateScore(10);
             GetComponent<SphereCollider>().enabled = false;
 
             // Destroy bullet
@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour
             // Deal damage to enemy
             Soldier enemy = other.gameObject.GetComponent<Soldier>();
             
-            CanvasManager.Instance.UpdateScore(10);
+            //CanvasManager.Instance.UpdateScore(10);
             GetComponent<SphereCollider>().enabled = false;
             enemy.TakeDamage();
             // Destroy bullet

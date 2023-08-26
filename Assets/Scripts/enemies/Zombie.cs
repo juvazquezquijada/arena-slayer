@@ -96,6 +96,7 @@ public class Zombie : MonoBehaviour
     {
         health -= 6;
         audioSource.PlayOneShot(hurtSound);
+        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
     }
 
     public void TakeDamagePlasma()
@@ -105,6 +106,7 @@ public class Zombie : MonoBehaviour
             audioSource.PlayOneShot(hurtSound);
         }
         health -= 4;
+        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
     }
 
     public void TakeDamageRocket()

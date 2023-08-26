@@ -43,7 +43,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     private bool isSprinting;
     private float lastWeaponSwitchTime = 0f;
     public float weaponSwitchCooldown = 0.5f; // Adjust the cooldown duration as needed
-  
+
     public Image staminaBarImage;
 
     private SingleShotGun currentWeapon; // Add this field
@@ -96,7 +96,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     void Update()
     {
-      
+
         if (!FFAGameManager.Instance.isGameOver)
         {
             if (!PV.IsMine)
@@ -104,10 +104,10 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
             Look();
             Move();
-           
+
             for (int i = 0; i < items.Length; i++)
             {
-                if (Input.GetKeyDown((i + 1).ToString()) &&Time.time - lastWeaponSwitchTime >= weaponSwitchCooldown && currentWeapon != null && !currentWeapon.IsReloadingOrShooting())
+                if (Input.GetKeyDown((i + 1).ToString()) && Time.time - lastWeaponSwitchTime >= weaponSwitchCooldown && currentWeapon != null && !currentWeapon.IsReloadingOrShooting())
                 {
                     EquipItem(i);
                     PV.RPC("RPC_PlayWeaponSwitch", RpcTarget.All);
@@ -176,13 +176,15 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             lowHealthText.gameObject.SetActive(true);
         }
 
+
+
         // Health Regeneration
         if (isRegenerating && Time.time - lastHitTime >= 5f) // Adjust the delay as needed
         {
             currentHealth += healthRegenRate * Time.deltaTime;
             currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
             healthBar.fillAmount = currentHealth / maxHealth;
-            healthbarText.text = currentHealth.ToString("F"); // Formats to one decimal place
+            healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
 
             if (currentHealth >= maxHealth)
             {
@@ -270,12 +272,12 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         // Apply movement
         characterController.Move(moveAmount * Time.deltaTime);
 
-            
-        
+
+
     }
     void EquipItem(int _index)
     {
-        if ( _index == previousItemIndex || Time.time - lastWeaponSwitchTime < weaponSwitchCooldown)
+        if (_index == previousItemIndex || Time.time - lastWeaponSwitchTime < weaponSwitchCooldown)
             return;
 
         lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
@@ -298,7 +300,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             currentWeapon = singleShotGun;
         }
 
-        
+
 
         if (PV.IsMine)
         {
@@ -356,10 +358,15 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         Destroy(wepCamera);
         Destroy(characterController);
         Destroy(ui);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     void Die()
     {
         playerManager.Die();
     }
+
+   
 }

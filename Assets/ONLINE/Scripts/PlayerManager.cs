@@ -14,9 +14,10 @@ public class PlayerManager : MonoBehaviour
 
 	GameObject controller;
 	[SerializeField] AudioSource audioSource;
-	[SerializeField] AudioClip fallDeathSound;
+	[SerializeField] AudioClip fallDeathSound, humiliationSound;
 	[SerializeField] int kills;
 	[SerializeField] int currentKillStreak = 0;
+	[SerializeField] int currentDeathStreak = 0;
 	[SerializeField] int deaths;
 	[SerializeField] TMP_Text streakText;
 	public float respawnTime = 3f;
@@ -25,7 +26,7 @@ public class PlayerManager : MonoBehaviour
 	private Coroutine clearTextCoroutine; // Add this field
 	[SerializeField] GameObject killTextPrefab;
 	[SerializeField] GameObject deathText;
-	[SerializeField] string[] killStreakMessages = { "Double Kill", "Killing Spree", "Multi Kill", "Rampage!", "Ultra Kill", "Monster Kill", "Unstoppable", "Godlike", "HOLY SHIT"};
+	[SerializeField] string[] killStreakMessages = { "Double Kill!", "Killing Spree!", "Multi Kill!", "Rampage!", "Ultra Kill!", "Monster Kill!!!", "Unstoppable!", "GODLIKE!", "HOLY SHIT!!!!!!!"};
 	[SerializeField] AudioClip[] killStreakAnnouncerClips;
 
 
@@ -44,6 +45,7 @@ public class PlayerManager : MonoBehaviour
 			CreateController();
 		}
 	}
+
 
 	void CreateController()
 	{
@@ -68,6 +70,13 @@ public class PlayerManager : MonoBehaviour
 		PhotonNetwork.Destroy(controller);
 		deaths++;
 		currentKillStreak = 0;
+		currentDeathStreak++;
+
+		if (currentDeathStreak >= 3)
+		{
+			Debug.Log("Calling PlayHumiliation");
+			PlayHumiliation();
+		}
 		// Instantiate the Kill +1 text UI prefab
 		GameObject deathTextPrefab = Instantiate(deathText, transform.position + Vector3.up * 2, Quaternion.identity);
 		
@@ -88,6 +97,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		kills++;
 		currentKillStreak++;
+		currentDeathStreak = 0;
 
 		Hashtable hash = new Hashtable();
 		hash.Add("kills", kills);
@@ -108,7 +118,7 @@ public class PlayerManager : MonoBehaviour
 			streakMessage = killStreakMessages[currentKillStreak - 2]; // -2 because arrays are zero-based
 		}
 
-		streakText.text = streakMessage + "!";
+		streakText.text = streakMessage;
 
 		// Stop any ongoing coroutine and start a new one
 		if (clearTextCoroutine != null)
@@ -123,11 +133,16 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
+	void PlayHumiliation()
+	{
+		Debug.Log("PlayHumiliation method called");
+		audioSource.PlayOneShot(humiliationSound);
+		// Set streak text to "Humiliation"
+		streakText.text = "Humiliation!";
 
-
-
-
-
+		// Clear the text after a delay
+		StartCoroutine(ClearStreakText());
+	}
 
 	[PunRPC]
 	void RPC_PlayDeathSound()
