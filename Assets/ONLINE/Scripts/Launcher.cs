@@ -23,7 +23,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject RoomManager;
     [SerializeField] AudioSource audioSource;
     [SerializeField] TMP_Dropdown mapDropdown; // Reference to the map selection dropdown
-
+    [SerializeField] TMP_Text onlineUsersText; // Reference to the Text component that will show online user count
     private string selectedMap; // Store the selected map
 
     public AudioClip clickSound;
@@ -50,6 +50,11 @@ public class Launcher : MonoBehaviourPunCallbacks
         selectedMap = maps[0];
     }
 
+    void Update()
+    {
+        UpdateOnlineUsersText(); // Update the online user count
+    }
+
     // Map selection event handler
     public void OnMapSelected(int index)
     {
@@ -72,12 +77,14 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("Connected to Master");
         PhotonNetwork.JoinLobby();
         PhotonNetwork.AutomaticallySyncScene = true;
+        UpdateOnlineUsersText(); // Update the online user count
     }
 
     public override void OnJoinedLobby()
     {
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("Joined Lobby");
+        UpdateOnlineUsersText(); // Update the online user count
     }
 
     public void CreateRoom()
@@ -129,6 +136,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Debug.LogError("Failed to retrieve selected map from custom room properties.");
         }
+
+        UpdateOnlineUsersText(); // Update the online user count
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
@@ -196,6 +205,8 @@ public class Launcher : MonoBehaviourPunCallbacks
                 continue;
             Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i]);
         }
+
+        UpdateOnlineUsersText(); // Update the online user count
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -215,9 +226,16 @@ public class Launcher : MonoBehaviourPunCallbacks
         maps.Add("MPPool");
         maps.Add("MPBattlefield");
         maps.Add("MPCity");
+        maps.Add("MPWarehouse");
         // Add more maps as needed
 
         return maps;
+    }
+
+    private void UpdateOnlineUsersText()
+    {
+        int onlinePlayers = PhotonNetwork.CountOfPlayers;
+        onlineUsersText.text = "Players currently active (Including you): " + onlinePlayers;
     }
 
     // Remote Procedure Call (RPC) method to update the map display for new players

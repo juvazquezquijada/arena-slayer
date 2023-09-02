@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3200173656444511024}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
   Scoreboard: {fileID: 0}
   scoreboard: {fileID: 0}
   mapCamera: {fileID: 0}
-  gameDuration: 60
+  gameDuration: 300
   timerText: {fileID: 0}
   gameTimerText: {fileID: 0}
   endGame: {fileID: 0}
@@ -92,11 +92,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4c256c59edc12244285d54e4a32795bc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: fe6530a5c145de249bd5c9788d7dcc20, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -188,7 +188,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 99e910da422d10545a942fb4a59fe20c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 872da461064afca439049cd473647ac9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1

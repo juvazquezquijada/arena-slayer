@@ -1,29 +1,32 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MovingPlayerDummy : MonoBehaviour
 {
     public Transform movementPath;  // Reference to the parent of the path points
     public float moveSpeed = 2.0f;  // Speed of movement
+    public Transform player;
 
-    public Transform[] pathPoints;
-    private int currentPointIndex = 0;
-    private bool movingForward = true;
+
+    private NavMeshAgent navMeshAgent; // Reference to the NavMeshAgent component
 
     private void Start()
     {
-        pathPoints = new Transform[movementPath.childCount];
-        for (int i = 0; i < movementPath.childCount; i++)
-        {
-            pathPoints[i] = movementPath.GetChild(i);
-        }
+        navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
+        navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void Update()
     {
-        MoveAlongPath();
+        WalkTowardsPlayer();
     }
 
+    private void WalkTowardsPlayer()
+    {
+        navMeshAgent.SetDestination(player.position);
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Bullet") || collision.collider.CompareTag("Plasma"))
@@ -43,38 +46,5 @@ public class MovingPlayerDummy : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void MoveAlongPath()
-    {
-        if (pathPoints.Length == 0)
-        {
-            return;
-        }
-
-        Vector3 targetPosition = pathPoints[currentPointIndex].position;
-        float step = moveSpeed * Time.deltaTime;
-
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
-
-        if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
-        {
-            if (movingForward)
-            {
-                currentPointIndex++;
-                if (currentPointIndex >= pathPoints.Length)
-                {
-                    movingForward = false;
-                    currentPointIndex = pathPoints.Length - 2;
-                }
-            }
-            else
-            {
-                currentPointIndex--;
-                if (currentPointIndex < 0)
-                {
-                    movingForward = true;
-                    currentPointIndex = 1;
-                }
-            }
-        }
-    }
+  
 }

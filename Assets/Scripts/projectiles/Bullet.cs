@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    
+    public int damage = 6;
 
     private void OnCollisionEnter(Collision other)
     {
@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
             Demon enemy = other.gameObject.GetComponent<Demon>();
             GetComponent<SphereCollider>().enabled = false;
             
-               enemy.TakeDamage();
+               enemy.TakeDamage(damage);
                
             
 
@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
             // Deal damage to enemy
             Zombie enemy = other.gameObject.GetComponent<Zombie>();
             
-                enemy.TakeDamage();
+                enemy.TakeDamage(damage);
                 //CanvasManager.Instance.UpdateScore(10);
             GetComponent<SphereCollider>().enabled = false;
 
@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour
             
             //CanvasManager.Instance.UpdateScore(10);
             GetComponent<SphereCollider>().enabled = false;
-            enemy.TakeDamage();
+            enemy.TakeDamage(damage);
             // Destroy bullet
             Destroy(gameObject);
         }
@@ -53,7 +53,31 @@ public class Bullet : MonoBehaviour
 
             
             GetComponent<SphereCollider>().enabled = false;
-            enemy.TakeDamage();
+            enemy.TakeDamage(damage);
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+
+        else if (other.gameObject.CompareTag("BuffDemon"))
+        {
+            // Deal damage to enemy
+            BuffDemonAI enemy = other.gameObject.GetComponent<BuffDemonAI>();
+
+
+            GetComponent<SphereCollider>().enabled = false;
+            enemy.TakeDamage(damage);
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+
+        else if (other.gameObject.CompareTag("Robo Demon"))
+        {
+            // Deal damage to enemy
+            RoboDemonAI enemy = other.gameObject.GetComponent<RoboDemonAI>();
+
+
+            GetComponent<SphereCollider>().enabled = false;
+            enemy.TakeDamage(damage);
             // Destroy bullet
             Destroy(gameObject);
         }

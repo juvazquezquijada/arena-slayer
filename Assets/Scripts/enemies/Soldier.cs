@@ -104,29 +104,15 @@ public class Soldier : MonoBehaviour
         Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
         rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-        CanvasManager.Instance.UpdateScore(15);
+        PlayerController1.Instance.UpdateScore(15);
 
         Destroy(gameObject, destroyTime);
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
-        health -= 10;
+        health -= damage;
         audioSource.PlayOneShot(hurtSound);
-    }
-
-    public void TakeDamagePlasma()
-    {
-        if (health > 4)
-        {
-            audioSource.PlayOneShot(hurtSound);
-        }
-        health -= 4;
-    }
-
-    public void TakeDamageRocket()
-    {
-        health -= 20;
     }
 
     public void PlayerDied()

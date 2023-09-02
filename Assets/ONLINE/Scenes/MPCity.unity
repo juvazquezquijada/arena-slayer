@@ -9558,6 +9558,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: TimerText
       objectReference: {fileID: 0}
+    - target: {fileID: 295439650677493850, guid: 37a8c70e232d05843a90993a7f330743, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 295439650677493850, guid: 37a8c70e232d05843a90993a7f330743, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 295439650677493850, guid: 37a8c70e232d05843a90993a7f330743, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 295439650677493850, guid: 37a8c70e232d05843a90993a7f330743, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37a8c70e232d05843a90993a7f330743, type: 3}
 --- !u!114 &970543123 stripped
@@ -17831,34 +17847,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3200173656444511020, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3200173656444511020, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
-      propertyPath: m_Volume
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3200173656444511020, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: fe6530a5c145de249bd5c9788d7dcc20, type: 3}
-    - target: {fileID: 3200173656444511022, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
-      propertyPath: Loop
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3200173656444511022, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
-      propertyPath: m_Volume
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3200173656444511022, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3200173656444511022, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 872da461064afca439049cd473647ac9, type: 3}
     - target: {fileID: 3200173656444511024, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
       propertyPath: m_Name
       value: FFAGameManager
@@ -17931,10 +17919,6 @@ PrefabInstance:
       propertyPath: scoreboard
       value: 
       objectReference: {fileID: 738098228}
-    - target: {fileID: 3200173656444511027, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
-      propertyPath: gameDuration
-      value: 300
-      objectReference: {fileID: 0}
     - target: {fileID: 3200173656444511027, guid: d988bf110d6df8c4699e6290c2ac75da, type: 3}
       propertyPath: gameTimerText
       value: 

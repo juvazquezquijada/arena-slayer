@@ -16,7 +16,7 @@ public class Plasma: MonoBehaviour
             Demon enemy = other.gameObject.GetComponent<Demon>();
             GetComponent<SphereCollider>().enabled = false;
             
-               enemy.TakeDamagePlasma();
+               enemy.TakeDamage(3);
                
             
 
@@ -28,7 +28,7 @@ public class Plasma: MonoBehaviour
             // Deal damage to enemy
             Zombie enemy = other.gameObject.GetComponent<Zombie>();
             
-                enemy.TakeDamagePlasma();
+                enemy.TakeDamage(3);
 
                 
             GetComponent<SphereCollider>().enabled = false;
@@ -41,7 +41,7 @@ public class Plasma: MonoBehaviour
             // Deal damage to enemy
             Soldier enemy = other.gameObject.GetComponent<Soldier>();
             
-            enemy.TakeDamagePlasma();
+            enemy.TakeDamage(4);
             GetComponent<SphereCollider>().enabled = false;
 
             // Destroy bullet
@@ -53,13 +53,37 @@ public class Plasma: MonoBehaviour
             // Deal damage to enemy
             CyberTitan enemy = other.gameObject.GetComponent<CyberTitan>();
             
-            enemy.TakeDamagePlasma();
+            enemy.TakeDamage(5);
             GetComponent<SphereCollider>().enabled = false;
 
             // Destroy bullet
             Destroy(gameObject);
         }
-        
+
+        else if (other.gameObject.CompareTag("BuffDemon"))
+        {
+            // Deal damage to enemy
+            BuffDemonAI enemy = other.gameObject.GetComponent<BuffDemonAI>();
+
+
+            GetComponent<SphereCollider>().enabled = false;
+            enemy.TakeDamage(6);
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+
+        else if (other.gameObject.CompareTag("Robo Demon"))
+        {
+            // Deal damage to enemy
+            RoboDemonAI enemy = other.gameObject.GetComponent<RoboDemonAI>();
+
+
+            GetComponent<SphereCollider>().enabled = false;
+            enemy.TakeDamage(6);
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+
         else if (other.gameObject.CompareTag("Wall"))
         {
             // Destroy bullet

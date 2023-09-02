@@ -47,6 +47,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     public Image staminaBarImage;
 
     private SingleShotGun currentWeapon; // Add this field
+    private SingleArmGun currentOWWeapon; // Add this field
     CharacterController characterController;
     PhotonView PV;
 
@@ -136,6 +137,22 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
                         lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
                         PV.RPC("RPC_PlayWeaponSwitch", RpcTarget.All);
                     }
+                }
+
+                // Check for item switching
+                else if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    // Switch to the previous item
+                    EquipItem(itemIndex - 1);
+                    lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
+                    PV.RPC("RPC_PlayWeaponSwitch", RpcTarget.All);
+                }
+                else if (Input.GetKeyDown(KeyCode.E))
+                {
+                    // Switch to the next item
+                    EquipItem(itemIndex + 1);
+                    lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
+                    PV.RPC("RPC_PlayWeaponSwitch", RpcTarget.All);
                 }
             }
 
@@ -271,9 +288,6 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         // Apply movement
         characterController.Move(moveAmount * Time.deltaTime);
-
-
-
     }
     void EquipItem(int _index)
     {
@@ -297,7 +311,15 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (items[itemIndex] is SingleShotGun singleShotGun)
         {
             singleShotGun.UpdateAmmoUIOnSwitch();
+            singleShotGun.ShowAltArms();
             currentWeapon = singleShotGun;
+        }
+
+        if (items[itemIndex] is SingleArmGun singleArmGun)
+        {
+            singleArmGun.UpdateAmmoUIOnSwitch();
+            singleArmGun.ShowAltArms();
+            currentOWWeapon = singleArmGun;
         }
 
 

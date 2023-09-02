@@ -43,7 +43,7 @@ public class PlayerRocket : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             capsule.gameObject.SetActive(false);
             audioSource.PlayOneShot(explodeSound);
-            enemy.TakeDamageRocket();
+            enemy.TakeDamage(20);
             Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
             // Destroy bullet
             Destroy(gameObject, destroyTime);
@@ -54,8 +54,8 @@ public class PlayerRocket : MonoBehaviour
             // Deal damage to enemy
             Zombie enemy = other.gameObject.GetComponent<Zombie>();
             audioSource.PlayOneShot(explodeSound);
-                enemy.TakeDamageRocket();
-                CanvasManager.Instance.UpdateScore(10);
+                enemy.TakeDamage(20);
+                PlayerController1.Instance.UpdateScore(4);
             GetComponent<BoxCollider>().enabled = false;
             capsule.gameObject.SetActive(false);
             Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
@@ -68,10 +68,10 @@ public class PlayerRocket : MonoBehaviour
             // Deal damage to enemy
             Soldier enemy = other.gameObject.GetComponent<Soldier>();
             audioSource.PlayOneShot(explodeSound);
-            CanvasManager.Instance.UpdateScore(10);
+            PlayerController1.Instance.UpdateScore(4);
             GetComponent<BoxCollider>().enabled = false;
             capsule.gameObject.SetActive(false);
-           enemy.TakeDamageRocket();
+           enemy.TakeDamage(20);
            Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
             // Destroy bullet
             Destroy(gameObject, destroyTime);
@@ -84,7 +84,7 @@ public class PlayerRocket : MonoBehaviour
             audioSource.PlayOneShot(explodeSound);
            capsule.gameObject.SetActive(false);
             GetComponent<BoxCollider>().enabled = false;
-            enemy.TakeDamageRocket();
+            enemy.TakeDamage(20);
             // Destroy bullet
             Destroy(gameObject, destroyTime);     
         }
@@ -99,28 +99,28 @@ public class PlayerRocket : MonoBehaviour
             {
                 // Deal damage to enemy
             Demon enemy = collider.GetComponent<Demon>();
-            enemy.TakeDamageRocket();
-            CanvasManager.Instance.UpdateScore(10);
-            // Destroy bullet
-            Destroy(gameObject, destroyTime);
+            enemy.TakeDamage(20);
+                PlayerController1.Instance.UpdateScore(4);
+                // Destroy bullet
+                Destroy(gameObject, destroyTime);
             }
             else if (collider.CompareTag("Zombie"))
             {
                 // Deal damage to enemy
             Zombie enemy = collider.GetComponent<Zombie>();
-            enemy.TakeDamageRocket();
-            CanvasManager.Instance.UpdateScore(10);
-            // Destroy bullet
-            Destroy(gameObject, destroyTime);
+                enemy.TakeDamage(20);
+                PlayerController1.Instance.UpdateScore(4);
+                // Destroy bullet
+                Destroy(gameObject, destroyTime);
             }
             else if (collider.CompareTag("Soldier"))
             {
                 // Deal damage to enemy
             Soldier enemy = collider.GetComponent<Soldier>();
-            CanvasManager.Instance.UpdateScore(10);
-           enemy.TakeDamageRocket();
-            // Destroy bullet
-            Destroy(gameObject, destroyTime);
+                PlayerController1.Instance.UpdateScore(4);
+                enemy.TakeDamage(20);
+                // Destroy bullet
+                Destroy(gameObject, destroyTime);
             }
         }
     }

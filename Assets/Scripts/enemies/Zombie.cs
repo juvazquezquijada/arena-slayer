@@ -71,6 +71,9 @@ public class Zombie : MonoBehaviour
 
     public void Die()
     {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
+        rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
         if (hasDied) return;
         hasDied = true;
 
@@ -82,36 +85,19 @@ public class Zombie : MonoBehaviour
 
         SpawnManager.Instance.EnemyDied();
         navMeshAgent.enabled = false;
-        Rigidbody rb = GetComponent<Rigidbody>();
+        
         rb.isKinematic = false;
-        Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
-        rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
+        
         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-        CanvasManager.Instance.UpdateScore(4);
+        PlayerController1.Instance.UpdateScore(4);
 
         Destroy(gameObject, destroyTime);
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
-        health -= 6;
+        health -= damage;
         audioSource.PlayOneShot(hurtSound);
-        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-    }
-
-    public void TakeDamagePlasma()
-    {
-        if (health > 4)
-        {
-            audioSource.PlayOneShot(hurtSound);
-        }
-        health -= 4;
-        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-    }
-
-    public void TakeDamageRocket()
-    {
-        health -= 6;
     }
 
     public void PlayerDied()

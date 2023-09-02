@@ -96,22 +96,12 @@ public class Demon : MonoBehaviour
         CanvasManager.Instance.UpdateScore(10);
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
-        health -= 6;
+        health -= damage;
         audioSource.PlayOneShot(hurtSound);
     }
 
-    public void TakeDamagePlasma()
-    {
-        health -= 3;
-        audioSource.PlayOneShot(hurtSound);
-    }
-
-    public void TakeDamageRocket()
-    {
-        health -= 12;
-    }
 
     public void PlayerDied()
     {

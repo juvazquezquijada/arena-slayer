@@ -54,10 +54,20 @@ public class TitleScreenManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(firstMapButton);
     }
 
+    public void StartBoss()
+    {
+        SceneManager.LoadScene("BossArena");
+    }
+
 
     public void StartMultiplayer()
     {
         SceneManager.LoadScene("MPMenu");
+    }
+    public void StartTraining() // starts the warehouse map
+    {
+        audioSource.PlayOneShot(selectSound);
+        SceneManager.LoadScene("Training");
     }
     public void StartWarehouse() // starts the warehouse map
     {

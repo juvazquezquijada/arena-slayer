@@ -17,15 +17,16 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] TMP_Text healthbarText;
     [SerializeField] GameObject wepCamera;
     [SerializeField] Animator animator;
+    public static PlayerController1 Instance;
 
     public TextMeshProUGUI health, score; //health indicator
     public AudioClip pauseSound;
-    public AudioClip hurtSound;
-    public AudioClip jumpSound;
+    public AudioClip hurtSound, jumpSound, deathSound;
+    private bool hasPlayedDeathSound = false;
     public bool isJumping = false;
     public bool isPaused = false;
     public bool isDead = false;
-    public GameObject pauseMenuPanel;
+    public GameObject pauseMenuPanel, gameOverScreen, playerHud;
     int itemIndex;
     int previousItemIndex = -1;
     float verticalLookRotation;
@@ -41,18 +42,28 @@ public class PlayerController1 : MonoBehaviour
     private bool isRefillingStamina;
     private float timeSinceLastAction;
     private bool isSprinting;
-
+    public bool isBenchPressing = false;
+    public Transform armPivot; // Reference to the arm pivot (weapon holder)
     public Image staminaBarImage;
 
-    CharacterController characterController;
+    public CharacterController characterController;
 
     const float maxHealth = 100f;
     float currentHealth = maxHealth;
+    float currentScore = 0f;
     public GameObject lowHealthText;
 
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
     }
 
     void Start()
@@ -61,17 +72,20 @@ public class PlayerController1 : MonoBehaviour
         animator.SetTrigger("SwitchWeapon");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        animator.ResetTrigger("BenchPress");
         currentStamina = maxStamina;
         timeSinceLastAction = Time.time;
     }
 
     void Update()
     {
-        if (isDead || isPaused)
+        if (isDead || isPaused || isBenchPressing)
+        {
             return;
-
-            Look();
+        }
+        else if (!isDead || !isPaused|| !isBenchPressing)
+        {
+            Look(); // Call Look method only if not bench pressing
             Move();
 
             for (int i = 0; i < items.Length; i++)
@@ -84,26 +98,26 @@ public class PlayerController1 : MonoBehaviour
                 }
             }
 
-            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f && !isBenchPressing)
             {
                 // Scroll up
                 if (itemIndex < items.Length - 1)
                 {
                     EquipItem(itemIndex + 1);
                     animator.SetTrigger("SwitchWeapon");
-                 }
+                }
             }
-            else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+            else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f && !isBenchPressing)
             {
                 // Scroll down
                 if (itemIndex > 0)
                 {
                     EquipItem(itemIndex - 1);
                     animator.SetTrigger("SwitchWeapon");
-                 }
+                }
             }
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && !isBenchPressing)
             {
                 items[itemIndex].Use();
             }
@@ -113,12 +127,12 @@ public class PlayerController1 : MonoBehaviour
                 Die();
             }
 
-            if (characterController.isGrounded)
+            if (characterController.isGrounded && !isBenchPressing)
             {
                 // Reset jumping flag
                 isJumping = false;
             }
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R) && !isBenchPressing)
             {
                 // Call the Reload() method on the currently equipped gun
                 if (items[itemIndex] is Gun equippedGun)
@@ -127,25 +141,41 @@ public class PlayerController1 : MonoBehaviour
                 }
             }
 
-    
 
-        if (currentHealth <= 30)
-        {
-            lowHealthText.gameObject.SetActive(true);
+
+            if (currentHealth <= 30)
+            {
+                lowHealthText.gameObject.SetActive(true);
+            }
+
+            else if (currentHealth > 40)
+            {
+                lowHealthText.gameObject.SetActive(false);
+            }
+
+            
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                PauseGame();
+            }
         }
 
-        if (isDead == true)
+        // Prevent sprinting when stamina is 0
+        if (currentStamina <= 0)
         {
-            moveAmount = Vector3.zero; // stop the movement
-            SpawnManager.Instance.GameOver();
-            return; // exit the method
+            isSprinting = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Refill stamina if it has been refillDelayDuration seconds since the last action
+        if (Time.time - timeSinceLastAction >= refillDelayDuration)
         {
-            PauseGame();
+            currentStamina += staminaRegenRate * Time.deltaTime;
+            currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
         }
 
+        // Update stamina bar fill amount
+        staminaBarImage.fillAmount = currentStamina / maxStamina;
     }
 
     void Look()
@@ -203,21 +233,7 @@ public class PlayerController1 : MonoBehaviour
             }
         }
 
-        // Prevent sprinting when stamina is 0
-        if (currentStamina <= 0)
-        {
-            isSprinting = false;
-        }
-
-        // Refill stamina if it has been refillDelayDuration seconds since the last action
-        if (Time.time - timeSinceLastAction >= refillDelayDuration)
-        {
-            currentStamina += staminaRegenRate * Time.deltaTime;
-            currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
-        }
-
-        // Update stamina bar fill amount
-        staminaBarImage.fillAmount = currentStamina / maxStamina;
+        
 
         // Apply movement
         characterController.Move(moveAmount * Time.deltaTime);
@@ -250,10 +266,40 @@ public class PlayerController1 : MonoBehaviour
         animator.SetTrigger("SwitchWeapon");
     }
 
+    void CheckHealth()
+    {
+        if (currentHealth <= 0)
+        {
+            moveAmount = Vector3.zero; // stop the movement
+            Die();
+        }
+    }
+
     void Die()
     {
         isDead = true;
+        GetComponent<CapsuleCollider>().enabled = false;
+        animator.SetBool("IsDead", true); // Trigger the death animation
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        gameOverScreen.gameObject.SetActive(true);
+        playerHud.gameObject.SetActive(false);
         Debug.Log("Player is Dead!");
+        if (!hasPlayedDeathSound)
+        {
+            audioSource.PlayOneShot(deathSound);
+            hasPlayedDeathSound = true;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        
+     
+            currentHealth -= damage;
+            UpdateHealthUI();
+        
+        
     }
 
     public void PauseGame()
@@ -299,11 +345,32 @@ public class PlayerController1 : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void RetryGame()
+    {
+        Time.timeScale = 1f; // Unpause the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+        pauseMenuPanel.SetActive(false);
+        isPaused = false;
+    }
+
     void UpdateHealthUI()
     {
         healthBar.fillAmount = currentHealth / maxHealth;
         healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
     }
+
+    public void UpdateScore(int scoreValue)
+    {
+        currentScore += scoreValue;
+        score.text = currentScore.ToString();
+    }
+
+    public void SetArmPivotRotation(Quaternion rotation)
+    {
+        // Set the rotation of the arm pivot (weapon holder)
+        armPivot.rotation = rotation;
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -314,6 +381,7 @@ public class PlayerController1 : MonoBehaviour
             if (currentHealth > 100) currentHealth = 100;
             Destroy(other.gameObject);
             UpdateHealthUI();
+            CheckHealth();
         }
 
         else if (other.gameObject.CompareTag("Fireball"))
@@ -323,6 +391,8 @@ public class PlayerController1 : MonoBehaviour
             Destroy(other.gameObject);
             audioSource.PlayOneShot(hurtSound);
             UpdateHealthUI();
+            CheckHealth();
+
         }
         else if (other.gameObject.CompareTag("Demon"))
         {
@@ -330,6 +400,7 @@ public class PlayerController1 : MonoBehaviour
             if (currentHealth < 0) currentHealth = 0;
             audioSource.PlayOneShot(hurtSound);
             UpdateHealthUI();
+            CheckHealth();
         }
         else if (other.gameObject.CompareTag("Zombie"))
         {
@@ -337,6 +408,7 @@ public class PlayerController1 : MonoBehaviour
             if (currentHealth < 0) currentHealth = 0;
             audioSource.PlayOneShot(hurtSound);
             UpdateHealthUI();
+            CheckHealth();
         }
         else if (other.gameObject.CompareTag("Soldier"))
         {
@@ -344,21 +416,31 @@ public class PlayerController1 : MonoBehaviour
             if (currentHealth < 0) currentHealth = 0;
             audioSource.PlayOneShot(hurtSound);
             UpdateHealthUI();
+            CheckHealth();
         }
-        else if (other.gameObject.CompareTag("EnemyProjectile"))
+        else if (other.gameObject.CompareTag("BuffDemon") || other.gameObject.CompareTag("Robo Demon"))
         {
-            currentHealth -= 7;
+            currentHealth -= 10;
             if (currentHealth < 0) currentHealth = 0;
             audioSource.PlayOneShot(hurtSound);
             UpdateHealthUI();
+            CheckHealth();
+        }
+        else if (other.gameObject.CompareTag("EnemyProjectile"))
+        {
+            currentHealth -= 5;
+            if (currentHealth < 0) currentHealth = 0;
+            audioSource.PlayOneShot(hurtSound);
+            UpdateHealthUI();
+            CheckHealth();
         }
         else if (other.gameObject.CompareTag("EnemyRocket"))
         {
             currentHealth -= 30;
             if (currentHealth < 0) currentHealth = 0;
-            Destroy(other.gameObject);
             audioSource.PlayOneShot(hurtSound);
             UpdateHealthUI();
+            CheckHealth();
         }
     }
 }

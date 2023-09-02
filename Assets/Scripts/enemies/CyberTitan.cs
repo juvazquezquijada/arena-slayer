@@ -107,34 +107,15 @@ public class CyberTitan : MonoBehaviour
         if (isDead) return; // Don't do anything if the enemy is dead
         if (playerDead) return; //Don't do anything if the player is dead     
     }
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {   
-        health -= 10;
+        health -= damage;
         healthBar.fillAmount = (float)health / maxHealth;
              if (Time.time - lastHurtTime >= hurtCooldown)
         {
         audioSource.PlayOneShot(hurtSound);
         lastHurtTime = Time.time;
-        }
-         
-    }
-    public void TakeDamagePlasma()
-    {
-        if (health > 5 && Time.time - lastHurtTime >= hurtCooldown) // Only play sound if the enemy is still alive
-        {
-            audioSource.PlayOneShot(hurtSound);
-        }
-            health-= 1;
-            healthBar.fillAmount = (float)health / maxHealth;      
-    }
-    public void TakeDamageRocket()
-    {
-        if (health > 20 && Time.time - lastHurtTime >= hurtCooldown) // Only play sound if the enemy is still alive
-        {
-            audioSource.PlayOneShot(hurtSound);
-        }
-            health-= 20;
-            healthBar.fillAmount = (float)health / maxHealth;      
+        } 
     }
     
     public void Die()

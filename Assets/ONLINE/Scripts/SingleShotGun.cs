@@ -22,7 +22,7 @@ public class SingleShotGun : Gun
     [SerializeField] string reloadAnimationName;
     private bool isReloading = false; // Reset the reloading flag
     private bool isUsingWeapon = false;
-
+    public GameObject leftArm, rightArm, otherLeftArm, otherRightArm;
     [SerializeField] ParticleSystem muzzleFlashParticleSystem;
     public float maxRaycastDistance = 100f; // Replace with your desired max distance
 
@@ -173,6 +173,20 @@ public class SingleShotGun : Gun
         {
             reloadingText.gameObject.SetActive(false);
         }
+    }
+
+    public void ShowAltArms()
+    {
+        PV.RPC("RPC_ShowAltArms", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_ShowAltArms()
+    {
+        leftArm.gameObject.SetActive(true);
+        rightArm.gameObject.SetActive(true);
+        otherLeftArm.gameObject.SetActive(false);
+        otherRightArm.gameObject.SetActive(false);
     }
 
     [PunRPC]

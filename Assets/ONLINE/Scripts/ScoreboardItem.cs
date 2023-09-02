@@ -17,6 +17,7 @@ public class ScoreboardItem : MonoBehaviourPunCallbacks
 	void Start()
 	{
 		UpdateStats();
+		ResetStats();
 	}
 
 	void Update()
