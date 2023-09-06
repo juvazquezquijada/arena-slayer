@@ -374,6 +374,8 @@ public class PlayerController1 : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isDead)
+            return;
 
         if (other.gameObject.CompareTag("Health"))
         {
