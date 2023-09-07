@@ -15,10 +15,10 @@ public class Bullet : MonoBehaviour
             // Deal damage to enemy
             Demon enemy = other.gameObject.GetComponent<Demon>();
             GetComponent<SphereCollider>().enabled = false;
-            
-               enemy.TakeDamage(damage);
-               
-            
+
+            enemy.TakeDamage(damage);
+
+
 
             // Destroy bullet
             Destroy(gameObject);
@@ -27,9 +27,9 @@ public class Bullet : MonoBehaviour
         {
             // Deal damage to enemy
             Zombie enemy = other.gameObject.GetComponent<Zombie>();
-            
-                enemy.TakeDamage(damage);
-                //CanvasManager.Instance.UpdateScore(10);
+
+            enemy.TakeDamage(damage);
+            //CanvasManager.Instance.UpdateScore(10);
             GetComponent<SphereCollider>().enabled = false;
 
             // Destroy bullet
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
         {
             // Deal damage to enemy
             Soldier enemy = other.gameObject.GetComponent<Soldier>();
-            
+
             //CanvasManager.Instance.UpdateScore(10);
             GetComponent<SphereCollider>().enabled = false;
             enemy.TakeDamage(damage);
@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour
             // Deal damage to enemy
             CyberTitan enemy = other.gameObject.GetComponent<CyberTitan>();
 
-            
+
             GetComponent<SphereCollider>().enabled = false;
             enemy.TakeDamage(damage);
             // Destroy bullet
@@ -62,8 +62,6 @@ public class Bullet : MonoBehaviour
         {
             // Deal damage to enemy
             BuffDemonAI enemy = other.gameObject.GetComponent<BuffDemonAI>();
-
-
             GetComponent<SphereCollider>().enabled = false;
             enemy.TakeDamage(damage);
             // Destroy bullet
@@ -74,6 +72,17 @@ public class Bullet : MonoBehaviour
         {
             // Deal damage to enemy
             RoboDemonAI enemy = other.gameObject.GetComponent<RoboDemonAI>();
+
+
+            GetComponent<SphereCollider>().enabled = false;
+            enemy.TakeDamage(damage);
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.CompareTag("CursedCaptain"))
+        {
+            // Deal damage to enemy
+            CursedCaptainBoss enemy = other.gameObject.GetComponent<CursedCaptainBoss>();
 
 
             GetComponent<SphereCollider>().enabled = false;

@@ -72,10 +72,10 @@ public class Plasma: MonoBehaviour
             Destroy(gameObject);
         }
 
-        else if (other.gameObject.CompareTag("Robo Demon"))
+        else if (other.gameObject.CompareTag("CursedCaptain"))
         {
             // Deal damage to enemy
-            RoboDemonAI enemy = other.gameObject.GetComponent<RoboDemonAI>();
+            CursedCaptainBoss enemy = other.gameObject.GetComponent<CursedCaptainBoss>();
 
 
             GetComponent<SphereCollider>().enabled = false;

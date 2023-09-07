@@ -13,7 +13,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
     [SerializeField] AudioSource audioSource;
-    [SerializeField] Image healthBar;
+    [SerializeField] Image healthBar, curseBar;
     [SerializeField] TMP_Text healthbarText;
     [SerializeField] GameObject wepCamera;
     [SerializeField] Animator animator;
@@ -26,13 +26,14 @@ public class PlayerController1 : MonoBehaviour
     public bool isJumping = false;
     public bool isPaused = false;
     public bool isDead = false;
-    public GameObject pauseMenuPanel, gameOverScreen, playerHud;
+    public bool isCursed = false;
+    public GameObject pauseMenuPanel, gameOverScreen, playerHud, curseBarUI;
     int itemIndex;
     int previousItemIndex = -1;
     float verticalLookRotation;
     Vector3 smoothMoveVelocity;
     Vector3 moveAmount;
-
+    public float curse = 50f;
     public float maxStamina = 100f;
     public float currentStamina;
     public float staminaRegenRate = 10f;
@@ -268,7 +269,7 @@ public class PlayerController1 : MonoBehaviour
 
     void CheckHealth()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 || curse >= 50)
         {
             moveAmount = Vector3.zero; // stop the movement
             Die();
@@ -290,16 +291,15 @@ public class PlayerController1 : MonoBehaviour
             audioSource.PlayOneShot(deathSound);
             hasPlayedDeathSound = true;
         }
+
+        if (currentHealth < 0) currentHealth = 0;
     }
 
     public void TakeDamage(int damage)
     {
-        
-     
             currentHealth -= damage;
             UpdateHealthUI();
-        
-        
+            audioSource.PlayOneShot(hurtSound);
     }
 
     public void PauseGame()
@@ -358,6 +358,16 @@ public class PlayerController1 : MonoBehaviour
         healthBar.fillAmount = currentHealth / maxHealth;
         healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
     }
+    void UpdateCurseUI() 
+    {
+        curseBar.fillAmount = curse/50;
+
+        if (curse > 0)
+        {
+            curseBarUI.gameObject.SetActive(true);
+        }
+        
+    }
 
     public void UpdateScore(int scoreValue)
     {
@@ -371,12 +381,19 @@ public class PlayerController1 : MonoBehaviour
         armPivot.rotation = rotation;
     }
 
+    private IEnumerator ResetCurseAfterDelay(float delayInSeconds)
+    {
+        yield return new WaitForSeconds(delayInSeconds);
+        curse = 0f;          // Reset the curse to 0
+        curseBarUI.gameObject.SetActive(false);
+        isCursed = false;    // Reset the isCursed flag to false
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (isDead)
             return;
-
+        // if player gets health 
         if (other.gameObject.CompareTag("Health"))
         {
             currentHealth += 25;
@@ -385,64 +402,49 @@ public class PlayerController1 : MonoBehaviour
             UpdateHealthUI();
             CheckHealth();
         }
+        // if player touches projectiles
+        else if (other.gameObject.CompareTag("Fireball") || other.gameObject.CompareTag("EnemyProjectile"))
+        {
+            TakeDamage(5);
+            UpdateHealthUI();
+            CheckHealth();
+        }
+        else if (other.gameObject.CompareTag("Curseball"))
+        {
+            isCursed = true;
+            Debug.Log("Player cursed!");
+            curse += 10;
+            TakeDamage(5);
+            UpdateCurseUI();
+            // Start the coroutine to reset curse and isCursed after 20 seconds
+            StartCoroutine(ResetCurseAfterDelay(20f));
+        }
 
-        else if (other.gameObject.CompareTag("Fireball"))
+        // if player touches enemy
+        else if (other.gameObject.CompareTag("Demon") || other.gameObject.CompareTag("Zombie") || other.gameObject.CompareTag("Soldier"))
         {
-            currentHealth -= 6;
-            if (currentHealth < 0) currentHealth = 0;
-            Destroy(other.gameObject);
-            audioSource.PlayOneShot(hurtSound);
-            UpdateHealthUI();
-            CheckHealth();
-
-        }
-        else if (other.gameObject.CompareTag("Demon"))
-        {
-            currentHealth -= 5;
-            if (currentHealth < 0) currentHealth = 0;
-            audioSource.PlayOneShot(hurtSound);
+            TakeDamage(5);
             UpdateHealthUI();
             CheckHealth();
         }
-        else if (other.gameObject.CompareTag("Zombie"))
+        // if player touches boss
+        else if (other.gameObject.CompareTag("BuffDemon") || other.gameObject.CompareTag("Robo Demon") || other.gameObject.CompareTag("CursedCaptain"))
         {
-            currentHealth -= 5;
-            if (currentHealth < 0) currentHealth = 0;
-            audioSource.PlayOneShot(hurtSound);
+            TakeDamage(10);
             UpdateHealthUI();
             CheckHealth();
         }
-        else if (other.gameObject.CompareTag("Soldier"))
-        {
-            currentHealth -= 10;
-            if (currentHealth < 0) currentHealth = 0;
-            audioSource.PlayOneShot(hurtSound);
-            UpdateHealthUI();
-            CheckHealth();
-        }
-        else if (other.gameObject.CompareTag("BuffDemon") || other.gameObject.CompareTag("Robo Demon"))
-        {
-            currentHealth -= 10;
-            if (currentHealth < 0) currentHealth = 0;
-            audioSource.PlayOneShot(hurtSound);
-            UpdateHealthUI();
-            CheckHealth();
-        }
-        else if (other.gameObject.CompareTag("EnemyProjectile"))
-        {
-            currentHealth -= 5;
-            if (currentHealth < 0) currentHealth = 0;
-            audioSource.PlayOneShot(hurtSound);
-            UpdateHealthUI();
-            CheckHealth();
-        }
+        // if player gets hit by rocket
         else if (other.gameObject.CompareTag("EnemyRocket"))
         {
-            currentHealth -= 30;
-            if (currentHealth < 0) currentHealth = 0;
-            audioSource.PlayOneShot(hurtSound);
+            TakeDamage(30);
             UpdateHealthUI();
             CheckHealth();
+        }
+
+        else if (other.CompareTag("GrabHitbox"))
+        {
+
         }
     }
 }

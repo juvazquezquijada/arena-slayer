@@ -30,12 +30,11 @@ public class Soldier : MonoBehaviour
     private SpawnManager spawnManager;
     
 
-    void Start()
+    void Awake()
     {
-       
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        SetTarget();
+        
         audioSource = GetComponent<AudioSource>();
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         // Set the agent to be active and enable auto-braking
         navMeshAgent.enabled = true;
@@ -118,5 +117,11 @@ public class Soldier : MonoBehaviour
     public void PlayerDied()
     {
         playerDead = true;
+    }
+
+    public void SetTarget() 
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
     }
 }
