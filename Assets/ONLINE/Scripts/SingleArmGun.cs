@@ -20,6 +20,7 @@ public class SingleArmGun : Gun
     [SerializeField] float reloadTime;
     [SerializeField] AudioClip reloadSound;
     [SerializeField] string reloadAnimationName;
+    [SerializeField] float shootDelay = 0.3f; // Delay before shooting (adjust this delay as needed)
     private bool isReloading = false; // Reset the reloading flag
     private bool isUsingWeapon = false;
 
@@ -67,8 +68,9 @@ public class SingleArmGun : Gun
         if (currentAmmo > 0 && Time.time - lastFireTime >= fireRate) // Check if enough time has passed since the last shot and if there is ammo available
         {
             lastFireTime = Time.time; // Update the last fire time
+
+            StartCoroutine(ShootWithDelay());
             
-            Shoot(); // Perform the shooting logic
         }
 
         
@@ -79,29 +81,44 @@ public class SingleArmGun : Gun
         UpdateAmmoUI();
     }
 
+    IEnumerator ShootWithDelay()
+    {
+        PV.RPC("RPC_PlayShootEffects", RpcTarget.All);
+        // Wait for the shoot delay
+        yield return new WaitForSeconds(shootDelay);
+
+        // Perform the shooting logic
+        Shoot();
+    }
+
     void Shoot()
     {
         currentAmmo--;
-
         UpdateAmmoUI();
 
         isUsingWeapon = true; // Mark that the weapon is in use for shooting
 
-        // play shoot effects
-        animator.SetTrigger(shootAnimationName);
-        PV.RPC("RPC_PlayShootEffects", RpcTarget.All);
-
         //shoot ray
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 3f));
         ray.origin = cam.transform.position;
+
         if (Physics.Raycast(ray, out RaycastHit hit, maxRaycastDistance))
         {
-            Debug.Log("We hit" + hit.collider.gameObject.name);
-            hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
-            PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
-        }
+            // Check if the hit point is beyond a minimum distance
+            float minRaycastDistance = 0.5f; // Set your desired minimum distance here
+            float distanceToHit = Vector3.Distance(ray.origin, hit.point);
 
-        
+            if (distanceToHit >= minRaycastDistance)
+            {
+                Debug.Log("We hit " + hit.collider.gameObject.name);
+                hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
+                PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
+            }
+            else
+            {
+                // Handle the case where the hit is too close (e.g., play a different sound, effect, or do nothing)
+            }
+        }
 
         PlayMuzzleFlash();
     }

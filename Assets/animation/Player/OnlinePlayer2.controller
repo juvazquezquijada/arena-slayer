@@ -422,7 +422,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ShootPistol
-  m_Speed: 1.3
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1238565827082245727}
@@ -604,7 +604,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -735,7 +735,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ReloadAK47
-  m_Speed: 0.54
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4127793668766831136}
@@ -1517,7 +1517,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 5834654830105892913}
-    m_Position: {x: 170, y: 260, z: 0}
+    m_Position: {x: 190, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6965015607829877458}
     m_Position: {x: 470, y: 170, z: 0}
@@ -1553,10 +1553,10 @@ AnimatorStateMachine:
     m_Position: {x: 180, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2057898712566604587}
-    m_Position: {x: 810, y: 690, z: 0}
+    m_Position: {x: 810, y: 680, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4963680000712866519}
-    m_Position: {x: 440, y: 680, z: 0}
+    m_Position: {x: 210, y: 670, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4772351888777953913}
     m_Position: {x: 420, y: 720, z: 0}
@@ -1610,7 +1610,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1

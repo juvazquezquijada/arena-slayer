@@ -38,30 +38,30 @@ public class BuffDemonAI : MonoBehaviour
     private float currentCooldown;
     private Rigidbody rb;
 
-    private PlayerController1 playerHealth;
+    public PlayerController1 playerHealth;
     private NavMeshAgent navMeshAgent; // Reference to the NavMeshAgent component
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
+        
+        
         health = maxHealth;
         healthbar.fillAmount = health / maxHealth;
 
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
     }
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     private void Update()
     {
-        if (isDead)
+        if (isDead || playerHealth.isDead)
             return;
-
-        if (playerHealth.isDead)
-        {
-            playerDead = true;
-            return;
-        }
+    
 
         // Check if the demon should enter the second phase
         if (health <= maxHealth / 2 && !isInSecondPhase)
@@ -180,6 +180,7 @@ public class BuffDemonAI : MonoBehaviour
 
     private void SpawnFireball(Vector3 position, Vector3 velocity)
     {
+        Debug.Log("Spawned fireball");
         GameObject fireball = Instantiate(fireballPrefab, position, Quaternion.identity);
         fireball.transform.rotation = Quaternion.identity;
         fireball.GetComponent<Rigidbody>().velocity = velocity;

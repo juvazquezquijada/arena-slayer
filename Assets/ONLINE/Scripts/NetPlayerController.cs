@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+﻿ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,21 +11,20 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, smoothTime, yMouseSensitivity;
     [SerializeField] GameObject playerCamera;
-    [SerializeField] GameObject cameraHolder, wepHolder;
+    [SerializeField] GameObject cameraHolder, wepHolder, lowHealthAudio;
     [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
     [SerializeField] AudioSource audioSource;
     [SerializeField] Image healthBar;
     [SerializeField] TMP_Text healthbarText;
-    [SerializeField] GameObject ui;
-    [SerializeField] GameObject wepCamera;
+    [SerializeField] GameObject ui, billBoard;
     [SerializeField] Animator animator;
     public FFAGameManager gameManager;
     public AudioClip hurtSound;
     public AudioClip jumpSound;
     public bool isJumping = false;
     bool isPaused = false;
-
+    public string playerName;
     int itemIndex;
     int previousItemIndex = -1;
     float verticalLookRotation;
@@ -70,7 +69,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         PV = GetComponent<PhotonView>();
 
         playerManager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
-
+        playerName = PhotonNetwork.NickName; // Store the player's name
         gameManager = FFAGameManager.Instance;
     }
 
@@ -79,13 +78,14 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (PV.IsMine)
         {
             EquipItem(0);
+            Destroy(billBoard);
         }
         else
         {
             Destroy(playerCamera);
-            Destroy(wepCamera);
             Destroy(characterController);
             Destroy(ui);
+            ResetWeaponHolderLayer();
         }
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -191,6 +191,12 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         if (currentHealth <= 30)
         {
             lowHealthText.gameObject.SetActive(true);
+            lowHealthAudio.SetActive(true);
+        }
+        else if (currentHealth > 30 || currentHealth <=0)
+        {
+            lowHealthText.gameObject.SetActive(false);
+            lowHealthAudio.SetActive(false);
         }
 
 
@@ -347,6 +353,34 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         PV.RPC(nameof(RPC_TakeDamage), PV.Owner, damage);
     }
 
+    void ResetLayersRecursively(Transform obj, int newLayer)
+    {
+        obj.gameObject.layer = newLayer; // Set the layer of the current object
+
+        // Recursively set the layer for all child objects
+        foreach (Transform child in obj)
+        {
+            ResetLayersRecursively(child, newLayer);
+        }
+    }
+
+    void ResetWeaponHolderLayer()
+    {
+        Debug.Log("Resetting weapon layer");
+
+        // Set the layer of the wepHolder GameObject
+        cameraHolder.layer = 0; // Change this to match your default layer index
+
+        // Reset the layers of all child objects (including descendants)
+        foreach (Transform child in cameraHolder.transform)
+        {
+            ResetLayersRecursively(child, 0); // Change this to match your default layer index
+        }
+    }
+
+
+
+
     [PunRPC]
     void RPC_TakeDamage(float damage, PhotonMessageInfo info)
     {
@@ -362,8 +396,10 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (currentHealth <= 0)
         {
-            Die();
-            PlayerManager.Find(info.Sender).GetKill();
+            string killerName = info.Sender.NickName; // Get the killer's name
+            Die(killerName); // Pass the killer's name to the Die method
+            PlayerManager.Find(info.Sender).GetKill(playerName);
+
         }
     }
 
@@ -377,7 +413,6 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     void GameOver()
     {
         Destroy(playerCamera);
-        Destroy(wepCamera);
         Destroy(characterController);
         Destroy(ui);
 
@@ -385,9 +420,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         Cursor.visible = true;
     }
 
-    void Die()
+    void Die(string killerName)
     {
-        playerManager.Die();
+        playerManager.Die(killerName);
     }
 
    

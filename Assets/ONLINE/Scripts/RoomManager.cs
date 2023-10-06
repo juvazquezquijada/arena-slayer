@@ -35,7 +35,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            if (scene.name == "MPBattlefield" || scene.name == "MPPool" || scene.name == "MPCity" || scene.name == "MPWarehouse")
+            if (scene.name == "MPBattlefield" || scene.name == "MPPool" || scene.name == "MPCity" || scene.name == "MPWarehouse" || scene.name == "MPStore")
             {
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
             }

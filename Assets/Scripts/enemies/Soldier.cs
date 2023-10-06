@@ -26,7 +26,7 @@ public class Soldier : MonoBehaviour
     public int health = 20;
 
     private PlayerController1 playerHealth;
-    private NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;
     private SpawnManager spawnManager;
     
 
@@ -39,7 +39,8 @@ public class Soldier : MonoBehaviour
         // Set the agent to be active and enable auto-braking
         navMeshAgent.enabled = true;
         navMeshAgent.autoBraking = true;
-       
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
+
     }
 
     void Update()
@@ -93,7 +94,7 @@ public class Soldier : MonoBehaviour
         isDead = true;
 
         audioSource.PlayOneShot(deathSound);
-
+        PlayerController1.Instance.UpdateScore(15);
         GetComponent<CapsuleCollider>().enabled = false;
         navMeshAgent.enabled = false;
         SpawnManager.Instance.EnemyDied();
@@ -103,7 +104,7 @@ public class Soldier : MonoBehaviour
         Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
         rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-        PlayerController1.Instance.UpdateScore(15);
+        
 
         Destroy(gameObject, destroyTime);
     }

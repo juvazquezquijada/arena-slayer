@@ -13,7 +13,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
     [SerializeField] AudioSource audioSource;
-    [SerializeField] Image healthBar, curseBar;
+    [SerializeField] Image healthBar;
     [SerializeField] TMP_Text healthbarText;
     [SerializeField] GameObject wepCamera;
     [SerializeField] Animator animator;
@@ -21,7 +21,7 @@ public class PlayerController1 : MonoBehaviour
 
     public TextMeshProUGUI health, score; //health indicator
     public AudioClip pauseSound;
-    public AudioClip hurtSound, jumpSound, deathSound;
+    public AudioClip hurtSound, jumpSound, deathSound, curseSound;
     private bool hasPlayedDeathSound = false;
     public bool isJumping = false;
     public bool isPaused = false;
@@ -33,7 +33,7 @@ public class PlayerController1 : MonoBehaviour
     float verticalLookRotation;
     Vector3 smoothMoveVelocity;
     Vector3 moveAmount;
-    public float curse = 50f;
+    public float curse = 0f;
     public float maxStamina = 100f;
     public float currentStamina;
     public float staminaRegenRate = 10f;
@@ -45,11 +45,12 @@ public class PlayerController1 : MonoBehaviour
     private bool isSprinting;
     public bool isBenchPressing = false;
     public Transform armPivot; // Reference to the arm pivot (weapon holder)
-    public Image staminaBarImage;
+    public Image staminaBarImage, curseBar;
 
     public CharacterController characterController;
 
     const float maxHealth = 100f;
+    float maxCurse = 75f;
     float currentHealth = maxHealth;
     float currentScore = 0f;
     public GameObject lowHealthText;
@@ -269,10 +270,11 @@ public class PlayerController1 : MonoBehaviour
 
     void CheckHealth()
     {
-        if (currentHealth <= 0 || curse >= 50)
+        if (currentHealth <= 0 || curse >= maxCurse)
         {
             moveAmount = Vector3.zero; // stop the movement
             Die();
+               
         }
     }
 
@@ -297,9 +299,11 @@ public class PlayerController1 : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        Debug.Log("Player took" + damage + "damage");
             currentHealth -= damage;
             UpdateHealthUI();
             audioSource.PlayOneShot(hurtSound);
+            CheckHealth();
     }
 
     public void PauseGame()
@@ -360,13 +364,18 @@ public class PlayerController1 : MonoBehaviour
     }
     void UpdateCurseUI() 
     {
-        curseBar.fillAmount = curse/50;
+        curseBar.fillAmount = (float)curse/maxCurse;
 
         if (curse > 0)
         {
             curseBarUI.gameObject.SetActive(true);
         }
-        
+
+        if (curse >= 30 && curse < maxCurse)
+        {
+            audioSource.PlayOneShot(curseSound);
+        }
+
     }
 
     public void UpdateScore(int scoreValue)
@@ -416,6 +425,7 @@ public class PlayerController1 : MonoBehaviour
             curse += 10;
             TakeDamage(5);
             UpdateCurseUI();
+            CheckHealth();
             // Start the coroutine to reset curse and isCursed after 20 seconds
             StartCoroutine(ResetCurseAfterDelay(20f));
         }
@@ -428,7 +438,7 @@ public class PlayerController1 : MonoBehaviour
             CheckHealth();
         }
         // if player touches boss
-        else if (other.gameObject.CompareTag("BuffDemon") || other.gameObject.CompareTag("Robo Demon") || other.gameObject.CompareTag("CursedCaptain"))
+        else if (other.gameObject.CompareTag("BuffDemon") || other.gameObject.CompareTag("Robo Demon"))
         {
             TakeDamage(10);
             UpdateHealthUI();
@@ -442,9 +452,16 @@ public class PlayerController1 : MonoBehaviour
             CheckHealth();
         }
 
-        else if (other.CompareTag("GrabHitbox"))
+        else if (other.gameObject.CompareTag("CursedCaptain"))
         {
-
+            isCursed = true;
+            Debug.Log("Player cursed!");
+            curse += 10;
+            TakeDamage(15);
+            UpdateCurseUI();
+            CheckHealth();
+            // Start the coroutine to reset curse and isCursed after 20 seconds
+            StartCoroutine(ResetCurseAfterDelay(20f));
         }
     }
 }

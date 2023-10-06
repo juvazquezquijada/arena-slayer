@@ -25,7 +25,7 @@ public class SingleShotGun : Gun
     public GameObject leftArm, rightArm, otherLeftArm, otherRightArm;
     [SerializeField] ParticleSystem muzzleFlashParticleSystem;
     public float maxRaycastDistance = 100f; // Replace with your desired max distance
-
+    public CameraShake cameraShake; // Reference to the CameraShake script
     PhotonView PV;
 
     private float lastFireTime; // Time when the gun was last fired
@@ -39,6 +39,8 @@ public class SingleShotGun : Gun
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+
+
     }
 
     void Update()
@@ -80,7 +82,6 @@ public class SingleShotGun : Gun
     void Shoot()
     {
         currentAmmo--;
-
         UpdateAmmoUI();
 
         isUsingWeapon = true; // Mark that the weapon is in use for shooting
@@ -90,19 +91,30 @@ public class SingleShotGun : Gun
         PV.RPC("RPC_PlayShootEffects", RpcTarget.All);
 
         //shoot ray
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 3f));
         ray.origin = cam.transform.position;
+
         if (Physics.Raycast(ray, out RaycastHit hit, maxRaycastDistance))
         {
-            Debug.Log("We hit" + hit.collider.gameObject.name);
-            hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
-            PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
-        }
+            // Check if the hit point is beyond a minimum distance
+            float minRaycastDistance = 0.5f; // Set your desired minimum distance here
+            float distanceToHit = Vector3.Distance(ray.origin, hit.point);
 
-        
+            if (distanceToHit >= minRaycastDistance)
+            {
+                Debug.Log("We hit " + hit.collider.gameObject.name);
+                hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
+                PV.RPC("RPC_Shoot", RpcTarget.All, hit.point, hit.normal);
+            }
+            else
+            {
+                // Handle the case where the hit is too close (e.g., play a different sound, effect, or do nothing)
+            }
+        }
 
         PlayMuzzleFlash();
     }
+
 
     public override void Reload()
     {

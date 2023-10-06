@@ -8,7 +8,7 @@ using System.IO;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using TMPro;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviourPunCallbacks
 {
 	PhotonView PV;
 
@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
 	[SerializeField] int currentKillStreak = 0;
 	[SerializeField] int currentDeathStreak = 0;
 	[SerializeField] int deaths;
-	[SerializeField] TMP_Text streakText;
+	[SerializeField] TMP_Text streakText, notificationText;
 	public float respawnTime = 3f;
 	public string playerName;
 
@@ -34,8 +34,10 @@ public class PlayerManager : MonoBehaviour
 	{
 		PV = GetComponent<PhotonView>();
 		playerName = PhotonNetwork.NickName; // Assuming PhotonNetwork.NickName contains the player's name
-		kills = 0;
-		deaths = 0;
+		Hashtable hash = new Hashtable();
+		hash.Add("kills", 0);
+		hash.Add("deaths", 0);
+		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
 	}
 
 	void Start()
@@ -43,6 +45,8 @@ public class PlayerManager : MonoBehaviour
 		if (PV.IsMine)
 		{
 			CreateController();
+			playerName = PhotonNetwork.NickName; // Store the player's name
+			
 		}
 	}
 
@@ -61,50 +65,90 @@ public class PlayerManager : MonoBehaviour
 
 	public void Fall()
 	{
-		Die();
+		string killerName = "the void";
+		Die(killerName);
 		PV.RPC("RPC_PlayDeathSound", RpcTarget.All);
 	}
 
-	public void Die()
+	public void Die(string killerName)
 	{
 		PhotonNetwork.Destroy(controller);
 		deaths++;
 		currentKillStreak = 0;
 		currentDeathStreak++;
-
 		if (currentDeathStreak >= 3)
 		{
 			Debug.Log("Calling PlayHumiliation");
 			PlayHumiliation();
 		}
-		// Instantiate the Kill +1 text UI prefab
-		GameObject deathTextPrefab = Instantiate(deathText, transform.position + Vector3.up * 2, Quaternion.identity);
+		if (PV.IsMine)
+		{
+			// Display the "killed by [KillerName]" message
+			string deathMessage = "You were killed by " + killerName;
+			Debug.Log(deathMessage);
+
+			// Set the TMP text to display the notification
+			notificationText.text = deathMessage;
+			GameObject deathTextPrefab = Instantiate(deathText, transform.position + Vector3.up * 2, Quaternion.identity);
+		}
+
+		FFAGameManager.Instance.ShowCamera();
+
 		
+		// Create a new controller after a delay
+		StartCoroutine(RespawnAfterDelay());
+
+		// Start a coroutine to clear the notification after 2 seconds
+		StartCoroutine(ClearNotificationText());
 		Hashtable hash = new Hashtable();
 		hash.Add("deaths", deaths);
 		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-		// Create a new controller after a delay
-		StartCoroutine(RespawnAfterDelay());
+		
 	}
 
-	public void GetKill()
+	public void GetKill(string killedPlayerName)
 	{
-		PV.RPC(nameof(RPC_GetKill), PV.Owner);
+		PV.RPC(nameof(RPC_GetKill), RpcTarget.All, killedPlayerName);
 	}
+
 
 	[PunRPC]
-	void RPC_GetKill()
+	void RPC_GetKill(string killedPlayerName)
 	{
-		kills++;
-		currentKillStreak++;
-		currentDeathStreak = 0;
 
-		Hashtable hash = new Hashtable();
-		hash.Add("kills", kills);
-		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+		// award a point to the player
+		if (PV.IsMine)
+		{
+			currentKillStreak++;
+			currentDeathStreak = 0;
+			// Display the "killed [PlayerName]" text
+			string killMessage = "You killed " + killedPlayerName;
+			Debug.Log(killMessage);
 
-		GameObject killText = Instantiate(killTextPrefab, transform.position + Vector3.up * 2, Quaternion.identity);
-		Destroy(killText, 2f);
+			// Set the TMP text to display the notification
+			notificationText.text = killMessage;
+
+			// Start a coroutine to clear the notification after 2 seconds
+			StartCoroutine(ClearNotificationText());
+
+			// Update only the local player's kills
+			kills++;
+
+			// Update the local player's kills using Player.CustomProperties
+			Hashtable playerProps = PhotonNetwork.LocalPlayer.CustomProperties;
+			if (playerProps.ContainsKey("kills"))
+			{
+				playerProps["kills"] = kills;
+			}
+			else
+			{
+				playerProps.Add("kills", kills);
+			}
+
+			// Apply the updated properties
+			PhotonNetwork.LocalPlayer.SetCustomProperties(playerProps);
+		}
+
 
 		string streakMessage = "";
 
@@ -155,6 +199,8 @@ public class PlayerManager : MonoBehaviour
 		return FindObjectsOfType<PlayerManager>().SingleOrDefault(x => x.PV.Owner == player);
 	}
 
+	
+
 	IEnumerator RespawnAfterDelay()
 	{
 		yield return new WaitForSeconds(respawnTime); // Adjust this delay as needed
@@ -167,5 +213,16 @@ public class PlayerManager : MonoBehaviour
 		yield return new WaitForSeconds(3f); // Wait for 3 seconds
 		streakText.text = ""; // Clear the text
 	}
+
+	IEnumerator ClearNotificationText()
+	{
+		// Wait for 2 seconds
+		yield return new WaitForSeconds(2f);
+
+		// Clear the TMP text
+		notificationText.text = "";
+	}
+
+
 
 }

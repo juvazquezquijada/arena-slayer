@@ -158,6 +158,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             string selectedMap = PhotonNetwork.CurrentRoom.CustomProperties["map"].ToString();
             PhotonNetwork.LoadLevel(selectedMap);
+            startGameButton.SetActive(false);
         }
         else
         {
@@ -227,6 +228,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         maps.Add("MPBattlefield");
         maps.Add("MPCity");
         maps.Add("MPWarehouse");
+        maps.Add("MPStore");
         // Add more maps as needed
 
         return maps;

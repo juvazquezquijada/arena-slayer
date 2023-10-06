@@ -53,7 +53,9 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
             StartGame();
             
         }
-        Scoreboard.ResetStatsForAllPlayers();
+        
+        // Switch to the map camera
+        mapCamera.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -108,7 +110,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         isTimerInitialized = true;
         // Play the initial game music
         photonView.RPC("RPC_PlayGameMusic", RpcTarget.All);
-        
+
 
     }
 
@@ -191,6 +193,22 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
             // Synchronize the timer with the newly joined player
             photonView.RPC("SyncNetworkTime", newPlayer, networkTime);
         }
+    }
+
+    public void ShowCamera() 
+    {
+        // Switch to the map camera
+        mapCamera.gameObject.SetActive(true);
+
+        StartCoroutine(DisableCamera());
+    }
+
+    private IEnumerator DisableCamera()
+    {
+        yield return new WaitForSeconds(3);
+
+        mapCamera.gameObject.SetActive(false);
+
     }
 
     [PunRPC]

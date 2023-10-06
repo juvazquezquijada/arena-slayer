@@ -6,16 +6,15 @@ using UnityEngine.AI;
 
 public class CursedCaptainBoss : MonoBehaviour
 {
-   
+
     private Transform player;
     //cooldowns
     private float currentCooldown;
-    private float curseCooldown = 1f;
-    private float grabCooldown = 5f;
-    private float tripCooldown = 5f;
-    private float summonCooldown = 5f;
-    private float aoeCooldown = 15f;
-    private float timeBetweenShots = 0.3f;
+    private float curseCooldown = 3f;
+    private float grabCooldown = 2f;
+    private float summonCooldown = 3f;
+    private float aoeCooldown = 5f;
+    private float timeBetweenShots = 0.5f;
     private float bulletSpeed = 40f;
     public float curseballSpeed = 10f;
     public float meleeRange = 2f;
@@ -30,7 +29,7 @@ public class CursedCaptainBoss : MonoBehaviour
     public GameObject grabAttackHitbox;
     public GameObject soldierPrefab;
     public Transform[] soldierSpawnPoints;
-    public GameObject aoeAttackPrefab;
+    public GameObject curseBall;
     public Transform aoeAttackSpawnPoint;
     public GameObject captainHand;
     // health
@@ -42,12 +41,10 @@ public class CursedCaptainBoss : MonoBehaviour
     public bool isDead = false;
     private bool playerDead = false;
     private bool canAttack = true;
-    private bool isCharging = false;
     private bool isInSecondPhase = false;
     private bool isGrabbing = false; // Add a flag to control the grab attack
     private bool isShooting = false;
     private bool isSummoning = false; // Add a flag to control the summoning attack
-    private bool isTripping = false;
     // audio/visual
     public AudioSource audioSource;
     public AudioClip gunSound;
@@ -59,37 +56,34 @@ public class CursedCaptainBoss : MonoBehaviour
 
     //misc
     private Rigidbody rb;
-    private PlayerController1 playerHealth;
+    public PlayerController1 playerHealth;
     private NavMeshAgent navMeshAgent; // Reference to the NavMeshAgent component
     public Collider grabHitbox; // Reference to the grab hitbox collider
 
 
-    private void Awake()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
         health = maxHealth;
         healthbar.fillAmount = health / maxHealth;
 
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
 
-        
+
     }
 
     private void Update()
     {
-        if (isDead)
+        if (isDead || playerHealth.isDead)
             return;
 
-        if (playerHealth.isDead)
+        if (health >= maxHealth)
         {
-            playerDead = true;
-            return;
+            health = maxHealth;
         }
 
-        
         if (canAttack && !playerDead)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -100,7 +94,7 @@ public class CursedCaptainBoss : MonoBehaviour
             }
             else if (currentCooldown <= 0f)
             {
-                int randomAttack = Random.Range(0, 5);
+                int randomAttack = Random.Range(0, 4);
                 switch (randomAttack)
                 {
                     case 0:
@@ -108,22 +102,17 @@ public class CursedCaptainBoss : MonoBehaviour
                         currentCooldown = curseCooldown;
                         break;
                     case 1:
-                        GrabAttack();
-                        currentCooldown = grabCooldown;
+                        AOEAttack();
+                        currentCooldown = aoeCooldown;
                         break;
                     case 2:
                         SummonSoldiers();
                         currentCooldown = summonCooldown;
                         break;
                     case 3:
-                        AOEAttack();
-                        currentCooldown = aoeCooldown;
+                        GrabAttack();
+                        currentCooldown = grabCooldown;
                         break;
-                    case 4:
-                        Trip();
-                        currentCooldown = tripCooldown;
-                        break;
-
 
                 }
             }
@@ -154,7 +143,7 @@ public class CursedCaptainBoss : MonoBehaviour
     private void MeleeAttack()
     {
         // Trigger melee attack animation
-        //anim.SetTrigger("MeleeAttack");
+        anim.SetTrigger("MeleeAttack");
 
         // Implement your melee attack logic here
         Debug.Log("Melee attack!");
@@ -172,11 +161,12 @@ public class CursedCaptainBoss : MonoBehaviour
     private IEnumerator AutoShootBullets()
     {
         isShooting = true;
-        
+
         for (int i = 0; i < 5; i++) // Shoot 10 bullets
         {
             // Instantiate a bullet from the demon's right hand and shoot it towards the player
             Debug.Log("shooting");
+            anim.SetBool("Shoot", true);
             GameObject newBullet = Instantiate(cursedBullet, gunBarrel.position, Quaternion.identity);
             Rigidbody bulletRigidbody = newBullet.GetComponent<Rigidbody>();
             bulletRigidbody.velocity = (player.position - gunBarrel.position).normalized * bulletSpeed;
@@ -185,12 +175,14 @@ public class CursedCaptainBoss : MonoBehaviour
         }
 
         isShooting = false; // Reset the shooting flag after the sequence
+        anim.SetBool("Shoot", false);
     }
 
     private void GrabAttack()
     {
+        Debug.Log("is grabbing");
         // Play the grab animation
-        //anim.SetTrigger("Grab");
+        anim.SetTrigger("Grab");
         if (!isGrabbing)
         {
             // Start the grab attack
@@ -202,27 +194,40 @@ public class CursedCaptainBoss : MonoBehaviour
     public void MovePlayerToCaptainHand()
     {
         // Move the player to the position of the captain's hand
-        player.transform.position =  captainHand.transform.position;
+        player.transform.position = captainHand.transform.position;
     }
 
-    public IEnumerator PerformGrab()
+    public void PerformGrab()
     {
-        while (grabTimer < grabDuration)
+        StartCoroutine(DamagePlayer());
+    }
+
+    public IEnumerator DamagePlayer()
+    {
+        float damageDuration = 5f; // Adjust the total duration as needed
+        float damageInterval = 1f; // 1 second interval
+        int damagePerInterval = 5;
+
+        for (float damageTimer = 0f; damageTimer < damageDuration; damageTimer += damageInterval)
         {
-            Debug.Log("is grabbing");
-            // Calculate damage per second
-            int damagePerSecond = 5;
-
             // Apply damage to the player
-            playerHealth.TakeDamage(damagePerSecond);
+            playerHealth.TakeDamage(damagePerInterval);
 
-            grabTimer += Time.deltaTime;
-            yield return null;
+            health += 50;
+            healthbar.fillAmount = (float)health / maxHealth;
+
+            
+
+            // Wait for the next damage interval
+            yield return new WaitForSeconds(damageInterval);
         }
 
         // End the grab attack
         isGrabbing = false;
     }
+
+
+
 
 
     private void SummonSoldiers()
@@ -240,32 +245,41 @@ public class CursedCaptainBoss : MonoBehaviour
     {
 
         Debug.Log("summoning");
-        //anim.SetTrigger("Summon");
-        audioSource.PlayOneShot(summonSound);
+        anim.SetTrigger("Summon");
+        for (int i = 0; i < 3; i++)
+        {
+            audioSource.PlayOneShot(summonSound);
 
-        // Randomly select a spawn point for the soldier
-        Transform spawnPoint = soldierSpawnPoints[Random.Range(0, soldierSpawnPoints.Length)];
+            // Randomly select a spawn point for the soldier
+            Transform spawnPoint = soldierSpawnPoints[Random.Range(0, soldierSpawnPoints.Length)];
 
-        // Instantiate a soldier at the chosen spawn point
-        GameObject newSoldier = Instantiate(soldierPrefab, spawnPoint.position, Quaternion.identity);
+            // Instantiate a soldier at the chosen spawn point
+            GameObject newSoldier = Instantiate(soldierPrefab, spawnPoint.position, Quaternion.identity);
 
-        // You can set behaviors or scripts for the soldier here
-        newSoldier.GetComponent<Soldier>().SetTarget();
+            // You can set behaviors or scripts for the soldier here
+            newSoldier.GetComponent<Soldier>().SetTarget();
 
-        soldiersSummoned++;
+            soldiersSummoned++;
 
-        // Wait for a short delay before allowing the next summon
-        yield return new WaitForSeconds(2f);
+            // Wait for a short delay before allowing the next summon
+            yield return new WaitForSeconds(2f);
 
-        // End the summoning attack
-        isSummoning = false;
+            // End the summoning attack
+            isSummoning = false;
+        }
     }
 
-    private IEnumerator AOEAttack()
+    private void AOEAttack()
     {
         Debug.Log("aoe attack");
-       // anim.SetTrigger("AOEAttack");
-        yield return new WaitForSeconds(2f);
+        StartCoroutine(PerformAOEAttack());
+    }
+
+    private IEnumerator PerformAOEAttack()
+    {
+        Debug.Log("performing aoe attack");
+         anim.SetTrigger("AOEAttack");
+        yield return new WaitForSeconds(3f);
 
         int numFireballs = 35;
         float angleIncrement = 360f / numFireballs;
@@ -289,21 +303,14 @@ public class CursedCaptainBoss : MonoBehaviour
 
     private void SpawnFireball(Vector3 position, Vector3 velocity)
     {
-        GameObject curseball = Instantiate(aoeAttackPrefab, position, Quaternion.identity);
+        GameObject curseball = Instantiate(curseBall,position, Quaternion.identity);
         curseball.transform.rotation = Quaternion.identity;
         curseball.GetComponent<Rigidbody>().velocity = velocity;
     }
 
-    private void Trip()
-    {
-        //anim.SetTrigger("Trip");
-
-        Debug.Log("tripped");
-    }
-
     void Die()
     {
-        //anim.SetTrigger("Die");
+        anim.SetTrigger("Die");
         music.gameObject.SetActive(false);
         winText.gameObject.SetActive(true);
         navMeshAgent.enabled = false;

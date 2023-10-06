@@ -47,14 +47,6 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 		
 	}
 
-	public void ResetStatsForAllPlayers()
-	{
-		foreach (ScoreboardItem scoreboardItem in scoreboardItems.Values)
-		{
-			scoreboardItem.ResetStats();
-			Debug.Log("Reset stats for all");
-		}
-	}
 
 	void UpdateLeaderboard()
 	{

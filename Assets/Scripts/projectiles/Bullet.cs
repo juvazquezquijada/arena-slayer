@@ -91,7 +91,19 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
 
-        else if (other.gameObject.CompareTag("Wall"))
+        else if (other.gameObject.CompareTag("Dragon"))
+        {
+            // Deal damage to enemy
+            AncientDragonBoss enemy = other.gameObject.GetComponentInParent<AncientDragonBoss>();
+
+
+            GetComponent<SphereCollider>().enabled = false;
+            enemy.TakeDamage(damage);
+            // Destroy bullet
+            Destroy(gameObject);
+        }
+
+        else if (other.gameObject.CompareTag("Wall") || (other.gameObject.CompareTag("Floor")))
         {
             // Destroy bullet
             Destroy(gameObject);
