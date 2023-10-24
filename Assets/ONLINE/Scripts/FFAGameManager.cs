@@ -50,17 +50,32 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             isHost = true;
-            StartGame();
-            
         }
-        
+        StartGame();
         // Switch to the map camera
         mapCamera.gameObject.SetActive(false);
     }
 
+    void ResetPlayerStats()
+    {
+        Player[] players = PhotonNetwork.PlayerList;
+        foreach (Player player in players)
+        {
+            ExitGames.Client.Photon.Hashtable initialCustomProps = new ExitGames.Client.Photon.Hashtable
+            {
+                { "kills", 0 },
+                { "deaths", 0 }
+            };
+            player.SetCustomProperties(initialCustomProps);
+        }
+
+        Scoreboard.ResetStats();
+    }
+
+
     private void Update()
     {
-        if (!isGameOver && isHost)
+        if (!isGameOver)
         {
             double elapsedSeconds = PhotonNetwork.Time - syncTime;
             if (elapsedSeconds >= gameDuration)
@@ -111,7 +126,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
         // Play the initial game music
         photonView.RPC("RPC_PlayGameMusic", RpcTarget.All);
 
-
+        ResetPlayerStats();
     }
 
     public void EndGame()
@@ -188,7 +203,7 @@ public class FFAGameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        if (isHost && isTimerInitialized)
+        if (isTimerInitialized)
         {
             // Synchronize the timer with the newly joined player
             photonView.RPC("SyncNetworkTime", newPlayer, networkTime);

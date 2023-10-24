@@ -237,7 +237,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     private void UpdateOnlineUsersText()
     {
         int onlinePlayers = PhotonNetwork.CountOfPlayers;
-        onlineUsersText.text = "Players currently active (Including you): " + onlinePlayers;
+        onlineUsersText.text = "Players currently active (Including you): " + onlinePlayers + " /20";
     }
 
     // Remote Procedure Call (RPC) method to update the map display for new players

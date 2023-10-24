@@ -67,7 +67,13 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 			scoreboardItems[player].transform.SetAsLastSibling();
 		}
 	}
-
+	public void ResetStats()
+	{
+		foreach (var scoreboardItem in scoreboardItems.Values)
+		{
+			scoreboardItem.ResetStats();
+		}
+	}
 	int GetPlayerKills(Player player)
 	{
 		if (player.CustomProperties.TryGetValue("kills", out object kills))

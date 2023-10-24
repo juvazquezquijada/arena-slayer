@@ -8,9 +8,9 @@ using TMPro;
 public class SingleArmGun : Gun
 {
     [SerializeField] Camera cam;
-    [SerializeField] Animator animator;
+    [SerializeField] public Animator animator;
     [SerializeField] string shootAnimationName;
-    [SerializeField] float fireRate;
+    [SerializeField] public float fireRate;
     [SerializeField] AudioClip shootSound;
     [SerializeField] AudioSource gunSound;
     public int maxAmmo, lowAmmoThreshold;

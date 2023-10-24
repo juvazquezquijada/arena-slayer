@@ -42,7 +42,8 @@ public class PlayerController1 : MonoBehaviour
     public float refillDelayDuration = 3f;
     private bool isRefillingStamina;
     private float timeSinceLastAction;
-    private bool isSprinting;
+    public bool isSprinting;
+    public bool isGrounded = true;
     public bool isBenchPressing = false;
     public Transform armPivot; // Reference to the arm pivot (weapon holder)
     public Image staminaBarImage, curseBar;

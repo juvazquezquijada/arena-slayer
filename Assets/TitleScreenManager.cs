@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class TitleScreenManager : MonoBehaviour
 {
-
+    public GameObject settingsPanel;
     public GameObject startButton;
     public GameObject backButton;
     public Button multiplayerButton;
@@ -30,6 +30,7 @@ public class TitleScreenManager : MonoBehaviour
         tutorialText.gameObject.SetActive(false);
         mapSelect.gameObject.SetActive(false);
         multiplayerButton.gameObject.SetActive(true);
+        settingsPanel.gameObject.SetActive(false);
     }
 
     void Update()
@@ -110,21 +111,13 @@ public class TitleScreenManager : MonoBehaviour
 
     public void BackToTitle()
     {
-        mapSelect.gameObject.SetActive(false);
-        tutorialText.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
+        settingsPanel.gameObject.SetActive(false);
         audioSource.PlayOneShot(backSound);
-        tutorialButton.gameObject.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(startButton);
-        multiplayerButton.gameObject.SetActive(true);
     }
 
     public void ShowTutorial()
     {
-        tutorialText.gameObject.SetActive(true);
-        startButton.gameObject.SetActive(false);
+        settingsPanel.gameObject.SetActive(true);
         audioSource.PlayOneShot(selectSound);
-        tutorialButton.gameObject.SetActive(false);
-        EventSystem.current.SetSelectedGameObject(backButton);
     }
 }

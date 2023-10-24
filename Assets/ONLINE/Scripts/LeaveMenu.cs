@@ -7,7 +7,7 @@ using Photon.Pun;
 public class LeaveMenu : MonoBehaviourPunCallbacks
 {
     public GameObject leaveGameMenu; // Reference to the leave game menu UI object
-
+    public NetPlayerController player;
     private bool menuActive = false; // Flag to track if the player is in the process of leaving
 
     private void Update()
@@ -20,6 +20,7 @@ public class LeaveMenu : MonoBehaviourPunCallbacks
         {
             Cancel();
         }
+
     }
 
     public void LeaveGame()
@@ -44,6 +45,7 @@ public class LeaveMenu : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         menuActive = false;
+        player.Enable();
     }
 
     private void ToggleLeaveGameMenu()
@@ -53,7 +55,6 @@ public class LeaveMenu : MonoBehaviourPunCallbacks
         leaveGameMenu.SetActive(!isMenuActive);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-
+        player.Disable();
     }
 }

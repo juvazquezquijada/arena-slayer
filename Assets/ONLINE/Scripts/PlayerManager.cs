@@ -34,10 +34,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	{
 		PV = GetComponent<PhotonView>();
 		playerName = PhotonNetwork.NickName; // Assuming PhotonNetwork.NickName contains the player's name
-		Hashtable hash = new Hashtable();
-		hash.Add("kills", 0);
-		hash.Add("deaths", 0);
-		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
 	}
 
 	void Start()

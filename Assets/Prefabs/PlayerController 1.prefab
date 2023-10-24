@@ -10439,6 +10439,8 @@ MonoBehaviour:
   sprintStaminaCost: 25
   jumpStaminaCost: 7
   refillDelayDuration: 1
+  isSprinting: 0
+  isGrounded: 0
   isBenchPressing: 0
   armPivot: {fileID: 6080591524513985993}
   staminaBarImage: {fileID: 137485298854064282}
@@ -21908,7 +21910,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4579473185682157627}
-  - {fileID: 6080591524513985993}
+  - {fileID: 2180955320401964963}
   - {fileID: 854365314819471488}
   m_Father: {fileID: 854365315251227742}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24508,7 +24510,7 @@ Transform:
   - {fileID: 2993009675436903887}
   - {fileID: 9069213700862771413}
   - {fileID: 4314087537896304556}
-  m_Father: {fileID: 8975906451661803417}
+  m_Father: {fileID: 2180955320401964963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5118852632079811573
 GameObject:
@@ -38526,6 +38528,62 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8159616505778874995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2180955320401964963}
+  - component: {fileID: 3806878233889694334}
+  m_Layer: 0
+  m_Name: PlayerWep
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2180955320401964963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159616505778874995}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6080591524513985993}
+  m_Father: {fileID: 8975906451661803417}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3806878233889694334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159616505778874995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9d25d698b6e1d4ab597138b9caf799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mover: {fileID: 353415964361675250}
+  step: 0.01
+  maxStepDistance: 0.06
+  rotationStep: 4
+  maxRotationStep: 5
+  smooth: 1
+  speedCurve: 0
+  travelLimit: {x: 0.02, y: 0.02, z: 0.02}
+  bobLimit: {x: 0.005, y: 0.005, z: 0.005}
+  bobExaggeration: 10
+  multiplier: {x: 1, y: 1, z: 1}
 --- !u!1 &8214123772871915837
 GameObject:
   m_ObjectHideFlags: 0

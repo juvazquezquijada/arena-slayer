@@ -6,6 +6,7 @@ using Photon.Realtime;
 using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
+
 public class ScoreboardItem : MonoBehaviourPunCallbacks
 {
 	public TMP_Text usernameText;
@@ -32,6 +33,12 @@ public class ScoreboardItem : MonoBehaviourPunCallbacks
 		{
 			deathsText.text = deaths.ToString();
 		}
+	}
+
+	public void ResetStats()
+	{
+		killsText.text = "0";
+		deathsText.text = "0";
 	}
 
 	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)

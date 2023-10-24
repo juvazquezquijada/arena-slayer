@@ -40,7 +40,7 @@ public class AncientDragonBoss : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         health = maxHealth;
         bossHealthbar.fillAmount = (float)health / maxHealth;
-        
+        currentCooldown = 5f;
     }
 
     private void Update()
@@ -64,31 +64,31 @@ public class AncientDragonBoss : MonoBehaviour
                 {
                     case 0:
                         StartCoroutine(FireBreath());
-                        currentCooldown = fireBreathCooldown;
+                        currentCooldown = 8;
                         break;
                     case 1:
                         StartCoroutine(FireBreath2());
-                        currentCooldown = fireBreathCooldown;
+                        currentCooldown = 8;
                         break;
                     case 2:
                         StartCoroutine(FireBreath3());
-                        currentCooldown = fireBreathCooldown;
+                        currentCooldown = 8;
                         break;
                     case 3:
                         StartCoroutine(FireAOE());
-                        currentCooldown = fireBreathCooldown;
+                        currentCooldown = 13;
                         break;
                     case 4:
                         FireBarrage();
-                        currentCooldown = fireBreathCooldown;
+                        currentCooldown = 8;
                         break;
                     case 5:
                         ChargeAttack();
-                        currentCooldown = fireBreathCooldown;
+                        currentCooldown = 10;
                         break;
                     case 6:
                         PerformDiveAttack();
-                        currentCooldown = fireBreathCooldown;
+                        currentCooldown = 7;
                         break;
 
                 }

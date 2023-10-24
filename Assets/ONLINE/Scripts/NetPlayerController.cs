@@ -23,7 +23,8 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     public AudioClip hurtSound;
     public AudioClip jumpSound;
     public bool isJumping = false;
-    bool isPaused = false;
+    public bool isPaused = false;
+    public bool isGrounded = true;
     public string playerName;
     int itemIndex;
     int previousItemIndex = -1;
@@ -88,9 +89,8 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             ResetWeaponHolderLayer();
         }
 
-        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        Cursor.lockState = CursorLockMode.Locked;
         currentStamina = maxStamina;
         timeSinceLastAction = Time.time;
     }
@@ -100,11 +100,13 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
         if (!FFAGameManager.Instance.isGameOver)
         {
-            if (!PV.IsMine)
+            if (!PV.IsMine || isPaused)
                 return;
-
-            Look();
-            Move();
+            
+                Look();
+                Move();
+ 
+            
 
             for (int i = 0; i < items.Length; i++)
             {
@@ -157,7 +159,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             }
 
 
-            if (Input.GetMouseButton(0) && lastWeaponSwitchTime >= weaponSwitchCooldown)
+            if (Input.GetMouseButton(0) && lastWeaponSwitchTime >= weaponSwitchCooldown && !isPaused)
             {
                 items[itemIndex].Use();
             }
@@ -223,10 +225,9 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
         verticalLookRotation += Input.GetAxisRaw("Mouse Y") * yMouseSensitivity;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -40f, 40f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
-        wepHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
 
     void Move()
@@ -297,7 +298,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     }
     void EquipItem(int _index)
     {
-        if (_index == previousItemIndex || Time.time - lastWeaponSwitchTime < weaponSwitchCooldown)
+        if (_index == previousItemIndex || Time.time - lastWeaponSwitchTime < weaponSwitchCooldown || isPaused)
             return;
 
         lastWeaponSwitchTime = Time.time; // Update the last weapon switch time
@@ -414,9 +415,8 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         Destroy(playerCamera);
         Destroy(characterController);
-        Destroy(ui);
+        ui.gameObject.SetActive(false);
 
-        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
@@ -425,5 +425,15 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         playerManager.Die(killerName);
     }
 
-   
+    public void Disable()
+    {
+        isPaused = true;
+    }
+
+    public void Enable()
+    {
+        isPaused = false;
+    }
+
+
 }

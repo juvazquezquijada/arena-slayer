@@ -19,8 +19,8 @@ public class RoboDemonAI: MonoBehaviour
     public float bulletSpeed, missileSpeed, fireballSpeed;
     public float meleeRange = 2f;
     public float walkSpeed = 3f;
-    public float shootCooldown = 3f;
-    public float missileCooldown = 5f;
+    public float shootCooldown = 5f;
+    public float missileCooldown = 10f;
     public float chargeCooldown = 8f;
     public float chargeSpeed = 10f;
     public float chargeDuration, fireballDuration = 2f;
@@ -28,7 +28,7 @@ public class RoboDemonAI: MonoBehaviour
     public float missileLaunchAnimationDuration = 5f;
     private bool isShooting = false; // Add this flag to prevent multiple shooting sequences
     private bool isRainingFireballs, isLaunchingMissiles = false; // Flag to control the rain of fireballs
-
+    private Vector3 playerLastKnownPosition;
     private float lastHurtSoundTime;
     public float hurtSoundCooldown = 0.5f; // Adjust the cooldown time as needed
     float timeBetweenShots = 0.15f;
@@ -53,7 +53,7 @@ public class RoboDemonAI: MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         health = maxHealth;
         healthbar.fillAmount = health / maxHealth;
-
+        currentCooldown = 5f;
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
     }
@@ -62,7 +62,7 @@ public class RoboDemonAI: MonoBehaviour
         if (isDead || playerHealth.isDead)
             return;
 
-        
+        UpdatePlayerPosition();
         // Check if the demon should enter the second phase
         if (health <= maxHealth / 2 && !isInSecondPhase)
         {
@@ -144,18 +144,24 @@ public class RoboDemonAI: MonoBehaviour
     {
         isShooting = true;
         animator.SetTrigger("Shoot");
+
         for (int i = 0; i < 10; i++) // Shoot 10 bullets
         {
-            // Instantiate a bullet from the demon's right hand and shoot it towards the player
+            // Calculate the direction to the player's last known position
+            Vector3 bulletDirection = (playerLastKnownPosition - rightHand.position).normalized;
+
+            // Instantiate a bullet from the demon's right hand and shoot it towards the player's last known position
             GameObject newBullet = Instantiate(bullet, rightHand.position, Quaternion.identity);
             Rigidbody bulletRigidbody = newBullet.GetComponent<Rigidbody>();
-            bulletRigidbody.velocity = (player.position - rightHand.position).normalized * bulletSpeed;
+            bulletRigidbody.velocity = bulletDirection * bulletSpeed;
+
             audioSource.PlayOneShot(gunSound);
             yield return new WaitForSeconds(timeBetweenShots); // Add a delay between shots
         }
 
         isShooting = false; // Reset the shooting flag after the sequence
     }
+
 
 
     private void MissileAttack()
@@ -175,20 +181,23 @@ public class RoboDemonAI: MonoBehaviour
             animator.SetTrigger("ShootMissile");
             // Instantiate a missile from the left hand
             GameObject newMissile = Instantiate(missile, leftHand.position, Quaternion.identity);
-            // Calculate the direction from the left hand to the player
-            Vector3 launchDirection = (player.position - leftHand.position).normalized;
+
+            // Calculate the direction to the player's last known position
+            Vector3 launchDirection = (playerLastKnownPosition - leftHand.position).normalized;
 
             // Get the Rigidbody component of the missile
             Rigidbody missileRigidbody = newMissile.GetComponent<Rigidbody>();
             audioSource.PlayOneShot(missileSound);
 
-            // Set the missile's velocity to move towards the player
+            // Set the missile's velocity to move in the calculated launch direction
             missileRigidbody.velocity = launchDirection * missileSpeed;
 
             // Wait for a short delay between missile shots (you can adjust this delay)
-            yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
+            yield return new WaitForSeconds(2f); // Adjust the delay as needed
         }
     }
+
+
 
 
 
@@ -240,7 +249,7 @@ public class RoboDemonAI: MonoBehaviour
 
         // Implement your charge attack logic here
         Debug.Log("Charge attack!");
-        rb.velocity = (player.position - transform.position).normalized * chargeSpeed;
+        navMeshAgent.speed = 10f;
         Invoke(nameof(StopCharge), chargeDuration);
     }
 
@@ -291,10 +300,14 @@ public class RoboDemonAI: MonoBehaviour
         playerDead = true;
     }
 
+    private void UpdatePlayerPosition() 
+    {
+        playerLastKnownPosition = player.position;
+    }
 
     void StopCharge()
     {
-        rb.velocity = Vector3.zero;
+        navMeshAgent.speed = 2f;
         isCharging = false;
     }
 }
