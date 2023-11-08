@@ -6,30 +6,25 @@ public class ADSController : MonoBehaviour
     public Animator playerAnimator;
     private bool isADS = false;
     public SwayNBobScript swayBob;
+    public SingleShotGun gun;
 
     private void Update()
     {
         // Check if the right mouse button is held down
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && !gun.isReloading && !isADS)
         {
-            if (!isADS)
-            {
                 // Enable ADS animation
                 isADS = true;
                 cameraAnimator.SetBool("IsADS", true);
                 playerAnimator.SetBool("IsADS", true);
                 swayBob.ResetBobEulerRotation();
-            }
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(1) || gun.isReloading)
         {
-            if (isADS)
-            {
                 // Disable ADS animation
                 isADS = false;
                 cameraAnimator.SetBool("IsADS", false);
                 playerAnimator.SetBool("IsADS", false);
-            }
         }
 
         // Check for weapon switch input (e.g., Q, E, mouse wheel, number keys 1 to 7)
@@ -38,13 +33,9 @@ public class ADSController : MonoBehaviour
              Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Alpha6) ||
              Input.GetKeyDown(KeyCode.Alpha7)))
         {
-            if (isADS)
-            {
-                // Disable ADS animation when the player switches weapons
                 isADS = false;
                 cameraAnimator.SetBool("IsADS", false);
                 playerAnimator.SetBool("IsADS", false);
-            }
         }
 
     }

@@ -20,7 +20,7 @@ public class SingleShotGun : Gun
     [SerializeField] float reloadTime;
     [SerializeField] AudioClip reloadSound;
     [SerializeField] string reloadAnimationName;
-    private bool isReloading = false; // Reset the reloading flag
+    public bool isReloading = false; // Reset the reloading flag
     private bool isUsingWeapon = false;
     public GameObject leftArm, rightArm, otherLeftArm, otherRightArm;
     [SerializeField] ParticleSystem muzzleFlashParticleSystem;

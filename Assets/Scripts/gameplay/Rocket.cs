@@ -28,13 +28,13 @@ public class Rocket : MonoBehaviour
             Destroy(gameObject, 1.5f);
             audioSource.PlayOneShot(explodeSound);
             capsule.gameObject.SetActive(false);
-            GetComponent<BoxCollider>().enabled = false;
+            capsule.GetComponent<CapsuleCollider>().enabled = false;
             Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
         }
         else if(other.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject, 1.5f);
-            GetComponent<BoxCollider>().enabled = false;
+            capsule.GetComponent<CapsuleCollider>().enabled = false;
             audioSource.PlayOneShot(explodeSound);
             capsule.gameObject.SetActive (false);
             Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);

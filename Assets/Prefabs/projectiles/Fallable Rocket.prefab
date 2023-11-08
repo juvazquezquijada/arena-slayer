@@ -4996,7 +4996,6 @@ GameObject:
   - component: {fileID: 708905354525794798}
   - component: {fileID: 8113730717033470335}
   - component: {fileID: 8814331624692431836}
-  - component: {fileID: 3528324048900286471}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -5069,27 +5068,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3528324048900286471
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2325377782557558507}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4482301320123917839
 GameObject:
   m_ObjectHideFlags: 0
@@ -5101,9 +5079,10 @@ GameObject:
   - component: {fileID: 1264589705875935527}
   - component: {fileID: 3592597053496123286}
   - component: {fileID: 3347780687582632140}
+  - component: {fileID: 1054606542043197717}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: EnemyRocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5176,6 +5155,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &1054606542043197717
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4482301320123917839}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2.0000002
+  m_Direction: 1
+  m_Center: {x: 1.7763568e-15, y: 0.000000029802322, z: -0.000000029802322}
 --- !u!1 &6022915058546548799
 GameObject:
   m_ObjectHideFlags: 0
@@ -5187,7 +5189,6 @@ GameObject:
   - component: {fileID: 889980371142667602}
   - component: {fileID: 6478005846088821157}
   - component: {fileID: 9214097395945472919}
-  - component: {fileID: 674723571982095116}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -5260,27 +5261,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &674723571982095116
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6022915058546548799}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6795738265372505756
 GameObject:
   m_ObjectHideFlags: 0
@@ -5293,7 +5273,6 @@ GameObject:
   - component: {fileID: 3017536375182908764}
   - component: {fileID: 930783962159859228}
   - component: {fileID: 614642522267166228}
-  - component: {fileID: 4527964304961011248}
   m_Layer: 0
   m_Name: Fallable Rocket
   m_TagString: EnemyRocket
@@ -5456,24 +5435,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &4527964304961011248
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6795738265372505756}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.7458469, y: 1.3004675, z: 1.6133676}
-  m_Center: {x: 0.22743878, y: 0.03005361, z: 0.30668426}

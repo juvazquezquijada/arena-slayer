@@ -214,10 +214,14 @@ public class SwayNBobScript : MonoBehaviour
 
             bobEulerRotation.z = (walkInput != Vector2.zero ? multiplier.z * curveCos * walkInput.x : 0);
         }
-
+ // Check if the Shift key is held down to increase bob speed
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            bobEulerRotation *= 2f;
+            bobExaggeration = 20;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
+        {
+            bobExaggeration = 10f;
         }
     }
 

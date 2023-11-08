@@ -194,7 +194,11 @@ public class SwayNBob1 : MonoBehaviour
         // Check if the Shift key is held down to increase bob speed
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            bobExaggeration *= 2;
+            bobExaggeration = 20;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
+        {
+            bobExaggeration = 10f;
         }
     }
 

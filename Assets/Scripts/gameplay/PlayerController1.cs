@@ -51,7 +51,7 @@ public class PlayerController1 : MonoBehaviour
     public CharacterController characterController;
 
     const float maxHealth = 100f;
-    float maxCurse = 75f;
+    float maxCurse = 100f;
     float currentHealth = maxHealth;
     float currentScore = 0f;
     public GameObject lowHealthText;
@@ -428,7 +428,7 @@ public class PlayerController1 : MonoBehaviour
             UpdateCurseUI();
             CheckHealth();
             // Start the coroutine to reset curse and isCursed after 20 seconds
-            StartCoroutine(ResetCurseAfterDelay(20f));
+            StartCoroutine(ResetCurseAfterDelay(15f));
         }
 
         // if player touches enemy
@@ -448,7 +448,7 @@ public class PlayerController1 : MonoBehaviour
         // if player gets hit by rocket
         else if (other.gameObject.CompareTag("EnemyRocket"))
         {
-            TakeDamage(30);
+            TakeDamage(15);
             UpdateHealthUI();
             CheckHealth();
         }

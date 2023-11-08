@@ -841,7 +841,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dde4829af497a7c47bb4414cb9463c55, type: 2}
+  - {fileID: 2100000, guid: d1d709ba87e1bdd4caba965a021f73ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3546,6 +3546,7 @@ MonoBehaviour:
   reloadTime: 3.95
   reloadSound: {fileID: 8300000, guid: fe639b979dcbd8b448fe86e407ec1018, type: 3}
   reloadAnimationName: ReloadAWP
+  isReloading: 0
   leftArm: {fileID: 7941884098994512874}
   rightArm: {fileID: 306707183018232591}
   otherLeftArm: {fileID: 7220507798001079044}
@@ -5733,6 +5734,7 @@ MonoBehaviour:
   reloadTime: 5
   reloadSound: {fileID: 8300000, guid: c8f89fe42df64184db975a57eb33ccd5, type: 3}
   reloadAnimationName: ReloadPlasma
+  isReloading: 0
   leftArm: {fileID: 7941884098994512874}
   rightArm: {fileID: 306707183018232591}
   otherLeftArm: {fileID: 7220507798001079044}
@@ -13896,7 +13898,7 @@ MonoBehaviour:
   maxRotationStep: 7
   smooth: 10
   speedCurve: 0
-  travelLimit: {x: 0.025, y: 0.025, z: 0.025}
+  travelLimit: {x: 0.0005, y: 0.0005, z: 0.0005}
   bobLimit: {x: 0.01, y: 0.005, z: 0.01}
   bobExaggeration: 10
   multiplier: {x: 1, y: 1, z: 1}
@@ -13977,6 +13979,7 @@ MonoBehaviour:
   cameraAnimator: {fileID: 4516857425656308118}
   playerAnimator: {fileID: 4768077399070416406}
   swayBob: {fileID: 2053550115055076498}
+  gun: {fileID: 5333056223136593444}
 --- !u!1 &3720810417347643230
 GameObject:
   m_ObjectHideFlags: 0
@@ -28085,6 +28088,7 @@ MonoBehaviour:
   reloadTime: 4
   reloadSound: {fileID: 8300000, guid: ac7801aec1b14f842a026ac30906a237, type: 3}
   reloadAnimationName: ReloadAK47
+  isReloading: 0
   leftArm: {fileID: 7941884098994512874}
   rightArm: {fileID: 306707183018232591}
   otherLeftArm: {fileID: 7220507798001079044}
@@ -37050,6 +37054,7 @@ MonoBehaviour:
   reloadTime: 3
   reloadSound: {fileID: 8300000, guid: dcd7f297571a6cc40a675a060b485c28, type: 3}
   reloadAnimationName: ReloadShotgun
+  isReloading: 0
   leftArm: {fileID: 7941884098994512874}
   rightArm: {fileID: 306707183018232591}
   otherLeftArm: {fileID: 7220507798001079044}
@@ -37420,7 +37425,7 @@ MonoBehaviour:
   fireRate: 0.3
   shootSound: {fileID: 8300000, guid: 55374a3fb9d1e734383da2a7194274d9, type: 3}
   gunSound: {fileID: 5533159003793112958}
-  maxAmmo: 17
+  maxAmmo: 18
   lowAmmoThreshold: 5
   currentAmmo: 17
   ammoBar: {fileID: 9074851133161711765}
@@ -39041,6 +39046,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 7560426798484173185}
+  burstCount: 3
+  timeBetweenShots: 0.1
+  burstCooldown: 0.75
+  burstAnimatorSpeed: 2.25
 --- !u!1 &8900908400535714193
 GameObject:
   m_ObjectHideFlags: 0
