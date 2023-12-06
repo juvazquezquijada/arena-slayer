@@ -15,20 +15,21 @@ public class Zombie : MonoBehaviour
     public int scoreValue = 1;
     public bool isDead = false;
     public ParticleSystem explosionParticle;
+    
     private PlayerController1 playerHealth;
+    
     private NavMeshAgent navMeshAgent;
-    public int health = 6;
     private bool hasDied = false;
     public AudioClip hurtSound;
-   
+    EnemyHealth enemy;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player1").transform;
         audioSource = GetComponent<AudioSource>();
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
+        
         navMeshAgent = GetComponent<NavMeshAgent>();
-       
+        enemy = GetComponent<EnemyHealth>();
         // Set the agent to be active and enable auto-braking
         navMeshAgent.enabled = true;
         navMeshAgent.autoBraking = true;
@@ -36,22 +37,17 @@ public class Zombie : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return;
-        if (playerDead)
+        playerHealth = GameObject.FindGameObjectWithTag("Player1").GetComponent<PlayerController1>();
+        if (isDead || playerHealth.isDead)
         {
             navMeshAgent.velocity = Vector3.zero;
-            return;
-        }
-        if (playerHealth.isDead)
-        {
-            playerDead = true;
             return;
         }
 
         // Move towards the player using NavMeshAgent
         navMeshAgent.SetDestination(player.position);
 
-        if (health <= 0)
+        if (enemy.health <= 0)
         {
             Die();
         }
@@ -92,12 +88,6 @@ public class Zombie : MonoBehaviour
         PlayerController1.Instance.UpdateScore(4);
 
         Destroy(gameObject, destroyTime);
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        audioSource.PlayOneShot(hurtSound);
     }
 
     public void PlayerDied()

@@ -432,16 +432,9 @@ public class PlayerController1 : MonoBehaviour
         }
 
         // if player touches enemy
-        else if (other.gameObject.CompareTag("Demon") || other.gameObject.CompareTag("Zombie") || other.gameObject.CompareTag("Soldier"))
+        else if (other.gameObject.CompareTag("Enemy"))
         {
             TakeDamage(5);
-            UpdateHealthUI();
-            CheckHealth();
-        }
-        // if player touches boss
-        else if (other.gameObject.CompareTag("BuffDemon") || other.gameObject.CompareTag("Robo Demon"))
-        {
-            TakeDamage(10);
             UpdateHealthUI();
             CheckHealth();
         }
@@ -451,18 +444,6 @@ public class PlayerController1 : MonoBehaviour
             TakeDamage(15);
             UpdateHealthUI();
             CheckHealth();
-        }
-
-        else if (other.gameObject.CompareTag("CursedCaptain"))
-        {
-            isCursed = true;
-            Debug.Log("Player cursed!");
-            curse += 10;
-            TakeDamage(15);
-            UpdateCurseUI();
-            CheckHealth();
-            // Start the coroutine to reset curse and isCursed after 20 seconds
-            StartCoroutine(ResetCurseAfterDelay(20f));
         }
     }
 }

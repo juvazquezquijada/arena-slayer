@@ -20,7 +20,7 @@ public class Demon : MonoBehaviour
     private bool playerDead = false;
     private bool hasDied = false;
     public ParticleSystem explosionParticle;
-    public int health = 12;
+    EnemyHealth enemy;
 
     private PlayerController1 playerHealth;
 
@@ -28,27 +28,23 @@ public class Demon : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player1").transform;
         audioSource = GetComponent<AudioSource>();
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
+        
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
-        
+        enemy = GetComponent<EnemyHealth>();
     }
 
     private void Update()
     {
-        if (isDead) return;
-        if (playerDead)
+        playerHealth = GameObject.FindGameObjectWithTag("Player1").GetComponent<PlayerController1>();
+        if (isDead || playerHealth.isDead)
         {
-            navMeshAgent.velocity = Vector3.zero; // Freeze the agent's movement
+            navMeshAgent.velocity = Vector3.zero;
             return;
         }
-        if (playerHealth.isDead)
-        {
-            playerDead = true;
-            return;
-        }
+            
 
         // Move towards the player using NavMeshAgent
         navMeshAgent.SetDestination(player.position);
@@ -62,7 +58,7 @@ public class Demon : MonoBehaviour
             fireball.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * fireballSpeed;
         }
 
-        if (health <= 0)
+        if (enemy.health <= 0)
         {
             Die();
         }
@@ -93,13 +89,7 @@ public class Demon : MonoBehaviour
 
         Destroy(gameObject, destroyTime);
 
-        CanvasManager.Instance.UpdateScore(10);
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        audioSource.PlayOneShot(hurtSound);
+        PlayerController1.Instance.UpdateScore(10);
     }
 
 

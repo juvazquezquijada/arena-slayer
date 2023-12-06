@@ -23,9 +23,10 @@ public class Soldier : MonoBehaviour
     public AudioClip gunSound;
     public AudioClip hurtSound;
     private bool hasDied = false;
-    public int health = 20;
+    EnemyHealth enemy;
 
     private PlayerController1 playerHealth;
+
     public NavMeshAgent navMeshAgent;
     private SpawnManager spawnManager;
     
@@ -33,27 +34,22 @@ public class Soldier : MonoBehaviour
     void Awake()
     {
         SetTarget();
-        
+        player = GameObject.FindGameObjectWithTag("Player1").transform;
         audioSource = GetComponent<AudioSource>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         // Set the agent to be active and enable auto-braking
         navMeshAgent.enabled = true;
         navMeshAgent.autoBraking = true;
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController1>();
+        enemy = GetComponent<EnemyHealth>();
 
     }
 
     void Update()
     {
-        if (isDead) return;
-        if (playerDead)
+        playerHealth = GameObject.FindGameObjectWithTag("Player1").GetComponent<PlayerController1>();
+        if (isDead || playerHealth.isDead)
         {
             navMeshAgent.velocity = Vector3.zero;
-            return;
-        }
-        if (playerHealth.isDead)
-        {
-            playerDead = true;
             return;
         }
 
@@ -68,7 +64,7 @@ public class Soldier : MonoBehaviour
             audioSource.PlayOneShot(gunSound);
         }
 
-        if (health <= 0)
+        if (enemy.health <= 0)
         {
             Die();
         }
@@ -107,12 +103,6 @@ public class Soldier : MonoBehaviour
         
 
         Destroy(gameObject, destroyTime);
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        audioSource.PlayOneShot(hurtSound);
     }
 
     public void PlayerDied()

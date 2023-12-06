@@ -5,7 +5,6 @@ using UnityEngine;
 public class ItemSpawn : MonoBehaviour
 {
     public GameObject healthPickupPrefab;
-    public GameObject ammoPickupPrefab;
     public float spawnRange = 20f;
     public float spawnInterval = 10f;
     public int maxItemsOnScreen = 3;
@@ -26,7 +25,7 @@ public class ItemSpawn : MonoBehaviour
         canSpawn = false;
         yield return new WaitForSeconds(spawnInterval);
 
-        GameObject itemPrefab = Random.value < 0.5f ? healthPickupPrefab : ammoPickupPrefab;
+        GameObject itemPrefab = healthPickupPrefab;
 
         Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRange;
         spawnPosition.y = spawnRangeY;

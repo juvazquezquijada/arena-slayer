@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 407738967192980656}
+  serializedVersion: 2
   m_LocalRotation: {x: -0.72199625, y: -0, z: -0, w: 0.6918971}
   m_LocalPosition: {x: 0.5209999, y: 0.182, z: -0.333}
   m_LocalScale: {x: 0.0918, y: 0.5599, z: 0.1048}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4886257324512662463}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -92.439, y: 0, z: 0}
 --- !u!33 &4436972323642973333
 MeshFilter:
@@ -99,9 +99,10 @@ GameObject:
   - component: {fileID: -5443527147590703903}
   - component: {fileID: 7047293314535438019}
   - component: {fileID: -2981211812746572285}
+  - component: {fileID: 921474290826949778}
   m_Layer: 0
   m_Name: Zombie
-  m_TagString: Zombie
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,6 +114,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4886257324512662451}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1.5350118, z: 1}
@@ -121,7 +123,6 @@ Transform:
   - {fileID: 1477614887222192329}
   - {fileID: 5781655244557230552}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4886257324512662462
 MeshFilter:
@@ -180,10 +181,21 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4886257324512662451}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1
   m_Drag: 1
   m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -245,7 +257,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.68
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -293,8 +305,17 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4886257324512662451}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.50486004
   m_Height: 2
   m_Direction: 1
@@ -318,7 +339,6 @@ MonoBehaviour:
   scoreValue: 1
   isDead: 0
   explosionParticle: {fileID: 2120771728646608512, guid: e0d1b8cfdb15a064ab6b0421907526ca, type: 3}
-  health: 5
   hurtSound: {fileID: 8300000, guid: 86f5822ac88a13e438518fd87c5da35f, type: 3}
 --- !u!195 &-2981211812746572285
 NavMeshAgent:
@@ -342,6 +362,20 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &921474290826949778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4886257324512662451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c4f54371f240241b30db9d26d11169, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
+  hurtSound: {fileID: 8300000, guid: 86f5822ac88a13e438518fd87c5da35f, type: 3}
 --- !u!1 &7435749743658677553
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,13 +401,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7435749743658677553}
+  serializedVersion: 2
   m_LocalRotation: {x: -0.72199625, y: -0, z: -0, w: 0.6918971}
   m_LocalPosition: {x: -0.46, y: 0.182, z: -0.333}
   m_LocalScale: {x: 0.0918, y: 0.5599, z: 0.1048}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4886257324512662463}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -92.439, y: 0, z: 0}
 --- !u!33 &1617600354032919217
 MeshFilter:
