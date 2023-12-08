@@ -23,7 +23,7 @@ public class PlayerGun : Gun
     public float bulletSpeed;
     public int ammoValue;
     public ParticleSystem muzzleFlashParticleSystem;
-    private bool isReloading = false;
+    public bool isReloading = false;
     private float lastFireTime; // Time when the gun was last fired
 
     void Start()
@@ -36,7 +36,7 @@ public class PlayerGun : Gun
     {
         currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
     }
-
+    .
     public override void Use()
     {
         if (isReloading)

@@ -76,9 +76,6 @@ public class Zombie : MonoBehaviour
         isDead = true;
 
         audioSource.PlayOneShot(deathSound);
-
-        GetComponent<CapsuleCollider>().enabled = false;
-
         SpawnManager.Instance.EnemyDied();
         navMeshAgent.enabled = false;
         

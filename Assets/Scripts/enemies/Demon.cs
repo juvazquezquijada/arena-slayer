@@ -21,7 +21,7 @@ public class Demon : MonoBehaviour
     private bool hasDied = false;
     public ParticleSystem explosionParticle;
     EnemyHealth enemy;
-
+    private Animator anim;
     private PlayerController1 playerHealth;
 
     private NavMeshAgent navMeshAgent; // Reference to the NavMeshAgent component
@@ -30,7 +30,7 @@ public class Demon : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player1").transform;
         audioSource = GetComponent<AudioSource>();
-        
+        anim = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
         enemy = GetComponent<EnemyHealth>();
@@ -56,6 +56,7 @@ public class Demon : MonoBehaviour
             GameObject fireball = Instantiate(fireballPrefab, launcher.position, launcher.rotation);
             fireball.transform.rotation = Quaternion.identity;
             fireball.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * fireballSpeed;
+            anim.SetTrigger("ThrowFire");
         }
 
         if (enemy.health <= 0)
@@ -79,8 +80,7 @@ public class Demon : MonoBehaviour
         navMeshAgent.enabled = false;
         audioSource.PlayOneShot(deathSound);
         SpawnManager.Instance.EnemyDied();
-        GetComponent<CapsuleCollider>().enabled = false;
-
+        anim.SetTrigger("Die");
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
         Vector3 knockbackDirection = transform.up + -transform.forward * 0.5f;

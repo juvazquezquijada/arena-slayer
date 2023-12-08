@@ -26,7 +26,7 @@ public class Soldier : MonoBehaviour
     EnemyHealth enemy;
     public ParticleSystem muzzleFlashParticleSystem;
     private PlayerController1 playerHealth;
-
+    private Animator anim;
     public NavMeshAgent navMeshAgent;
     private SpawnManager spawnManager;
     
@@ -41,7 +41,7 @@ public class Soldier : MonoBehaviour
         navMeshAgent.enabled = true;
         navMeshAgent.autoBraking = true;
         enemy = GetComponent<EnemyHealth>();
-
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -63,6 +63,7 @@ public class Soldier : MonoBehaviour
             Bullet.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * bulletSpeed;
             audioSource.PlayOneShot(gunSound);
             muzzleFlashParticleSystem.Play();
+            anim.SetTrigger("Shoot");
         }
 
         if (enemy.health <= 0)
@@ -89,16 +90,15 @@ public class Soldier : MonoBehaviour
         hasDied = true;
 
         isDead = true;
-
+        anim.SetTrigger("Die");
         audioSource.PlayOneShot(deathSound);
         PlayerController1.Instance.UpdateScore(15);
-        GetComponent<CapsuleCollider>().enabled = false;
         navMeshAgent.enabled = false;
         SpawnManager.Instance.EnemyDied();
 
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;
-        Vector3 knockbackDirection = transform.up + transform.forward * 0.5f;
+        Vector3 knockbackDirection = transform.up + transform.forward * 1f;
         rb.AddForce(knockbackDirection * -knockbackForce, ForceMode.Impulse);
         Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
         

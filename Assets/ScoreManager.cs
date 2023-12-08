@@ -57,6 +57,21 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+     public void ResetHighScore()
+    {
+        // Reset the high score to 0
+        highScore = 0;
+
+        // Save the updated high score using PlayerPrefs
+        SaveHighScore();
+
+        // Update the high score text only if the current scene is the title screen
+        if (SceneManager.GetActiveScene().name == "TitleScene")
+        {
+            UpdateHighScoreText();
+        }
+    }
+
     void UpdateHighScoreText()
     {
         highScoreText = GameObject.FindGameObjectWithTag("HighScoreText").GetComponent<TextMeshProUGUI>();

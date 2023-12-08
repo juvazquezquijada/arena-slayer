@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour
     private bool gameOver = false;
     private PlayerController1 player;
     public static SpawnManager Instance;
+    public int enemiesSpawned;
 
     private void Awake()
     {
@@ -31,6 +32,8 @@ public class SpawnManager : MonoBehaviour
         {
             currentEnemies = 0;
         }
+
+        
     }
     // stop spawning enemies when the game is over
     public void GameOver()
@@ -53,9 +56,18 @@ public class SpawnManager : MonoBehaviour
         {
             Debug.Log("Enemies are now spawning");
             currentEnemies++;
+            enemiesSpawned++;
             int enemyIndex = Random.Range(0, enemyPrefabs.Length);
             int spawnIndex = Random.Range(0, spawnPositions.Length);
             Instantiate(enemyPrefabs[enemyIndex], spawnPositions[spawnIndex].position, Quaternion.identity);
+        }
+        
+        if (enemiesSpawned == 50 || enemiesSpawned == 100)
+        {
+            minSpawnInterval *= 0.8f;
+            maxSpawnInterval *= 0.8f;
+
+            Debug.Log("enemies will spawn more frequently");
         }
 
         if (currentEnemies > maxEnemies)

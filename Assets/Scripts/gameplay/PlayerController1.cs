@@ -49,6 +49,8 @@ public class PlayerController1 : MonoBehaviour
     public Transform armPivot; // Reference to the arm pivot (weapon holder)
     public Image staminaBarImage, curseBar;
 
+    private PlayerGun playerGun;
+
     public CharacterController characterController;
     public TimerScript timer;
     const float maxHealth = 100f;
@@ -102,7 +104,7 @@ public class PlayerController1 : MonoBehaviour
                 }
             }
 
-            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f && !isBenchPressing)
+            if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f && !isBenchPressing && !playerGun.isReloading)
             {
                 // Scroll up
                 if (itemIndex < items.Length - 1)
@@ -111,7 +113,7 @@ public class PlayerController1 : MonoBehaviour
                     animator.SetTrigger("SwitchWeapon");
                 }
             }
-            else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f && !isBenchPressing)
+            else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f && !isBenchPressing && !playerGun.isReloading)
             {
                 // Scroll down
                 if (itemIndex > 0)

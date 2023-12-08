@@ -28,7 +28,7 @@ public class BenchPressInteraction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player1"))
         {
             isPlayerNearby = true;
             Debug.Log("Player is nearby. Press 'E' to interact.");
@@ -39,7 +39,7 @@ public class BenchPressInteraction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player1"))
         {
             isPlayerNearby = false;
             Debug.Log("Player is no longer nearby.");

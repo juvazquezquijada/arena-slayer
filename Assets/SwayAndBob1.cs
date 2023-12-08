@@ -91,7 +91,8 @@ public class SwayNBob1 : MonoBehaviour
     void Update()
 
     {
-
+        if(mover.isBenchPressing)
+            return;
         GetInput();
 
 
