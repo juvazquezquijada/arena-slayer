@@ -27,7 +27,7 @@ public class BuffDemonAI : MonoBehaviour
     public float chargeStopDistance = 1f;
     private float lastHurtSoundTime;
     public float hurtSoundCooldown = 0.5f; // Adjust the cooldown time as needed
-    public int health;
+    private EnemyHealth enemy;
     public int maxHealth = 300;
     public Image healthbar;
     public bool isDead = false;
@@ -44,10 +44,8 @@ public class BuffDemonAI : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        
-        
-        health = maxHealth;
-        healthbar.fillAmount = health / maxHealth;
+        enemy = GetComponent<EnemyHealth>();
+        healthbar.fillAmount = enemy.health / maxHealth;
 
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
@@ -56,15 +54,18 @@ public class BuffDemonAI : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        
+        currentCooldown = 5f;
     }
     private void Update()
     {
         if (isDead || playerHealth.isDead)
             return;
-    
+        
+        UpdateHealthBar();
 
         // Check if the demon should enter the second phase
-        if (health <= maxHealth / 2 && !isInSecondPhase)
+        if (enemy.health <= maxHealth / 2 && !isInSecondPhase)
         {
             // Enter the second phase
             isInSecondPhase = true;
@@ -201,22 +202,15 @@ public class BuffDemonAI : MonoBehaviour
         Invoke(nameof(StopCharge), chargeDuration);
     }
 
-    public void TakeDamage(int damage)
+    void UpdateHealthBar()
     {
-        Debug.Log("Demon took damage" + damage);
-        health -= damage;
-        healthbar.fillAmount = (float)health / maxHealth;
+        healthbar.fillAmount = (float)enemy.health / maxHealth;
 
-        if (health <= 0)
+        if (enemy.health <= 0)
         {
             Die();
         }
-        else
-        {
-            PlayRandomHurtSound();
-        }
     }
-
     void PlayRandomHurtSound()
     {
         if (Time.time - lastHurtSoundTime > hurtSoundCooldown)
@@ -235,7 +229,6 @@ public class BuffDemonAI : MonoBehaviour
     {
         animator.SetTrigger("Die");
         music.gameObject.SetActive(false);
-        StartCoroutine(SpawnFireballsWithDelay());
         winText.gameObject.SetActive(true);
         navMeshAgent.enabled = false;
         audioSource.PlayOneShot(deathSound);

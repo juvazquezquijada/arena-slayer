@@ -24,7 +24,7 @@ public class Soldier : MonoBehaviour
     public AudioClip hurtSound;
     private bool hasDied = false;
     EnemyHealth enemy;
-
+    public ParticleSystem muzzleFlashParticleSystem;
     private PlayerController1 playerHealth;
 
     public NavMeshAgent navMeshAgent;
@@ -62,6 +62,7 @@ public class Soldier : MonoBehaviour
             GameObject Bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
             Bullet.GetComponent<Rigidbody>().velocity = (player.position - transform.position).normalized * bulletSpeed;
             audioSource.PlayOneShot(gunSound);
+            muzzleFlashParticleSystem.Play();
         }
 
         if (enemy.health <= 0)

@@ -19,7 +19,7 @@ public class TitleScreenManager : MonoBehaviour
     public AudioClip selectSound;
     public AudioClip backSound;
     public GameObject loadingText;
-
+    public GameObject mainMenu;
 
 
 
@@ -47,12 +47,9 @@ public class TitleScreenManager : MonoBehaviour
     }
     public void StartGame()
     {
-        mapSelect.gameObject.SetActive(true);
+        mainMenu.gameObject.SetActive(true);
         startButton.gameObject.SetActive(false);
         audioSource.PlayOneShot(selectSound);
-        tutorialButton.gameObject.SetActive(false);
-        multiplayerButton.gameObject.SetActive(false);
-        EventSystem.current.SetSelectedGameObject(firstMapButton);
     }
 
     public void StartBoss()
@@ -112,12 +109,14 @@ public class TitleScreenManager : MonoBehaviour
     public void BackToTitle()
     {
         settingsPanel.gameObject.SetActive(false);
+        mainMenu.gameObject.SetActive(true);
         audioSource.PlayOneShot(backSound);
     }
 
     public void ShowTutorial()
     {
         settingsPanel.gameObject.SetActive(true);
+        mainMenu.gameObject.SetActive(false);
         audioSource.PlayOneShot(selectSound);
     }
 }

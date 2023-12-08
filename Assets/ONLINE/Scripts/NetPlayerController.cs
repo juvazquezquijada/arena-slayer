@@ -418,6 +418,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         ui.gameObject.SetActive(false);
 
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Die(string killerName)

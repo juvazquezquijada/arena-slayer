@@ -1,55 +1,119 @@
 using System.Collections;
+
 using System.Collections.Generic;
+
 using UnityEngine;
 
-public class HeadbobSystem : MonoBehaviour
+
+
+public class Headbob : MonoBehaviour
+
 {
 
-    [Range(0.001f, 0.01f)]
-    public float Amount = 0.002f;
-    [Range(1f, 30f)]
+    [Header("Configuration")]
 
-    public float Frequency = 10.0f;
+    [SerializeField] private bool _enable = true;
 
-    [Range(10f, 100f)]
-    public float Smooth = 10.0f;
+    [SerializeField, Range(0, 0.1f)] private float _Amplitude = 0.015f; [SerializeField, Range(0, 30)] private float _frequency = 10.0f;
 
-    Vector3 StartPos;
+    [SerializeField] private Transform _camera = null; [SerializeField] private Transform _cameraHolder = null;
 
-    void Start()
+
+
+    private float _toggleSpeed = 3.0f;
+
+    private Vector3 _startPos;
+
+    private CharacterController _controller;
+
+
+
+    private void Awake()
+
     {
-        StartPos = transform.localPosition;
+
+        _controller = GetComponent<CharacterController>();
+
+        _startPos = _camera.localPosition;
+
     }
+
+
 
     void Update()
+
     {
-        CheckForHeadbobTrigger();
-        StopHeadbob();
+
+        if (!_enable) return;
+
+        CheckMotion();
+
+        ResetPosition();
+
+        _camera.LookAt(FocusTarget());
+
     }
 
-    private void CheckForHeadbobTrigger()
-    {
-        float inputMagnitude = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).magnitude;
+    private Vector3 FootStepMotion()
 
-        if (inputMagnitude > 0)
-        {
-            StartHeadBob();
-        }
-    }
-
-    private Vector3 StartHeadBob()
     {
 
         Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Lerp(pos.y, Mathf.Sin(Time.time * Frequency) * Amount * 1.4f, Smooth * Time.deltaTime);
-        pos.x += Mathf.Lerp(pos.x, Mathf.Cos(Time.time * Frequency / 2f) * Amount * 1.6f, Smooth * Time.deltaTime);
+
+        pos.y += Mathf.Sin(Time.time * _frequency) * _Amplitude;
+
+        pos.x += Mathf.Cos(Time.time * _frequency / 2) * _Amplitude * 2;
 
         return pos;
+
     }
 
-    private void StopHeadbob()
+    private void CheckMotion()
+
     {
-        if (transform.localPosition == StartPos) return;
-        transform.localPosition = Vector3.Lerp(transform.localPosition, StartPos, 1 * Time.deltaTime);
+
+        float speed = new Vector3(_controller.velocity.x, 0, _controller.velocity.z).magnitude;
+
+        if (speed < _toggleSpeed) return;
+
+        if (!_controller.isGrounded) return;
+
+
+
+        PlayMotion(FootStepMotion());
+
     }
+
+    private void PlayMotion(Vector3 motion)
+
+    {
+
+        _camera.localPosition += motion;
+
+    }
+
+
+
+    private Vector3 FocusTarget()
+
+    {
+
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y + _cameraHolder.localPosition.y, transform.position.z);
+
+        pos += _cameraHolder.forward * 15.0f;
+
+        return pos;
+
+    }
+
+    private void ResetPosition()
+
+    {
+
+        if (_camera.localPosition == _startPos) return;
+
+        _camera.localPosition = Vector3.Lerp(_camera.localPosition, _startPos, 1 * Time.deltaTime);
+
+    }
+
 }

@@ -35162,7 +35162,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6754428929070021858}
-  - component: {fileID: 8389970712323338551}
   - component: {fileID: 4516857425656308118}
   m_Layer: 8
   m_Name: PlayerCam
@@ -35187,21 +35186,6 @@ Transform:
   - {fileID: 3726043173169625853}
   m_Father: {fileID: 4573632248674166332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8389970712323338551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7723772374630789001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c14672db1ff0b1d4a9aa6ff7e533d787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Amount: 0.01
-  Frequency: 3.6
-  Smooth: 100
 --- !u!95 &4516857425656308118
 Animator:
   serializedVersion: 5

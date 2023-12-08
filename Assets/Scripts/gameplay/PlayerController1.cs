@@ -9,7 +9,7 @@ public class PlayerController1 : MonoBehaviour
 {
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, smoothTime, yMouseSensitivity;
     [SerializeField] GameObject playerCamera;
-    [SerializeField] GameObject cameraHolder, weaponHolder;
+    [SerializeField] GameObject cameraHolder, weaponHolder, lowHealthAudio;
     [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
     [SerializeField] AudioSource audioSource;
@@ -19,6 +19,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] Animator animator;
     public static PlayerController1 Instance;
 
+    private ScoreManager highScoreManager;
     public TextMeshProUGUI health, score; //health indicator
     public AudioClip pauseSound;
     public AudioClip hurtSound, jumpSound, deathSound, curseSound;
@@ -49,7 +50,7 @@ public class PlayerController1 : MonoBehaviour
     public Image staminaBarImage, curseBar;
 
     public CharacterController characterController;
-
+    public TimerScript timer;
     const float maxHealth = 100f;
     float maxCurse = 100f;
     float currentHealth = maxHealth;
@@ -59,7 +60,7 @@ public class PlayerController1 : MonoBehaviour
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
-
+        highScoreManager = GameObject.FindGameObjectWithTag("HighScoreManager").GetComponent<ScoreManager>();
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -149,11 +150,13 @@ public class PlayerController1 : MonoBehaviour
             if (currentHealth <= 30)
             {
                 lowHealthText.gameObject.SetActive(true);
+                lowHealthAudio.SetActive(true);
             }
 
             else if (currentHealth > 40)
             {
                 lowHealthText.gameObject.SetActive(false);
+                lowHealthAudio.SetActive(false);
             }
 
             
@@ -294,8 +297,11 @@ public class PlayerController1 : MonoBehaviour
             audioSource.PlayOneShot(deathSound);
             hasPlayedDeathSound = true;
         }
-
+        lowHealthAudio.SetActive(false);
         if (currentHealth < 0) currentHealth = 0;
+        timer.PlayerDied();
+        
+        highScoreManager.SetHighScore(currentScore);
     }
 
     public void TakeDamage(int damage)
@@ -418,6 +424,7 @@ public class PlayerController1 : MonoBehaviour
             TakeDamage(5);
             UpdateHealthUI();
             CheckHealth();
+            Destroy(other.gameObject);
         }
         else if (other.gameObject.CompareTag("Curseball"))
         {
@@ -429,6 +436,7 @@ public class PlayerController1 : MonoBehaviour
             CheckHealth();
             // Start the coroutine to reset curse and isCursed after 20 seconds
             StartCoroutine(ResetCurseAfterDelay(15f));
+            Destroy(other.gameObject);
         }
 
         // if player touches enemy
@@ -444,6 +452,7 @@ public class PlayerController1 : MonoBehaviour
             TakeDamage(15);
             UpdateHealthUI();
             CheckHealth();
+            Destroy(other.gameObject);
         }
     }
 }
