@@ -36,7 +36,7 @@ public class PlayerGun : Gun
     {
         currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo);
     }
-    .
+    
     public override void Use()
     {
         if (isReloading)
