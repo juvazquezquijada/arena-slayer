@@ -4314,7 +4314,7 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
+    enabled: 1
     ratio: 0
     light: {fileID: 0}
     randomDistribution: 1
@@ -11047,6 +11047,7 @@ MonoBehaviour:
   bulletSpeed: 100
   ammoValue: 2
   muzzleFlashParticleSystem: {fileID: 8106316395314001769}
+  isReloading: 0
 --- !u!1 &1214833165732773776
 GameObject:
   m_ObjectHideFlags: 0
@@ -14936,9 +14937,9 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
-    ratio: 0
-    light: {fileID: 0}
+    enabled: 1
+    ratio: 1
+    light: {fileID: 4578507703052845596, guid: 07de3eb7320f8dd44a8fc877d6f3daaa, type: 3}
     randomDistribution: 1
     color: 1
     range: 1
@@ -15049,7 +15050,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 1
   TrailModule:
     enabled: 0
     mode: 0
@@ -22675,6 +22676,7 @@ MonoBehaviour:
   bulletSpeed: 100
   ammoValue: 25
   muzzleFlashParticleSystem: {fileID: 7411419255462829526}
+  isReloading: 0
 --- !u!1 &4940436904653650153
 GameObject:
   m_ObjectHideFlags: 0
@@ -26685,9 +26687,9 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
-    ratio: 0
-    light: {fileID: 0}
+    enabled: 1
+    ratio: 1
+    light: {fileID: 4578507703052845596, guid: 07de3eb7320f8dd44a8fc877d6f3daaa, type: 3}
     randomDistribution: 1
     color: 1
     range: 1
@@ -26798,7 +26800,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 1
   TrailModule:
     enabled: 0
     mode: 0
@@ -28360,6 +28362,7 @@ MonoBehaviour:
   bulletSpeed: 0
   ammoValue: 0
   muzzleFlashParticleSystem: {fileID: 0}
+  isReloading: 0
 --- !u!1 &6361956616227099275
 GameObject:
   m_ObjectHideFlags: 0
@@ -32917,9 +32920,9 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
-    ratio: 0
-    light: {fileID: 0}
+    enabled: 1
+    ratio: 1
+    light: {fileID: 4578507703052845596, guid: 07de3eb7320f8dd44a8fc877d6f3daaa, type: 3}
     randomDistribution: 1
     color: 1
     range: 1
@@ -33030,7 +33033,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 1
   TrailModule:
     enabled: 0
     mode: 0
@@ -35540,6 +35543,7 @@ MonoBehaviour:
   bulletSpeed: 100
   ammoValue: 25
   muzzleFlashParticleSystem: {fileID: 368157589262165896}
+  isReloading: 0
 --- !u!1 &8502944849573999909
 GameObject:
   m_ObjectHideFlags: 0
@@ -35791,6 +35795,7 @@ MonoBehaviour:
   bulletSpeed: 100
   ammoValue: 25
   muzzleFlashParticleSystem: {fileID: 2932978431368557096}
+  isReloading: 0
 --- !u!1 &9083590027826770584
 GameObject:
   m_ObjectHideFlags: 0

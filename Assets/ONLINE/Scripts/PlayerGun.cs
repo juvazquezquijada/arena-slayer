@@ -78,7 +78,6 @@ public class PlayerGun : Gun
         //Add velocity to the bullet
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = transform.forward * bulletSpeed;
-
         //Destroy bullet after 2 seconds
         Destroy(bullet, bulletLifetime);
         PlayMuzzleFlash();
