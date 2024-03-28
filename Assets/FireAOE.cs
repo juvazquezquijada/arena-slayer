@@ -6,7 +6,7 @@ public class FireAOE : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player1"))
         {
             // Apply damage to the player
             PlayerController1 playerController = other.GetComponent<PlayerController1>();

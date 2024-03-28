@@ -23,7 +23,7 @@ public class BuffDemonAI : MonoBehaviour
     public float groundPoundCooldown = 5f;
     public float chargeCooldown = 8f;
     public float chargeSpeed = 10f;
-    public float chargeDuration = 2f;
+    public float chargeDuration = 5f;
     public float chargeStopDistance = 1f;
     private float lastHurtSoundTime;
     public float hurtSoundCooldown = 0.5f; // Adjust the cooldown time as needed
@@ -69,10 +69,7 @@ public class BuffDemonAI : MonoBehaviour
         {
             // Enter the second phase
             isInSecondPhase = true;
-            // You can adjust cooldowns here to make attacks more frequent
-            fireballCooldown /= 2; // For example, halve the fireball cooldown
-            groundPoundCooldown /= 2; // Halve the ground pound cooldown
-            chargeCooldown /= 2; // Halve the charge cooldown
+        
         }
 
         if (canAttack && !playerDead)
@@ -131,7 +128,14 @@ public class BuffDemonAI : MonoBehaviour
 
     private void FireballAttack()
     {
+        StartCoroutine(ThrowFireballs());
         animator.SetTrigger("FireballAttack");
+        
+    }
+    private IEnumerator ThrowFireballs()
+    {
+        yield return new WaitForSeconds(1.225f);
+
         Debug.Log("Fireball attack!");
 
         // Calculate direction to the player from the demon
@@ -142,9 +146,13 @@ public class BuffDemonAI : MonoBehaviour
 
         // Spawn fireballs from both hands
         SpawnFireball(leftHand.position, fireballVelocity);
-        SpawnFireball(rightHand.position, fireballVelocity);
-    }
 
+        yield return new WaitForSeconds(0.225f);
+
+        SpawnFireball(rightHand.position, fireballVelocity);
+
+        StopCoroutine(ThrowFireballs());
+    }
     private void GroundPoundAttack()
     {
         animator.SetTrigger("GroundPound");
@@ -156,7 +164,7 @@ public class BuffDemonAI : MonoBehaviour
 
     private IEnumerator SpawnFireballsWithDelay()
     {
-        yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(2.33f);
 
         int numFireballs = 35;
         float angleIncrement = 360f / numFireballs;
@@ -198,7 +206,8 @@ public class BuffDemonAI : MonoBehaviour
 
         // Implement your charge attack logic here
         Debug.Log("Charge attack!");
-        rb.velocity = (player.position - transform.position).normalized * chargeSpeed;
+        navMeshAgent.speed = 15f;
+        navMeshAgent.angularSpeed = 160f;
         Invoke(nameof(StopCharge), chargeDuration);
     }
 
@@ -245,7 +254,7 @@ public class BuffDemonAI : MonoBehaviour
 
     void StopCharge()
     {
-        rb.velocity = Vector3.zero;
+        navMeshAgent.speed = 3.5f;
         isCharging = false;
     }
 }

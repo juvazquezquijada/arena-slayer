@@ -53,9 +53,9 @@ public class PlayerController1 : MonoBehaviour
 
     public CharacterController characterController;
     public TimerScript timer;
-    const float maxHealth = 100f;
+    float maxHealth = 100f;
     float maxCurse = 100f;
-    float currentHealth = maxHealth;
+    float currentHealth;
     float currentScore = 0f;
     public GameObject lowHealthText;
 
@@ -81,6 +81,7 @@ public class PlayerController1 : MonoBehaviour
         animator.ResetTrigger("BenchPress");
         currentStamina = maxStamina;
         timeSinceLastAction = Time.time;
+        currentHealth = maxHealth;
     }
 
     void Update()
@@ -94,6 +95,8 @@ public class PlayerController1 : MonoBehaviour
             Look(); // Call Look method only if not bench pressing
             Move();
 
+            
+        
             for (int i = 0; i < items.Length; i++)
             {
                 if (Input.GetKeyDown((i + 1).ToString()))
@@ -146,8 +149,9 @@ public class PlayerController1 : MonoBehaviour
                     equippedGun.Reload();
                 }
             }
-
-
+            CheckHealth();
+            UpdateStatusEffects();
+            UpdateHealthUI();
 
             if (currentHealth <= 30)
             {
@@ -276,12 +280,15 @@ public class PlayerController1 : MonoBehaviour
 
     void CheckHealth()
     {
-        if (currentHealth <= 0 || curse >= maxCurse)
+        if (currentHealth <= 0)
         {
-            moveAmount = Vector3.zero; // stop the movement
             Die();
-               
         }
+
+        if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
     }
 
     void Die()
@@ -310,7 +317,6 @@ public class PlayerController1 : MonoBehaviour
     {
         Debug.Log("Player took" + damage + "damage");
             currentHealth -= damage;
-            UpdateHealthUI();
             audioSource.PlayOneShot(hurtSound);
             CheckHealth();
     }
@@ -371,6 +377,30 @@ public class PlayerController1 : MonoBehaviour
         healthBar.fillAmount = currentHealth / maxHealth;
         healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
     }
+
+    private void UpdateStatusEffects()
+    {
+        if (curse <= 0)
+            {
+                maxHealth = 100f;
+                isCursed = false;
+            }
+            
+        if (curse == maxCurse && !isCursed)
+            {
+                isCursed = true; 
+            }
+        if (isCursed)
+        {
+            curse -= 3.33f * Time.deltaTime;
+            maxHealth = 50f;
+            if (currentHealth > 50)
+                {
+                    currentHealth= 50;
+                }
+            UpdateCurseUI();
+        }
+    }
     void UpdateCurseUI() 
     {
         curseBar.fillAmount = (float)curse/maxCurse;
@@ -402,9 +432,7 @@ public class PlayerController1 : MonoBehaviour
     private IEnumerator ResetCurseAfterDelay(float delayInSeconds)
     {
         yield return new WaitForSeconds(delayInSeconds);
-        curse = 0f;          // Reset the curse to 0
         curseBarUI.gameObject.SetActive(false);
-        isCursed = false;    // Reset the isCursed flag to false
     }
 
     private void OnTriggerEnter(Collider other)
@@ -417,14 +445,12 @@ public class PlayerController1 : MonoBehaviour
             currentHealth += 25;
             if (currentHealth > 100) currentHealth = 100;
             Destroy(other.gameObject);
-            UpdateHealthUI();
             CheckHealth();
         }
         // if player touches projectiles
         else if (other.gameObject.CompareTag("Fireball") || other.gameObject.CompareTag("EnemyProjectile"))
         {
             TakeDamage(5);
-            UpdateHealthUI();
             CheckHealth();
             Destroy(other.gameObject);
         }
@@ -445,14 +471,12 @@ public class PlayerController1 : MonoBehaviour
         else if (other.gameObject.CompareTag("Enemy"))
         {
             TakeDamage(5);
-            UpdateHealthUI();
             CheckHealth();
         }
         // if player gets hit by rocket
         else if (other.gameObject.CompareTag("EnemyRocket"))
         {
             TakeDamage(15);
-            UpdateHealthUI();
             CheckHealth();
             Destroy(other.gameObject);
         }

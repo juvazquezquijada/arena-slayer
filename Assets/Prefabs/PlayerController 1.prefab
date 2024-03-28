@@ -35538,7 +35538,7 @@ MonoBehaviour:
   reloadTime: 3
   fireRate: 1
   gunBarrel: {fileID: 854365316229600273}
-  bulletPrefab: {fileID: 8740144738147162610, guid: 11052789fe8e7a1468de429160a11827, type: 3}
+  bulletPrefab: {fileID: 8740144738147162610, guid: 937c4921893aabf459ab79c7c79a8a74, type: 3}
   bulletLifetime: 2
   bulletSpeed: 100
   ammoValue: 25
@@ -35790,7 +35790,7 @@ MonoBehaviour:
   reloadTime: 2
   fireRate: 0.1
   gunBarrel: {fileID: 4746625938966258947}
-  bulletPrefab: {fileID: 8740144738147162610, guid: 11052789fe8e7a1468de429160a11827, type: 3}
+  bulletPrefab: {fileID: 8740144738147162610, guid: a6feea79ebb09494f97566598102011e, type: 3}
   bulletLifetime: 2
   bulletSpeed: 100
   ammoValue: 25
@@ -35932,6 +35932,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 854365315251227742}
     m_Modifications:
+    - target: {fileID: 266602791791813827, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_fontSize
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 266602791791813827, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_fontColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 266602791791813827, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_fontColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 266602791791813827, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 266602791791813827, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 266602791791813827, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030929102563770513, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030929102563770513, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 822.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1030929102563770513, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 467.7
+      objectReference: {fileID: 0}
     - target: {fileID: 1068360278955891747, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -35940,6 +35976,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 353415964361675250}
+    - target: {fileID: 2405863524178145959, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2678421993838791130, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
       propertyPath: m_Name
       value: PlayerHUD
@@ -36047,6 +36087,18 @@ PrefabInstance:
     - target: {fileID: 4588930612753650244, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -66
+      objectReference: {fileID: 0}
+    - target: {fileID: 4978237179198192143, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4978237179198192143, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 377
+      objectReference: {fileID: 0}
+    - target: {fileID: 4978237179198192143, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6147065547235227624, guid: e4398fe8f890c3640b39517c728b7150, type: 3}
       propertyPath: m_AnchoredPosition.x

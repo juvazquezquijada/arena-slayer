@@ -28,13 +28,13 @@ public class RoboDemonAI: MonoBehaviour
     public float missileLaunchAnimationDuration = 5f;
     private bool isShooting = false; // Add this flag to prevent multiple shooting sequences
     private bool isRainingFireballs, isLaunchingMissiles = false; // Flag to control the rain of fireballs
-    private Vector3 playerLastKnownPosition;
+    public Transform bulletAimPos;
+    public Transform rocketAimPos;
     private float lastHurtSoundTime;
     public float hurtSoundCooldown = 0.5f; // Adjust the cooldown time as needed
     float timeBetweenShots = 0.15f;
     float timeBetweenFireballs = 1f;
-    public int health;
-    public int maxHealth = 300;
+    public int maxHealth = 1200;
     public Image healthbar;
     public bool isDead = false;
     private bool playerDead = false;
@@ -43,16 +43,17 @@ public class RoboDemonAI: MonoBehaviour
     private bool isInSecondPhase = false;
     private float currentCooldown;
     private Rigidbody rb;
-
+    private EnemyHealth enemy;
     public PlayerController1 playerHealth;
     private NavMeshAgent navMeshAgent; // Reference to the NavMeshAgent component
 
     private void Awake()
     {
+        enemy = GetComponent<EnemyHealth>();
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        health = maxHealth;
-        healthbar.fillAmount = health / maxHealth;
+        enemy.health = maxHealth;
+        healthbar.fillAmount = enemy.health / maxHealth;
         currentCooldown = 5f;
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
@@ -62,16 +63,16 @@ public class RoboDemonAI: MonoBehaviour
         if (isDead || playerHealth.isDead)
             return;
 
-        UpdatePlayerPosition();
+        UpdateHealthBar();
         // Check if the demon should enter the second phase
-        if (health <= maxHealth / 2 && !isInSecondPhase)
+        if (enemy.health <= maxHealth / 2 && !isInSecondPhase)
         {
             // Enter the second phase
             isInSecondPhase = true;
             // You can adjust cooldowns here to make attacks more frequent
-            shootCooldown /= 2; // For example, halve the fireball cooldown
-            missileCooldown /= 2; // Halve the ground pound cooldown
-            chargeCooldown /= 2; // Halve the charge cooldown
+            shootCooldown /= 1.1f; // For example, halve the fireball cooldown
+            missileCooldown /= 1.1f; // Halve the ground pound cooldown
+            chargeCooldown /= 1.1f ; // Halve the charge cooldown
         }
 
         if (canAttack && !playerDead)
@@ -148,7 +149,7 @@ public class RoboDemonAI: MonoBehaviour
         for (int i = 0; i < 10; i++) // Shoot 10 bullets
         {
             // Calculate the direction to the player's last known position
-            Vector3 bulletDirection = (playerLastKnownPosition - rightHand.position).normalized;
+            Vector3 bulletDirection = (bulletAimPos.position - rightHand.position).normalized;
 
             // Instantiate a bullet from the demon's right hand and shoot it towards the player's last known position
             GameObject newBullet = Instantiate(bullet, rightHand.position, Quaternion.identity);
@@ -166,8 +167,6 @@ public class RoboDemonAI: MonoBehaviour
 
     private void MissileAttack()
     {
-        
-
         // Randomly determine the number of missiles to shoot (between 1 and 3).
         int numberOfMissilesToShoot = Random.Range(1, 4);
 
@@ -183,7 +182,7 @@ public class RoboDemonAI: MonoBehaviour
             GameObject newMissile = Instantiate(missile, leftHand.position, Quaternion.identity);
 
             // Calculate the direction to the player's last known position
-            Vector3 launchDirection = (playerLastKnownPosition - leftHand.position).normalized;
+            Vector3 launchDirection = (rocketAimPos.position - leftHand.position).normalized;
 
             // Get the Rigidbody component of the missile
             Rigidbody missileRigidbody = newMissile.GetComponent<Rigidbody>();
@@ -253,32 +252,14 @@ public class RoboDemonAI: MonoBehaviour
         Invoke(nameof(StopCharge), chargeDuration);
     }
 
-    public void TakeDamage(int damage)
-    {
-        Debug.Log("Demon took damage" + damage);
-        health -= damage;
-        healthbar.fillAmount = (float)health / maxHealth;
 
-        if (health <= 0)
+    void UpdateHealthBar()
+    {
+        healthbar.fillAmount = (float)enemy.health / maxHealth;
+
+        if (enemy.health <= 0)
         {
             Die();
-        }
-        else
-        {
-            PlayRandomHurtSound();
-        }
-    }
-
-    void PlayRandomHurtSound()
-    {
-        if (Time.time - lastHurtSoundTime > hurtSoundCooldown)
-        {
-            if (hurtSounds.Length > 0)
-            {
-                int randomIndex = Random.Range(0, hurtSounds.Length);
-                audioSource.PlayOneShot(hurtSounds[randomIndex]);
-                lastHurtSoundTime = Time.time;
-            }
         }
     }
 
@@ -300,10 +281,7 @@ public class RoboDemonAI: MonoBehaviour
         playerDead = true;
     }
 
-    private void UpdatePlayerPosition() 
-    {
-        playerLastKnownPosition = player.position;
-    }
+    
 
     void StopCharge()
     {

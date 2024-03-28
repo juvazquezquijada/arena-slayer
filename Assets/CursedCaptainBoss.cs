@@ -34,9 +34,9 @@ public class CursedCaptainBoss : MonoBehaviour
     public GameObject captainHand;
     // health
     public int health;
-    public int maxHealth = 300;
+    public int maxHealth = 1000;
     public Image healthbar;
-
+    private EnemyHealth enemy;
     // bools
     public bool isDead = false;
     private bool playerDead = false;
@@ -65,9 +65,10 @@ public class CursedCaptainBoss : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        enemy = GetComponent<EnemyHealth>();
         health = maxHealth;
         healthbar.fillAmount = health / maxHealth;
-
+        currentCooldown = 5f;
         navMeshAgent = GetComponent<NavMeshAgent>(); // Get a reference to the NavMeshAgent component
         navMeshAgent.stoppingDistance = 2f; // Set the stopping distance for the agent
 
@@ -82,6 +83,12 @@ public class CursedCaptainBoss : MonoBehaviour
         if (health >= maxHealth)
         {
             health = maxHealth;
+        }
+        health = enemy.health;
+        healthbar.fillAmount = (float)health / maxHealth;
+        if (health <= 0)
+        {
+            Die();
         }
 
         if (canAttack && !playerDead)
@@ -129,17 +136,7 @@ public class CursedCaptainBoss : MonoBehaviour
         // Move towards the player using NavMeshAgent
         navMeshAgent.SetDestination(player.position);
     }
-    public void TakeDamage(int damage)
-    {
-        Debug.Log("Captain took damage" + damage);
-        health -= damage;
-        healthbar.fillAmount = (float)health / maxHealth;
 
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
     private void MeleeAttack()
     {
         // Trigger melee attack animation
@@ -213,7 +210,7 @@ public class CursedCaptainBoss : MonoBehaviour
             // Apply damage to the player
             playerHealth.TakeDamage(damagePerInterval);
 
-            health += 50;
+            enemy.health += 15;
             healthbar.fillAmount = (float)health / maxHealth;
 
             
@@ -232,7 +229,7 @@ public class CursedCaptainBoss : MonoBehaviour
 
     private void SummonSoldiers()
     {
-        if (!isSummoning && soldiersSummoned < maxSoldiersToSummon)
+        if (!isSummoning)
         {
             // Start the summoning attack
             isSummoning = true;
