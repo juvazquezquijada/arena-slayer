@@ -54,7 +54,7 @@ public class PlayerController1 : MonoBehaviour
     public CharacterController characterController;
     public TimerScript timer;
     float maxHealth = 100f;
-    float maxCurse = 100f;
+    float maxCurse = 50f;
     float currentHealth;
     float currentScore = 0f;
     public GameObject lowHealthText;
@@ -384,6 +384,7 @@ public class PlayerController1 : MonoBehaviour
             {
                 maxHealth = 100f;
                 isCursed = false;
+                curseBarUI.SetActive(false);
             }
             
         if (curse == maxCurse && !isCursed)
@@ -456,13 +457,16 @@ public class PlayerController1 : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Curseball"))
         {
-            isCursed = true;
             Debug.Log("Player cursed!");
             curse += 10;
             TakeDamage(5);
             UpdateCurseUI();
             CheckHealth();
             // Start the coroutine to reset curse and isCursed after 20 seconds
+            if (!isCursed)
+            {
+                StartCoroutine(ResetCurseAfterDelay(15f));
+            }
             StartCoroutine(ResetCurseAfterDelay(15f));
             Destroy(other.gameObject);
         }

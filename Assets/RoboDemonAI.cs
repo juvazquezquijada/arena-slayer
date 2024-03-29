@@ -285,7 +285,7 @@ public class RoboDemonAI: MonoBehaviour
 
     void StopCharge()
     {
-        navMeshAgent.speed = 2f;
+        navMeshAgent.speed = 4f;
         isCharging = false;
     }
 }

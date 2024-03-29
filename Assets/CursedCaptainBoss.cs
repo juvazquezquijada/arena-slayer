@@ -12,7 +12,7 @@ public class CursedCaptainBoss : MonoBehaviour
     private float currentCooldown;
     private float curseCooldown = 3f;
     private float grabCooldown = 2f;
-    private float summonCooldown = 3f;
+    private float summonCooldown = 5f;
     private float aoeCooldown = 5f;
     private float timeBetweenShots = 0.5f;
     private float bulletSpeed = 40f;
@@ -229,7 +229,7 @@ public class CursedCaptainBoss : MonoBehaviour
 
     private void SummonSoldiers()
     {
-        if (!isSummoning)
+        if (!isSummoning && soldiersSummoned < 1)
         {
             // Start the summoning attack
             isSummoning = true;
@@ -263,6 +263,8 @@ public class CursedCaptainBoss : MonoBehaviour
 
             // End the summoning attack
             isSummoning = false;
+
+            soldiersSummoned = 0;
         }
     }
 

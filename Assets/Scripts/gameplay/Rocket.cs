@@ -9,6 +9,8 @@ public class Rocket : MonoBehaviour
     public GameObject explosionPrefab;
     public AudioClip explodeSound;
     public GameObject capsule;
+
+    public AudioSource fireSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,14 +32,16 @@ public class Rocket : MonoBehaviour
             capsule.gameObject.SetActive(false);
             capsule.GetComponent<CapsuleCollider>().enabled = false;
             Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
+            fireSound.Stop();
         }
-        else if(other.gameObject.CompareTag("Player"))
+        if(other.gameObject.CompareTag("Player1"))
         {
             Destroy(gameObject, 1.5f);
             capsule.GetComponent<CapsuleCollider>().enabled = false;
             audioSource.PlayOneShot(explodeSound);
             capsule.gameObject.SetActive (false);
             Instantiate(explosionPrefab, other.contacts[0].point, Quaternion.identity);
+            fireSound.Stop();
         }
     }
 }
