@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using DG.Tweening;
 
 public class PlayerController1 : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
     [SerializeField] AudioSource audioSource;
-    [SerializeField] Image healthBar;
+    [SerializeField] Image healthBar, damagedBar;
     [SerializeField] TMP_Text healthbarText;
     [SerializeField] GameObject wepCamera;
     [SerializeField] Animator animator;
@@ -43,6 +44,7 @@ public class PlayerController1 : MonoBehaviour
     public float refillDelayDuration = 3f;
     private bool isRefillingStamina;
     private float timeSinceLastAction;
+    private float fillSpeed = 1f;
     public bool isSprinting;
     public bool isGrounded = true;
     public bool isBenchPressing = false;
@@ -376,8 +378,17 @@ public class PlayerController1 : MonoBehaviour
     {
         healthBar.fillAmount = currentHealth / maxHealth;
         healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
+
+        StartCoroutine(DamageIndication());
     }
 
+    private IEnumerator DamageIndication()
+    {
+        yield return new WaitForSeconds(2f);
+        
+        float targetFillAmount = currentHealth / maxHealth;
+        damagedBar.DOFillAmount(targetFillAmount, fillSpeed);
+    }
     private void UpdateStatusEffects()
     {
         if (curse <= 0)
@@ -477,12 +488,14 @@ public class PlayerController1 : MonoBehaviour
             TakeDamage(5);
             CheckHealth();
         }
-        // if player gets hit by rocket
-        else if (other.gameObject.CompareTag("EnemyRocket"))
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("EnemyRocket"))
         {
             TakeDamage(15);
             CheckHealth();
-            Destroy(other.gameObject);
         }
     }
 }
