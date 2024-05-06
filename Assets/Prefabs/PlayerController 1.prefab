@@ -10253,7 +10253,7 @@ MonoBehaviour:
   gameOverScreen: {fileID: 4744655437790817066}
   playerHud: {fileID: 7017640398562895983}
   curseBarUI: {fileID: 3644920419260211330}
-  curse: 50
+  curse: 0
   maxStamina: 100
   currentStamina: 0
   staminaRegenRate: 50
@@ -34081,7 +34081,7 @@ MonoBehaviour:
   animator: {fileID: 7501311778349463052}
   shootAnimationName: ShootMinigun
   reloadAnimationName: ReloadMinigun
-  shootSound: {fileID: 8300000, guid: 19bd711e81a3a064aa159043b62912ef, type: 3}
+  shootSound: {fileID: 8300000, guid: c84bcc3f6f57bee40bd6c71bb82c2eb1, type: 3}
   reloadSound: {fileID: 8300000, guid: ac7801aec1b14f842a026ac30906a237, type: 3}
   gunSound: {fileID: 3476501455028322853}
   maxAmmo: 150
@@ -36110,7 +36110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 681673167540314869, guid: dd6f8ab9e3e4e524d94e93c803ec0160, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1464344942930449735, guid: dd6f8ab9e3e4e524d94e93c803ec0160, type: 3}
       propertyPath: m_LocalPosition.x
