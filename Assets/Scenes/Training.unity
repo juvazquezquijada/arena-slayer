@@ -8081,6 +8081,7 @@ MonoBehaviour:
   - {fileID: 6335148352143934373}
   audioSource: {fileID: 854365315192591655}
   healthBar: {fileID: 647016362}
+  damagedBar: {fileID: 0}
   healthbarText: {fileID: 2062836719}
   wepCamera: {fileID: 2863815228283446626}
   animator: {fileID: 7501311778357768056}
@@ -13297,6 +13298,7 @@ MonoBehaviour:
   bulletSpeed: 100
   ammoValue: 25
   muzzleFlashParticleSystem: {fileID: 2932978431309392732}
+  isReloading: 0
 --- !u!82 &717833826660290033
 AudioSource:
   m_ObjectHideFlags: 0
@@ -25682,6 +25684,7 @@ MonoBehaviour:
   bulletSpeed: 0
   ammoValue: 0
   muzzleFlashParticleSystem: {fileID: 0}
+  isReloading: 0
 --- !u!23 &4277528007520381551
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26148,6 +26151,7 @@ MonoBehaviour:
   bulletSpeed: 100
   ammoValue: 25
   muzzleFlashParticleSystem: {fileID: 368157589287681788}
+  isReloading: 0
 --- !u!114 &5008488728200433928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26186,6 +26190,7 @@ MonoBehaviour:
   bulletSpeed: 100
   ammoValue: 25
   muzzleFlashParticleSystem: {fileID: 7411419255420535970}
+  isReloading: 0
 --- !u!82 &5028537445890348054
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27022,6 +27027,7 @@ MonoBehaviour:
   bulletSpeed: 100
   ammoValue: 2
   muzzleFlashParticleSystem: {fileID: 8106316395254607389}
+  isReloading: 0
 --- !u!23 &6349963099221740617
 MeshRenderer:
   m_ObjectHideFlags: 0
