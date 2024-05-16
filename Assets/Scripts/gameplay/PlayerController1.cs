@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using DG.Tweening;
 
 public class PlayerController1 : MonoBehaviour
 {
@@ -45,6 +44,7 @@ public class PlayerController1 : MonoBehaviour
     private bool isRefillingStamina;
     private float timeSinceLastAction;
     private float fillSpeed = 1f;
+    public float damageBarShrinkTime = 1f;
     public bool isSprinting;
     public bool isGrounded = true;
     public bool isBenchPressing = false;
@@ -84,6 +84,7 @@ public class PlayerController1 : MonoBehaviour
         currentStamina = maxStamina;
         timeSinceLastAction = Time.time;
         currentHealth = maxHealth;
+        damagedBar.fillAmount = healthBar.fillAmount;
     }
 
     void Update()
@@ -190,6 +191,16 @@ public class PlayerController1 : MonoBehaviour
 
         // Update stamina bar fill amount
         staminaBarImage.fillAmount = currentStamina / maxStamina;
+
+        damageBarShrinkTime -= Time.deltaTime;
+        if (damageBarShrinkTime < 0)
+        {
+            if (healthBar.fillAmount < damagedBar.fillAmount)
+            {
+                float shirnkSpeed = 1f;
+                damagedBar.fillAmount -= shirnkSpeed * Time.deltaTime;
+            }
+        }
     }
 
     void Look()
@@ -321,6 +332,7 @@ public class PlayerController1 : MonoBehaviour
             currentHealth -= damage;
             audioSource.PlayOneShot(hurtSound);
             CheckHealth();
+        damageBarShrinkTime = 1f;
     }
 
     public void PauseGame()
@@ -379,16 +391,9 @@ public class PlayerController1 : MonoBehaviour
         healthBar.fillAmount = currentHealth / maxHealth;
         healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
 
-        StartCoroutine(DamageIndication());
     }
 
-    private IEnumerator DamageIndication()
-    {
-        yield return new WaitForSeconds(2f);
-        
-        float targetFillAmount = currentHealth / maxHealth;
-        damagedBar.DOFillAmount(targetFillAmount, fillSpeed);
-    }
+
     private void UpdateStatusEffects()
     {
         if (curse <= 0)
@@ -456,6 +461,7 @@ public class PlayerController1 : MonoBehaviour
         {
             currentHealth += 25;
             if (currentHealth > 100) currentHealth = 100;
+            damagedBar.fillAmount = currentHealth/maxHealth;
             Destroy(other.gameObject);
             CheckHealth();
         }

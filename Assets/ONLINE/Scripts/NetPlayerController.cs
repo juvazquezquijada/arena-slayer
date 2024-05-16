@@ -15,7 +15,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     [SerializeField] float jumpForce;
     [SerializeField] Item[] items;
     [SerializeField] AudioSource audioSource;
-    [SerializeField] Image healthBar;
+    [SerializeField] Image healthBar, damagedBar;
     [SerializeField] TMP_Text healthbarText;
     [SerializeField] GameObject ui, billBoard;
     [SerializeField] Animator animator;
@@ -31,7 +31,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     float verticalLookRotation;
     Vector3 smoothMoveVelocity;
     Vector3 moveAmount;
-
+    public float damageBarShrinkTime = 1f;
     public float maxStamina = 100f;
     public float currentStamina;
     public float staminaRegenRate = 10f;
@@ -93,6 +93,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
         Cursor.lockState = CursorLockMode.Locked;
         currentStamina = maxStamina;
         timeSinceLastAction = Time.time;
+        damagedBar.fillAmount = currentHealth/maxHealth;
     }
 
     void Update()
@@ -209,12 +210,23 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
             currentHealth += healthRegenRate * Time.deltaTime;
             currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
             healthBar.fillAmount = currentHealth / maxHealth;
+            damagedBar.fillAmount = currentHealth / maxHealth;
             healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
 
             if (currentHealth >= maxHealth)
             {
                 isRegenerating = false;
                 lowHealthText.gameObject.SetActive(false);
+            }
+        }
+
+        damageBarShrinkTime -= Time.deltaTime;
+        if (damageBarShrinkTime < 0)
+        {
+            if (healthBar.fillAmount < damagedBar.fillAmount)
+            {
+                float shirnkSpeed = 0.75f;
+                damagedBar.fillAmount -= shirnkSpeed * Time.deltaTime;
             }
         }
 
@@ -351,6 +363,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     public void TakeDamage(float damage)
     {
         Debug.Log("took damage" + damage);
+        
         PV.RPC(nameof(RPC_TakeDamage), PV.Owner, damage);
     }
 
@@ -387,6 +400,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
     {
         audioSource.PlayOneShot(hurtSound);
         currentHealth -= damage;
+        damageBarShrinkTime = 1f;
         healthBar.fillAmount = currentHealth / maxHealth;
         healthbarText.text = currentHealth.ToString("F1"); // Formats to one decimal place
 
