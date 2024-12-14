@@ -1962,7 +1962,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -3411,6 +3411,7 @@ GameObject:
   - component: {fileID: 4908475250898484885}
   - component: {fileID: 5333056223136593444}
   - component: {fileID: 2654559682247560430}
+  - component: {fileID: 2495018820119527085}
   m_Layer: 7
   m_Name: SniperItem
   m_TagString: Untagged
@@ -3496,6 +3497,7 @@ MonoBehaviour:
   muzzleFlashParticleSystem: {fileID: 4457528547446522279}
   maxRaycastDistance: 100
   cameraShake: {fileID: 0}
+  gunName: SniperRifle
 --- !u!82 &2654559682247560430
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3592,6 +3594,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2495018820119527085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167663355576226609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5813f58a4df20b4eb048dea66630d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraAnimator: {fileID: 4516857425656308118}
+  playerAnimator: {fileID: 4768077399070416406}
+  swayBob: {fileID: 2053550115055076498}
+  player: {fileID: 244408511464490385}
 --- !u!1 &1278797765920285615
 GameObject:
   m_ObjectHideFlags: 0
@@ -4682,6 +4700,7 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: fc41a9954a06edf47b0c97103ef7b514, type: 3}
   reloadAnimationName: ReloadMagic
   shootDelay: 0.7
+  gunName: 
   leftArm: {fileID: 7220507798001079044}
   rightArm: {fileID: 4655682922092200046}
   otherLeftArm: {fileID: 7941884098994512874}
@@ -5684,6 +5703,7 @@ MonoBehaviour:
   muzzleFlashParticleSystem: {fileID: 3894456127351779667}
   maxRaycastDistance: 60
   cameraShake: {fileID: 0}
+  gunName: 
 --- !u!1 &2034481698264112970
 GameObject:
   m_ObjectHideFlags: 0
@@ -11264,7 +11284,7 @@ GameObject:
   - component: {fileID: 3978508017363373878}
   - component: {fileID: 5320520418213756896}
   m_Layer: 5
-  m_Name: Image
+  m_Name: dot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11279,8 +11299,8 @@ RectTransform:
   m_GameObject: {fileID: 2497706033206781211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1951705798136597459}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13853,7 +13873,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4794888194878750251}
-  - component: {fileID: 569529719650546558}
   m_Layer: 7
   m_Name: SniperRifle
   m_TagString: Untagged
@@ -13906,22 +13925,6 @@ Transform:
   - {fileID: 7133609769933272120}
   m_Father: {fileID: 3643371541005463581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &569529719650546558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3692330175385585134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5813f58a4df20b4eb048dea66630d66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraAnimator: {fileID: 4516857425656308118}
-  playerAnimator: {fileID: 4768077399070416406}
-  swayBob: {fileID: 2053550115055076498}
-  gun: {fileID: 5333056223136593444}
 --- !u!1 &3720810417347643230
 GameObject:
   m_ObjectHideFlags: 0
@@ -16034,7 +16037,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -28038,6 +28041,7 @@ MonoBehaviour:
   muzzleFlashParticleSystem: {fileID: 5807948247042367533}
   maxRaycastDistance: 45
   cameraShake: {fileID: 0}
+  gunName: 
 --- !u!82 &3321165507445137521
 AudioSource:
   m_ObjectHideFlags: 0
@@ -35747,6 +35751,7 @@ MonoBehaviour:
   refillDelayDuration: 1
   weaponSwitchCooldown: 0.25
   staminaBarImage: {fileID: 409769138770757796}
+  currentWeapon: {fileID: 0}
   lowHealthText: {fileID: 4331225546506706402}
 --- !u!82 &5121961174029772904
 AudioSource:
@@ -36989,6 +36994,7 @@ MonoBehaviour:
   muzzleFlashParticleSystem: {fileID: 3479686633754984957}
   maxRaycastDistance: 20
   cameraShake: {fileID: 0}
+  gunName: 
 --- !u!1 &8288350225417690540
 GameObject:
   m_ObjectHideFlags: 0
@@ -37364,6 +37370,7 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: 232fb1176711ae147942a6bff55a6b4e, type: 3}
   reloadAnimationName: ReloadPistol
   shootDelay: 0
+  gunName: 
   leftArm: {fileID: 7220507798001079044}
   rightArm: {fileID: 4655682922092200046}
   otherLeftArm: {fileID: 7941884098994512874}
@@ -38427,7 +38434,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89

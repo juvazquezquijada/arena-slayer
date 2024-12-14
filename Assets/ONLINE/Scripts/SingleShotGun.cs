@@ -26,6 +26,7 @@ public class SingleShotGun : Gun
     [SerializeField] ParticleSystem muzzleFlashParticleSystem;
     public float maxRaycastDistance = 100f; // Replace with your desired max distance
     public CameraShake cameraShake; // Reference to the CameraShake script
+    public string gunName;
     PhotonView PV;
 
     private float lastFireTime; // Time when the gun was last fired

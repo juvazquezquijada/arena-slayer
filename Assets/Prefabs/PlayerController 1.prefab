@@ -648,7 +648,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.044875145, g: 0, b: 1, a: 1}
+      maxColor: {r: 0.02441454, g: 0, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4315,8 +4315,8 @@ ParticleSystem:
       emitProbability: 1
   LightsModule:
     enabled: 1
-    ratio: 0
-    light: {fileID: 0}
+    ratio: 1
+    light: {fileID: 4578507703052845596, guid: b18233cb3daf6174fa930e11bc9e7a84, type: 3}
     randomDistribution: 1
     color: 1
     range: 1
@@ -4427,7 +4427,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 1
   TrailModule:
     enabled: 0
     mode: 0
@@ -10260,6 +10260,7 @@ MonoBehaviour:
   sprintStaminaCost: 25
   jumpStaminaCost: 7
   refillDelayDuration: 1
+  damageBarShrinkTime: 1
   isSprinting: 0
   isGrounded: 0
   isBenchPressing: 0
@@ -16171,7 +16172,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.088113785, g: 0, b: 1, a: 1}
+      maxColor: {r: 0.02441454, g: 0, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -19837,9 +19838,9 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
-    ratio: 0
-    light: {fileID: 0}
+    enabled: 1
+    ratio: 1
+    light: {fileID: 4578507703052845596, guid: 07de3eb7320f8dd44a8fc877d6f3daaa, type: 3}
     randomDistribution: 1
     color: 1
     range: 1
@@ -19950,7 +19951,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 1
   TrailModule:
     enabled: 0
     mode: 0
@@ -21485,7 +21486,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4579473185682157627}
-  - component: {fileID: 7822482041237865280}
   - component: {fileID: 185076323770927394}
   m_Layer: 0
   m_Name: WeaponHolder
@@ -21510,23 +21510,6 @@ Transform:
   - {fileID: 854365314121642088}
   m_Father: {fileID: 8975906451661803417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7822482041237865280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2863815228343106582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c14672db1ff0b1d4a9aa6ff7e533d787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enable: 1
-  _Amplitude: 0.015
-  _frequency: 10
-  _camera: {fileID: 854365314121642088}
-  _cameraHolder: {fileID: 4579473185682157627}
 --- !u!143 &185076323770927394
 CharacterController:
   m_ObjectHideFlags: 0

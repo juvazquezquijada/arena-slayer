@@ -23,6 +23,7 @@ public class SingleArmGun : Gun
     [SerializeField] float shootDelay = 0.3f; // Delay before shooting (adjust this delay as needed)
     private bool isReloading = false; // Reset the reloading flag
     private bool isUsingWeapon = false;
+    public string gunName = "";
 
     public GameObject leftArm, rightArm, otherLeftArm, otherRightArm;
 

@@ -81,6 +81,8 @@ public class SwayNBobScript : MonoBehaviour
 
     {
 
+
+
     }
 
 
@@ -90,24 +92,24 @@ public class SwayNBobScript : MonoBehaviour
     void Update()
 
     {
-        if (PV.IsMine)
-        {
-            GetInput();
+        if(mover)
+            return;
+        GetInput();
 
 
 
-            Sway();
+        Sway();
 
-            SwayRotation();
+        SwayRotation();
 
-            BobOffset();
+        BobOffset();
 
-            BobRotation();
+        BobRotation();
 
 
 
-            CompositePositionRotation();
-        }
+        CompositePositionRotation();
+
     }
 
 
@@ -185,18 +187,27 @@ public class SwayNBobScript : MonoBehaviour
 
     void BobOffset()
     {
-        speedCurve += Time.deltaTime * (mover.isGrounded ? (Input.GetAxis("Horizontal") + Input.GetAxis("Vertical")) * bobExaggeration : 1f) + 0.01f;
+        speedCurve += Time.deltaTime * (mover.isGrounded ? (Input.GetAxis("Horizontal") + Input.GetAxis("Vertical"))*bobExaggeration : 1f) + 0.01f;
 
-        bobPosition.x = (curveCos * bobLimit.x * (mover.isGrounded ? 1 : 0)) - (walkInput.x * travelLimit.x);
-        bobPosition.y = (curveSin * bobLimit.y) - (Input.GetAxis("Vertical") * travelLimit.y);
+
+
+        bobPosition.x = (curveCos*bobLimit.x*(mover.isGrounded ? 1:0))-(walkInput.x * travelLimit.x);
+
+        bobPosition.y = (curveSin*bobLimit.y)-(Input.GetAxis("Vertical") * travelLimit.y);
+
         bobPosition.z = -(walkInput.y * travelLimit.z);
 
         // Check if the Shift key is held down to increase bob speed
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            bobExaggeration *= 2;
+            bobExaggeration = 15;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
+        {
+            bobExaggeration = 10f;
         }
     }
+
 
 
     void BobRotation()
@@ -214,16 +225,13 @@ public class SwayNBobScript : MonoBehaviour
 
             bobEulerRotation.z = (walkInput != Vector2.zero ? multiplier.z * curveCos * walkInput.x : 0);
         }
- // Check if the Shift key is held down to increase bob speed
+
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            bobExaggeration = 20;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
-        {
-            bobExaggeration = 10f;
+            bobEulerRotation *= 3f;
         }
     }
+
 
 
 

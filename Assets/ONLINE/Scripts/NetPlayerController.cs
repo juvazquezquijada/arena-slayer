@@ -46,7 +46,7 @@ public class NetPlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public Image staminaBarImage;
 
-    private SingleShotGun currentWeapon; // Add this field
+    public SingleShotGun currentWeapon; // Add this field
     private SingleArmGun currentOWWeapon; // Add this field
     CharacterController characterController;
     PhotonView PV;
