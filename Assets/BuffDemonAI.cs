@@ -8,6 +8,7 @@ public class BuffDemonAI : MonoBehaviour
 {
     public Transform player;
     public Animator animator;
+    public Animator hudAnim;
     public GameObject fireballPrefab;
     public GameObject winText;
     public GameObject music;
@@ -34,6 +35,8 @@ public class BuffDemonAI : MonoBehaviour
     private bool playerDead = false;
     private bool canAttack = true;
     private bool isCharging = false;
+    private bool isStaggered = false;
+    private float staggerTime = 10f;
     private bool isInSecondPhase = false;
     private float currentCooldown;
     private Rigidbody rb;
@@ -69,7 +72,21 @@ public class BuffDemonAI : MonoBehaviour
         {
             // Enter the second phase
             isInSecondPhase = true;
-        
+        }
+
+        if(isStaggered)
+        {
+            staggerTime -= Time.deltaTime;
+            
+            if(staggerTime <= 0f)
+            {
+            EndStagger();
+            }
+        }
+
+        if (enemy.damageChain >= enemy.staggerValue)
+        {
+            Stagger();
         }
 
         if (canAttack && !playerDead)
@@ -124,6 +141,27 @@ public class BuffDemonAI : MonoBehaviour
 
         // Implement your melee attack logic here
         Debug.Log("Melee attack!");
+    }
+
+    private void Stagger()
+    {
+        animator.SetTrigger("Stagger");
+        navMeshAgent.enabled = false;
+        isStaggered = true;
+        canAttack = false;
+        hudAnim.SetTrigger("StaggerBar");
+        enemy.damageChain = 0;
+        
+    }
+
+    private void EndStagger()
+    {
+        animator.SetTrigger("StaggerEnd");
+        isStaggered = false;
+        navMeshAgent.enabled = true;
+        canAttack = true;
+        hudAnim.SetTrigger("Normal");
+        
     }
 
     private void FireballAttack()

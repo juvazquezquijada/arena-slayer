@@ -25,7 +25,7 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Wall") || (other.gameObject.CompareTag("Floor")))
+        if (other.gameObject.CompareTag("Wall") || (other.gameObject.CompareTag("Floor") || (other.gameObject.CompareTag("Enemy"))))
         {
             Destroy(gameObject, 1.5f);
             audioSource.PlayOneShot(explodeSound);

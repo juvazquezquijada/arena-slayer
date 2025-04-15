@@ -52,6 +52,7 @@ public class PlayerController1 : MonoBehaviour
     public Image staminaBarImage, curseBar;
 
     private PlayerGun playerGun;
+    private PlayerMelee playerMelee;
 
     public CharacterController characterController;
     public TimerScript timer;
@@ -283,6 +284,13 @@ public class PlayerController1 : MonoBehaviour
         if (items[itemIndex] is PlayerGun playerGun)
         {
             playerGun.UpdateAmmoUIOnSwitch();
+            playerGun.ShowArms();
+        }
+
+        if (items[itemIndex] is PlayerMelee playerMelee)
+        {
+            playerMelee.UpdateAmmoUIOnSwitch();
+            playerMelee.ShowArms();
         }
     }
 

@@ -25,6 +25,7 @@ public class PlayerGun : Gun
     public ParticleSystem muzzleFlashParticleSystem;
     public bool isReloading = false;
     private float lastFireTime; // Time when the gun was last fired
+    public GameObject leftArm, rightArm, otherLeftArm, otherRightArm;
 
     void Start()
     {
@@ -158,6 +159,14 @@ public class PlayerGun : Gun
     {
         // Play the muzzle flash locally
         muzzleFlashParticleSystem.Play();
+    }
+
+    public void ShowArms()
+    {
+        leftArm.gameObject.SetActive(true);
+        rightArm.gameObject.SetActive(true);
+        otherLeftArm.gameObject.SetActive(false);
+        otherRightArm.gameObject.SetActive(false);
     }
 
     IEnumerator StopMuzzleFlash()
